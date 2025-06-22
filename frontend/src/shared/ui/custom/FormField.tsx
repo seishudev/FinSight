@@ -1,8 +1,14 @@
 import type { FieldValues } from 'react-hook-form';
-import type { FormFieldProps } from '../model/FormTypes';
-import { cn } from '../utils/tw-merge';
+import type { InputHTMLAttributes } from 'react';
 
-export const FormField = <T extends FieldValues>(props: FormFieldProps<T>) => {
+import type { FormFieldProps } from '../../model/FormTypes';
+import { cn } from '../../utils/tw-merge';
+import { Label } from '../label';
+import { Input } from '../input';
+
+export const FormField = <T extends FieldValues>(
+  props: FormFieldProps<T> & InputHTMLAttributes<HTMLInputElement>
+) => {
   const {
     title,
     id,
@@ -17,8 +23,8 @@ export const FormField = <T extends FieldValues>(props: FormFieldProps<T>) => {
 
   return (
     <div className={cn('form_field', className)}>
-      <label htmlFor={id}>{title}</label>
-      <input
+      <Label htmlFor={id}>{title}</Label>
+      <Input
         type={type}
         id={id}
         {...register(name, { valueAsNumber })}
