@@ -1,15 +1,15 @@
+import type { FormData } from '@shared/model/FormTypes';
 import { FormField } from '@shared/ui';
 import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
-import type { UserAuthFormValues } from '../model/types';
 
 interface UserAuthFieldsProps {
-  register: UseFormRegister<UserAuthFormValues>;
-  errors: FieldErrors<UserAuthFormValues>;
+  register: UseFormRegister<FormData>;
+  errors: FieldErrors<FormData>;
   isRegister?: boolean;
 }
 
 export const UserAuthFields = (props: UserAuthFieldsProps) => {
-  const { register, errors, isRegister } = props;
+  const { register, errors, isRegister = false } = props;
 
   return (
     <>
