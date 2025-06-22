@@ -1,7 +1,7 @@
 import type { InputHTMLAttributes } from 'react';
 import type { FieldError, UseFormRegister } from 'react-hook-form';
 
-interface FormData {
+export interface FormData {
   email: string;
   password: string;
   confirmPassword?: string;
