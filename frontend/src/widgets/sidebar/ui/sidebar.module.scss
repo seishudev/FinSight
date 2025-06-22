@@ -1,0 +1,43 @@
+.container {
+   @apply h-full backdrop-blur-md bg-gray-900/15 border-white/10 flex flex-col border-r min-w-fit w-[20%] max-w-96;
+
+   .brand {
+      @apply p-6;
+   }
+
+   .menu {
+      @apply flex-1 px-4;
+
+      .list {
+         @apply space-y-2;
+
+         .link {
+            @apply w-full flex items-center gap-3 px-4 py-3 transition-all duration-200 ease-in-out rounded-xl text-white shadow-lg border-transparent;
+         }
+
+         .activeLink {
+            @apply bg-gradient-to-r from-indigo-500/20 to-purple-700/20 border border-indigo-500/30;
+         }
+      }
+   }
+
+   .features {
+      @apply flex flex-col p-4 border-t border-t-white/10 gap-3;
+
+      button {
+         @apply w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-400 hover:text-white hover:bg-white/5 last:hover:bg-red-400/10 last:hover:text-red-400;
+      }
+   }
+
+   .createdFor {
+      @apply flex justify-center border-t border-t-white/10 p-4;
+
+      p {
+         @apply text-center text-xs text-gray-400;
+
+         span {
+            @apply text-gray-500 mt-1 inline-block;
+         }
+      }
+   }
+}

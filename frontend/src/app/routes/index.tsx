@@ -1,12 +1,17 @@
 import { BrowserRouter, Routes, Route } from 'react-router';
 
-import { Button } from '@/shared/ui/button';
+import { MainLayout } from '@/layouts/main';
 
 export const AppRouter = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<Button>Тестовая кнопка</Button>} />
+        <Route path='/' element={<MainLayout />}>
+          <Route index element={<></>} />
+          <Route path='analytics' element={<></>} />
+          <Route path='categories' element={<></>} />
+          <Route path='budget' element={<></>} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

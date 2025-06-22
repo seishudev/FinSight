@@ -112,6 +112,6 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply from-gray-900 via-gray-800 bg-gradient-to-br to-gray-900;
   }
 }

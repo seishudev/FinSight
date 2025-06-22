@@ -1,0 +1,13 @@
+.container {
+   @apply flex items-center gap-3;
+
+   .brand {
+      h1 {
+         @apply font-bold text-xl text-white;
+      }
+
+      p {
+         @apply text-xs text-gray-400 leading-3;
+      }
+   }
+}
