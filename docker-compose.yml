@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    container_name: finsight-backend
+    restart: on-failure
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - finsight-network
+    depends_on:
+      - db
+
+  db:
+    image: postgres:17-alpine
+    container_name: finsight_db
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=finsight_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - finsight-network
+
+  # frontend:
+  #   build: ./frontend
+  #   container_name: finsight-frontend
+  #   restart: on-failure
+  #   ports:
+  #     - "3000:3000"
+  #   networks:
+  #     - finsight-network
+  #   depends_on:
+  #     - backend
+
+networks:
+  finsight-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local
