@@ -25,6 +25,13 @@ public class SecurityConfig {
     private final AuthFilter authFilter;
     private final CustomAuthEntryPoint customAuthEntryPoint;
 
+    private static final String[] SWAGGER_WHITELIST = {
+            "/swagger-ui.html",
+            "/swagger-ui/**",
+            "/v3/api-docs",
+            "/v3/api-docs/**"
+    };
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
@@ -41,6 +48,7 @@ public class SecurityConfig {
                                         "/api/v1/ping",
                                         "/api/v1/auth/**"
                                 ).permitAll()
+                                .requestMatchers(SWAGGER_WHITELIST).permitAll()
                                 .anyRequest().authenticated()
                 )
 
