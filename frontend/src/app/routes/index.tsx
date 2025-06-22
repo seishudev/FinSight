@@ -1,6 +1,6 @@
-import { BrowserRouter, Routes, Route } from 'react-router';
-
 import { MainLayout } from '@/layouts/main';
+import { Login } from '@pages/login';
+import { BrowserRouter, Route, Routes } from 'react-router';
 
 export const AppRouter = () => {
   return (
@@ -12,6 +12,7 @@ export const AppRouter = () => {
           <Route path='categories' element={<></>} />
           <Route path='budget' element={<></>} />
         </Route>
+        <Route path='login' element={<Login />} />
       </Routes>
     </BrowserRouter>
   );
