@@ -1,0 +1,15 @@
+.container {
+   @apply flex flex-col gap-6 p-8;
+
+   .header {
+      @apply mdx:flex justify-between items-center;
+
+      h2 {
+         @apply text-2xl lg:text-3xl font-bold text-white
+      }
+
+      p {
+         @apply mt-1 text-gray-400 text-sm lg:text-base;
+      }
+   }
+}
