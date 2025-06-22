@@ -1,5 +1,9 @@
-import type { InputHTMLAttributes } from 'react';
-import type { FieldError, UseFormRegister } from 'react-hook-form';
+import type {
+  FieldError,
+  FieldValues,
+  Path,
+  UseFormRegister
+} from 'react-hook-form';
 
 export interface FormData {
   email: string;
@@ -7,16 +11,14 @@ export interface FormData {
   confirmPassword?: string;
 }
 
-export interface FormFieldProps extends InputHTMLAttributes<HTMLInputElement> {
+export interface FormFieldProps<T extends FieldValues> {
   id: string;
   title: string;
   type: string;
   placeholder: string;
-  name: ValidFieldNames;
-  register: UseFormRegister<FormData>;
+  name: Path<T>;
+  register: UseFormRegister<T>;
   error: FieldError | undefined;
   valueAsNumber?: boolean;
   className?: string;
 }
-
-type ValidFieldNames = 'email' | 'password' | 'confirmPassword';

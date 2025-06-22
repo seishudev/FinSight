@@ -1,7 +1,8 @@
+import type { FieldValues } from 'react-hook-form';
 import type { FormFieldProps } from '../model/FormTypes';
 import { cn } from '../utils/tw-merge';
 
-export const FormField = (props: FormFieldProps) => {
+export const FormField = <T extends FieldValues>(props: FormFieldProps<T>) => {
   const {
     title,
     id,

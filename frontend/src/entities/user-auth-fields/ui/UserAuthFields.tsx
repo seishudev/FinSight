@@ -14,7 +14,7 @@ export const UserAuthFields = (props: UserAuthFieldsProps) => {
   return (
     <>
       <FormField
-        type='text'
+        type='email'
         title='Email'
         id='email'
         name='email'
