@@ -1,0 +1,19 @@
+.header {
+  @apply flex justify-between items-center;
+
+  .icon {
+    @apply p-2 lg:p-3 rounded-xl;
+  }
+
+  p {
+   @apply text-2xl;
+  }
+}
+
+.title {
+  @apply text-gray-400 text-xs lg:text-sm font-medium mt-3;
+}
+
+.indicator {
+  @apply text-xl lg:text-2xl font-bold text-green-400;
+}

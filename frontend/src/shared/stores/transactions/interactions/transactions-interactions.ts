@@ -6,7 +6,7 @@ class TransactionsInteractionsStore {
   constructor() { makeAutoObservable(this) }
 
   // STATES
-  transactionType: TransactionType = "consumption";
+  transactionType: TransactionType = "expense";
 
   // MOVES
   setTransactionType = (v: TransactionType) => this.transactionType = v;

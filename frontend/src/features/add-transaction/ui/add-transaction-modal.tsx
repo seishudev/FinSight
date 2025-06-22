@@ -83,7 +83,7 @@ export const AddTransactionModal = observer(() => {
 
           <DialogClose
             type='submit'
-            className={`${s.close} ${transactionType == 'income' ? s.income : s.consumption}`}
+            className={`${s.close} ${transactionType == 'income' ? s.income : s.expense}`}
           >
             Добавить {transactionType == 'income' ? 'доход' : 'расход'}
           </DialogClose>
