@@ -1,0 +1,7 @@
+.wrapper {
+  @apply mdx:w-1/2;
+
+  .analyticsDetails {
+    @apply w-full inline-block text-center bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white py-3 px-4 rounded-xl scalable-down text-sm smx:text-base;
+  }
+}

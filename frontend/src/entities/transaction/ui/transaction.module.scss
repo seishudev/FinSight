@@ -1,0 +1,35 @@
+.container {
+  @apply flex items-center justify-between p-3 mdx:p-4 bg-white/5 rounded-xl hover-card;
+
+  .characteristic {
+    @apply flex items-center gap-3;
+
+    .icon {
+      @apply p-2 rounded-[12px];
+    }
+
+    .income {
+      @apply bg-green-500/20 text-green-400;
+    }
+
+    .expense {
+      @apply bg-red-500/20 text-red-400;
+    }
+
+    .transactionCategory {
+      @apply text-white font-medium text-sm lg:text-base;
+    }
+
+    .transactionDate {
+      @apply text-gray-400 text-xs mdx:text-sm;
+    }
+  }
+
+  .amount {
+    @apply text-right;
+  }
+
+  .comment {
+    @apply text-gray-400 text-xs hidden smx:block max-w-32 overflow-hidden text-ellipsis text-right;
+  }
+}

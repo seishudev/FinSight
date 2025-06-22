@@ -1,4 +1,4 @@
-import { FormField } from '@shared/ui';
+import { FormField } from '@shared/ui/custom';
 import { type FieldErrors, type UseFormRegister } from 'react-hook-form';
 import type { UserAuthFormValues } from '../model/types';
 

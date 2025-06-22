@@ -6,7 +6,7 @@ export const transactionTabs: Tab[] = [
   {
     prefix: <Minus size={20} />,
     label: 'Расход',
-    value: 'consumption'
+    value: 'expense'
   },
   {
     prefix: <Plus size={20} />,
