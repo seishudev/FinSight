@@ -69,4 +69,8 @@
   .scalable-down {
     @apply transition-all duration-200 transform hover:scale-[0.99];
   }
+
+  .hover-card {
+    @apply hover:bg-white/15 transition-all duration-200 ease-in-out;
+  }
 }

@@ -18,7 +18,7 @@ import {
 import { transactionTabs } from '@/shared/constants/transaction-tabs';
 import { Button } from '@/shared/ui/button';
 import { Tabs } from '@entities/tabs';
-import { FormField } from '@/shared/ui';
+import { FormField } from '@/shared/ui/custom';
 import {
   transactionSchema,
   type TransactionBody

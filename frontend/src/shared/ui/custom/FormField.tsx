@@ -1,10 +1,10 @@
 import type { FieldValues } from 'react-hook-form';
 import type { InputHTMLAttributes } from 'react';
 
-import type { FormFieldProps } from '../model/FormTypes';
-import { cn } from '../utils/tw-merge';
-import { Label } from './label';
-import { Input } from './input';
+import type { FormFieldProps } from '../../model/FormTypes';
+import { cn } from '../../utils/tw-merge';
+import { Label } from '../label';
+import { Input } from '../input';
 
 export const FormField = <T extends FieldValues>(
   props: FormFieldProps<T> & InputHTMLAttributes<HTMLInputElement>
