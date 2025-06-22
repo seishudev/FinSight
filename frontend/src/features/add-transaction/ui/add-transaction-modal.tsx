@@ -1,5 +1,7 @@
 import { CirclePlus } from 'lucide-react';
 import { observer } from 'mobx-react-lite';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 import {
   Dialog,
@@ -9,14 +11,30 @@ import {
   DialogTitle,
   DialogTrigger
 } from '@/shared/ui/dialog';
-import { transactionsInteractionsStore } from '@/shared/stores/transactions';
+import {
+  transactionsInteractionsStore,
+  type TransactionType
+} from '@/shared/stores/transactions';
 import { transactionTabs } from '@/shared/constants/transaction-tabs';
 import { Button } from '@/shared/ui/button';
 import { Tabs } from '@entities/tabs';
+import { FormField } from '@/shared/ui';
+import {
+  transactionSchema,
+  type TransactionBody
+} from '../lib/transaction-schema';
 import s from './add-transaction-modal.module.scss';
 
 export const AddTransactionModal = observer(() => {
   const { transactionType, setTransactionType } = transactionsInteractionsStore;
+
+  const {
+    formState: { errors },
+    handleSubmit,
+    register
+  } = useForm<TransactionBody>({
+    resolver: zodResolver(transactionSchema)
+  });
 
   return (
     <Dialog>
@@ -36,10 +54,40 @@ export const AddTransactionModal = observer(() => {
           tabs={transactionTabs}
           tabClassName={s.tab}
           tabsClassName={s.tabs}
-          onTabChange={setTransactionType}
+          onTabChange={v => setTransactionType(v as TransactionType)}
         />
 
-        <DialogClose></DialogClose>
+        <form onSubmit={handleSubmit(() => console.log('submit'))}>
+          {/* TODO: Separate it into another file */}
+          <FormField
+            id='quantity'
+            type='number'
+            placeholder='0.00'
+            error={errors.quantity}
+            register={register}
+            name='quantity'
+            title='Сумма *'
+            valueAsNumber
+          />
+
+          <FormField
+            id='comment'
+            type='text'
+            error={errors.comment}
+            maxLength={300}
+            register={register}
+            name='comment'
+            title='Комментарий'
+            placeholder='Дополнительная информация...'
+          />
+
+          <DialogClose
+            type='submit'
+            className={`${s.close} ${transactionType == 'income' ? s.income : s.consumption}`}
+          >
+            Добавить {transactionType == 'income' ? 'доход' : 'расход'}
+          </DialogClose>
+        </form>
       </DialogContent>
     </Dialog>
   );

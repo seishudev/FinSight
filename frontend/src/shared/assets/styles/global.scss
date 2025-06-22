@@ -64,3 +64,9 @@
     @apply from-gray-900 via-gray-800 bg-gradient-to-br to-gray-900;
   }
 }
+
+@layer components {
+  .scalable-down {
+    @apply transition-all duration-200 transform hover:scale-[0.99];
+  }
+}

@@ -1,5 +1,5 @@
 .addTransaction {
-  @apply w-full text-white mdx:w-fit mt-4 mdx:mt-0 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 px-4 lg:px-6 py-5 rounded-xl transition-all duration-200 transform hover:scale-[0.99] shadow-lg text-sm lg:text-base;
+  @apply w-full text-white mdx:w-fit mt-4 mdx:mt-0 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 px-4 lg:px-6 py-5 rounded-xl shadow-lg text-sm lg:text-base scalable-down;
 }
 
 .title {
@@ -14,3 +14,14 @@
    }
 }
 
+.close {
+   @apply w-full py-3 px-4 rounded-xl font-medium transition-all duration-300 transform text-sm lg:text-base bg-gradient-to-r text-white shadow-lg scalable-down;
+}
+
+.income {
+   @apply from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700
+}
+
+.consumption {
+   @apply from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700
+}
