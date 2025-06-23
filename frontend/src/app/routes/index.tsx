@@ -1,5 +1,6 @@
 import { MainLayout } from '@/layouts/main';
 import { Login } from '@pages/login';
+import { Register } from '@pages/register';
 import { BrowserRouter, Route, Routes } from 'react-router';
 
 export const AppRouter = () => {
@@ -13,6 +14,7 @@ export const AppRouter = () => {
           <Route path='budget' element={<></>} />
         </Route>
         <Route path='login' element={<Login />} />
+        <Route path='register' element={<Register />} />
       </Routes>
     </BrowserRouter>
   );

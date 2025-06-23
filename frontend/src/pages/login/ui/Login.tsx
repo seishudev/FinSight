@@ -5,9 +5,9 @@ import s from './Login.module.scss';
 export const Login = () => {
   return (
     <div className={s.container}>
-      <section className='bg-gray-900/95 backdrop-blur-md rounded-3xl border border-white/20 w-full max-w-md shadow-2xl animate-fade-in pb-6'>
+      <section className={s.wrapper}>
         <AuthByEmailForm />
-        <p className={s.password}>
+        <p className={s.register}>
           Нет аккаунта?
           <Link to='/register'>Зарегистрироваться</Link>
         </p>

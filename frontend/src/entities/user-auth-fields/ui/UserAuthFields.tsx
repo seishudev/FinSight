@@ -14,7 +14,7 @@ export const UserAuthFields = (props: UserAuthFieldsProps) => {
   const { register, errors, isRegister = false } = props;
 
   return (
-    <div className='flex flex-col gap-6'>
+    <div className={s.container}>
       <FormField
         type='email'
         title='Email'
