@@ -1,0 +1,11 @@
+.container {
+  @apply h-dvh w-full flex items-center justify-center bg-black/80 p-8;
+}
+
+.password {
+  @apply text-center text-gray-400 text-sm mt-6;
+
+  a {
+    @apply ml-1 text-indigo-400 hover:text-indigo-300 font-medium transition-colors text-sm;
+  }
+}

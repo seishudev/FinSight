@@ -115,3 +115,47 @@
     @apply from-gray-900 via-gray-800 bg-gradient-to-br to-gray-900;
   }
 }
+
+.form_field {
+  label {
+    @apply block text-sm font-medium text-gray-300 mb-2;
+  }
+
+  .field {
+    @apply relative;
+  }
+
+  input {
+    @apply w-full bg-white/5 border border-white/10 rounded-xl pl-12 pr-12 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 text-sm lg:text-base;
+  }
+
+  span {
+    @apply mt-2 inline-block text-xs smx:text-sm text-red-600;
+  }
+}
+
+.auth_form {
+  .insertion {
+    @apply text-center p-6 mdx:p-8 border-b border-white/10;
+  }
+
+  .logo {
+    @apply mx-auto w-fit mb-4 rounded-2xl !p-3 mdx:!p-4;
+  }
+
+  h1 {
+    @apply text-center text-xl lg:text-2xl font-bold text-white mb-2;
+  }
+
+  p {
+    @apply text-center text-gray-400 text-sm mdx:text-base;
+  }
+
+  form {
+    @apply px-6 pt-6;
+  }
+
+  button {
+    @apply mt-6 w-full bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed text-white py-3 px-4 rounded-xl font-medium transition-all duration-300 transform hover:scale-105 shadow-lg text-sm lg:text-base;
+  }
+}

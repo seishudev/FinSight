@@ -12,18 +12,22 @@ export const FormField = <T extends FieldValues>(props: FormFieldProps<T>) => {
     error,
     valueAsNumber,
     className,
+    children,
     ...otherProps
   } = props;
 
   return (
     <div className={cn('form_field', className)}>
       <label htmlFor={id}>{title}</label>
-      <input
-        type={type}
-        id={id}
-        {...register(name, { valueAsNumber })}
-        {...otherProps}
-      />
+      <div className='field'>
+        {children}
+        <input
+          type={type}
+          id={id}
+          {...register(name, { valueAsNumber })}
+          {...otherProps}
+        />
+      </div>
       {error && <span>{error.message}</span>}
     </div>
   );

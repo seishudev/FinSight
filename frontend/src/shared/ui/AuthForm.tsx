@@ -12,13 +12,17 @@ export const AuthForm = (props: AuthFormProps) => {
   const { title, description, action, children, ...otherProps } = props;
 
   return (
-    <div>
-      <Logo />
-      <h1>{title}</h1>
-      <p>{description}</p>
+    <div className='auth_form'>
+      <div className='insertion'>
+        <Logo logoSize={28} className='logo' />
+        <h1>{title}</h1>
+        <p>{description}</p>
+      </div>
       <form {...otherProps}>
         {children}
-        <button type='submit'>{action}</button>
+        <button type='submit' className='auth_btn'>
+          {action}
+        </button>
       </form>
     </div>
   );

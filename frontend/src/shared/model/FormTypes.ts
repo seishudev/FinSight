@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import type {
   FieldError,
   FieldValues,
@@ -21,4 +22,5 @@ export interface FormFieldProps<T extends FieldValues> {
   error: FieldError | undefined;
   valueAsNumber?: boolean;
   className?: string;
+  children: ReactNode;
 }
