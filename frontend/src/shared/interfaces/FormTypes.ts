@@ -22,5 +22,5 @@ export interface FormFieldProps<T extends FieldValues> {
   error: FieldError | undefined;
   valueAsNumber?: boolean;
   className?: string;
-  children: ReactNode;
+  children?: ReactNode;
 }
