@@ -1,6 +1,19 @@
 version: '3.8'
 
 services:
+  nginx:
+    image: nginx:stable-alpine
+    ports:
+      - "80:80"
+    volumes:
+      - './nginx.conf:/etc/nginx/nginx.conf'
+      - '/etc/letsencrypt:/etc/letsencrypt'
+    depends_on:
+      - backend
+      - frontend
+    networks:
+      - finsight-network
+
   backend:
     build: ./backend
     container_name: finsight-backend
@@ -27,16 +40,16 @@ services:
     networks:
       - finsight-network
 
-  # frontend:
-  #   build: ./frontend
-  #   container_name: finsight-frontend
-  #   restart: on-failure
-  #   ports:
-  #     - "3000:3000"
-  #   networks:
-  #     - finsight-network
-  #   depends_on:
-  #     - backend
+  frontend:
+    build: ./frontend
+    container_name: finsight-frontend
+    restart: on-failure
+    ports:
+      - "5173:5173"
+    networks:
+      - finsight-network
+    depends_on:
+      - backend
 
 networks:
   finsight-network:
