@@ -1,5 +1,15 @@
+import type { AxiosRequestConfig } from 'axios';
 import axios from 'axios';
-import type { FailedRequest } from '../model/ApiTypes';
+
+interface CustomAxiosRequestConfig extends AxiosRequestConfig {
+  _retry?: boolean;
+}
+
+interface FailedRequest {
+  resolve: (value?: any) => void;
+  reject: (reason?: any) => void;
+  originalRequestConfig: CustomAxiosRequestConfig;
+}
 
 export const api = axios.create({
   baseURL: 'http://localhost:8080/api/v1',
@@ -8,28 +18,32 @@ export const api = axios.create({
 
 let isRefreshing = false;
 let failedQueue: FailedRequest[] = [];
+const REFRESH_URL = '/auth/refresh';
 
-const processQueue = (error: any, token = null) => {
+const processQueue = (error: any | null) => {
   failedQueue.forEach(prom => {
     if (error) {
       prom.reject(error);
     } else {
-      prom.resolve(token);
+      prom.resolve();
     }
   });
-
   failedQueue = [];
 };
 
 api.interceptors.response.use(
   response => response,
   async error => {
-    const originalRequest = error.config;
+    const originalRequest = error.config as CustomAxiosRequestConfig;
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    if (error.response?.status === 401 && originalRequest.url !== REFRESH_URL) {
       if (isRefreshing) {
-        return new Promise((resolve, reject) => {
-          failedQueue.push({ resolve, reject });
+        return new Promise<void>((resolve, reject) => {
+          failedQueue.push({
+            resolve,
+            reject,
+            originalRequestConfig: originalRequest
+          });
         })
           .then(() => {
             return api(originalRequest);
@@ -37,21 +51,31 @@ api.interceptors.response.use(
           .catch(err => {
             return Promise.reject(err);
           });
+      } else {
+        if (!originalRequest._retry) {
+          originalRequest._retry = true;
+          isRefreshing = true;
+
+          try {
+            console.log('Attempting to refresh token...');
+            await api.post(REFRESH_URL);
+            console.log('Token refreshed successfully.');
+
+            processQueue(null);
+            return api(originalRequest);
+          } catch (refreshError: any) {
+            console.error('Failed to refresh token:', refreshError);
+            processQueue(refreshError);
+
+            if (window.location.pathname !== '/login') {
+              window.location.href = '/login';
+            }
+            return Promise.reject(refreshError);
+          } finally {
+            isRefreshing = false;
+          }
+        }
       }
-    }
-
-    originalRequest._retry = true;
-    isRefreshing = true;
-
-    try {
-      await api.post('/auth/refresh');
-      return api(originalRequest);
-    } catch (err) {
-      processQueue(err);
-      window.location.href = '/login';
-      return Promise.reject(err);
-    } finally {
-      isRefreshing = false;
     }
 
     return Promise.reject(error);
