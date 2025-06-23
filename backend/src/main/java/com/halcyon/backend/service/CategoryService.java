@@ -56,11 +56,21 @@ public class CategoryService {
 
     @Transactional(readOnly = true)
     public CategoryResponse getById(Long categoryId) {
+        Category category = getUserCategory(categoryId);
+        return categoryMapper.toResponse(category);
+    }
+
+    public Category getUserCategory(Long categoryId) {
         User user = userService.getCurrentUser();
         Category category = findById(categoryId);
         doesUserHavePermission(user, category);
 
-        return categoryMapper.toResponse(category);
+        return category;
+    }
+
+    private Category findById(Long categoryId) {
+        return categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new CategoryNotFoundException("Category with id " + categoryId + " not found."));
     }
 
     @Transactional(readOnly = true)
@@ -110,11 +120,6 @@ public class CategoryService {
         if (!category.getUser().getId().equals(user.getId())) {
             throw new AccessDeniedException("You do not have permission to this category.");
         }
-    }
-
-    private Category findById(Long categoryId) {
-        return categoryRepository.findById(categoryId)
-                .orElseThrow(() -> new CategoryNotFoundException("Category with id " + categoryId + " not found."));
     }
 
     @Transactional
