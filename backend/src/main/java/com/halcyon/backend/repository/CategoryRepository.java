@@ -14,4 +14,6 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
 
     List<Category> findAllByUser(User user);
     List<Category> findAllByTypeAndUser(TransactionType type, User user);
+
+    long countByTypeAndUser(TransactionType type, User user);
 }

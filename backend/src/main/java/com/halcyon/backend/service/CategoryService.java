@@ -5,6 +5,7 @@ import com.halcyon.backend.dto.category.CreateCategoryRequest;
 import com.halcyon.backend.dto.category.GroupedCategoryResponse;
 import com.halcyon.backend.exception.AccessDeniedException;
 import com.halcyon.backend.exception.category.CategoryAlreadyExistsException;
+import com.halcyon.backend.exception.category.CategoryLimitReachedException;
 import com.halcyon.backend.exception.category.CategoryNotFoundException;
 import com.halcyon.backend.mapper.CategoryMapper;
 import com.halcyon.backend.model.Category;
@@ -31,10 +32,7 @@ public class CategoryService {
     @Transactional
     public CategoryResponse create(CreateCategoryRequest request) {
         User user = userService.getCurrentUser();
-
-        if (categoryRepository.existsByNameAndTypeAndUser(request.getName(), request.getType(), user)) {
-            throw new CategoryAlreadyExistsException("Category with this name and type already exists for the user.");
-        }
+        isValidCreateRequest(request, user);
 
         Category category = categoryMapper.toEntity(request);
         category.setUser(user);
@@ -42,6 +40,18 @@ public class CategoryService {
         category = categoryRepository.save(category);
 
         return categoryMapper.toResponse(category);
+    }
+
+    private void isValidCreateRequest(CreateCategoryRequest request, User user) {
+        long count = categoryRepository.countByTypeAndUser(request.getType(), user);
+
+        if (count >= 50) {
+            throw new CategoryLimitReachedException("You cannot have more than 50 categories of the same type.");
+        }
+
+        if (categoryRepository.existsByNameAndTypeAndUser(request.getName(), request.getType(), user)) {
+            throw new CategoryAlreadyExistsException("Category with this name and type already exists for the user.");
+        }
     }
 
     @Transactional(readOnly = true)
