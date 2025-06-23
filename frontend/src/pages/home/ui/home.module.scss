@@ -1,0 +1,31 @@
+.container {
+  @apply flex flex-col gap-6 p-5 md:p-8 w-full;
+
+  .header {
+    @apply mdx:flex justify-between items-center;
+
+    h2 {
+      @apply text-2xl lg:text-3xl font-bold text-white;
+    }
+
+    p {
+      @apply mt-1 text-gray-400 text-sm lg:text-base;
+    }
+  }
+
+  .metric {
+    @apply grid grid-cols-1 smx:grid-cols-2 mdx:grid-cols-3 gap-4 mdx:gap-6;
+
+    .item {
+      @apply last:smx:col-span-2 last:mdx:col-span-1;
+    }
+  }
+
+  .actions {
+    @apply flex flex-col mdx:flex-row gap-4 mdx:gap-6;
+  }
+
+  .transactions {
+    @apply flex flex-col gap-3 [&>div]:m-0;
+  }
+}

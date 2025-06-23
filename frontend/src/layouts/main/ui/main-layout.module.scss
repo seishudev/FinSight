@@ -2,7 +2,7 @@
    @apply h-screen flex;
 
    .content {
-      @apply max-h-full overflow-y-auto w-[80%];
+      @apply max-h-full overflow-y-auto w-full md:w-[80%];
 
       &::-webkit-scrollbar {
          @apply w-2 bg-[#12192880];

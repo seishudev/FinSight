@@ -1,0 +1,25 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: finsight
+
+  datasource:
+    url: jdbc:postgresql://db:5432/finsight_db
+    username: postgres
+    password: password
+
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    locations: classpath:db/migration
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+
+jwt:
+  secret:
+    access: LA4XZ8oPuhwbaGHpPZBA7j6AzdnaufJxcA3BqN8qu/c/1mKklF+60Ds0PH4W/+yDXtZ4Ptaij135LReqleMEwg==
+    refresh: 40bibBIBBT9lhB4xcAq4PqxBBkpi0Gw5okd8GrlGaLzIYjSPfTG1Xc+WPT0UxqXfyDV4P5WuPMecRkwM+e8c5Q==

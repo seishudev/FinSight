@@ -1,6 +1,6 @@
 import { UserAuthFields } from '@entities/user-auth-fields';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { AuthForm } from '@shared/ui';
+import { AuthForm } from '@shared/ui/custom';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router';
 import { signUp } from '../api/registerApi';

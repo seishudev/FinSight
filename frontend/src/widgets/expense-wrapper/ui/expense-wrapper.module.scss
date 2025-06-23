@@ -1,0 +1,20 @@
+.container {
+  @apply bg-white/10 backdrop-blur-md rounded-2xl p-4 lg:p-6 border border-white/20;
+
+  .header {
+    @apply flex items-center justify-between mb-4 gap-4;
+
+    .title {
+      @apply text-base mdx:text-lg lg:text-xl font-semibold text-white flex items-center gap-2;
+    }
+
+   }
+
+   .link {
+     @apply text-[12px] mdx:text-sm hidden text-gray-400 hover:underline md:flex gap-1 items-center;
+   }
+
+  .mobileLink {
+   @apply flex mx-auto md:hidden text-sm p-1;
+  }
+}

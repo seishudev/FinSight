@@ -1,1 +1,1 @@
-export { UserAuthFields } from './ui/UserAuthFields';
+export { UserAuthFields } from './ui/user-auth-fields';

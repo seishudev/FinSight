@@ -30,8 +30,12 @@ export default tseslint.config(
         'warn',
         { allowConstantExport: true }
       ],
+<<<<<<< HEAD
       '@typescript-eslint/no-explicit-any': 'off',
       'prettier/prettier': 'warn'
+=======
+      'prettier/prettier': 'off'
+>>>>>>> main
     }
   }
 );
