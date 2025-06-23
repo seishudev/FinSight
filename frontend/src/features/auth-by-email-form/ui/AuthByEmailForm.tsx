@@ -2,9 +2,13 @@ import { UserAuthFields } from '@entities/user-auth-fields';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AuthForm } from '@shared/ui';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router';
+import { signIn } from '../api/loginApi';
 import { schema, type AuthByEmailFormData } from '../model/schema';
 
 export const AuthByEmailForm = () => {
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -14,7 +18,9 @@ export const AuthByEmailForm = () => {
   });
 
   const onSubmit = (data: AuthByEmailFormData) => {
-    console.log(data);
+    signIn(data.email, data.password)
+      .then(() => navigate('/', { replace: true }))
+      .catch(err => console.error(`Authorization error: ${err}`));
   };
 
   return (
