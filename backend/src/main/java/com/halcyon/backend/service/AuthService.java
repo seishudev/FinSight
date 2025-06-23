@@ -2,8 +2,8 @@ package com.halcyon.backend.service;
 
 import com.halcyon.backend.dto.auth.AuthResponse;
 import com.halcyon.backend.dto.auth.SignRequest;
-import com.halcyon.backend.exception.InvalidCredentialsException;
-import com.halcyon.backend.exception.UserAlreadyExistsException;
+import com.halcyon.backend.exception.user.InvalidCredentialsException;
+import com.halcyon.backend.exception.user.UserAlreadyExistsException;
 import com.halcyon.backend.jwt.JwtProvider;
 import com.halcyon.backend.mapper.UserMapper;
 import com.halcyon.backend.model.User;
@@ -18,6 +18,7 @@ public class AuthService {
     private final JwtProvider jwtProvider;
     private final PasswordEncoder passwordEncoder;
     private final UserService userService;
+    private final DefaultCategoryProvider defaultCategoryProvider;
     private final UserMapper userMapper;
 
     public AuthResponse signUp(SignRequest signRequest) {
@@ -27,6 +28,7 @@ public class AuthService {
 
         User user = userMapper.toEntity(signRequest, passwordEncoder);
         user = userService.save(user);
+        defaultCategoryProvider.createDefaultCategories(user);
 
         return getAuthResponse(user.getEmail());
     }

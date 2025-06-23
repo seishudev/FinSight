@@ -117,7 +117,7 @@ public class AuthController {
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ErrorDetailsResponse.class)))
     })
     @PostMapping("/refresh")
-    public ResponseEntity<Object> getAccessToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public ResponseEntity<Object> getAccessToken(HttpServletRequest request, HttpServletResponse response) {
         Optional<String> refreshTokenOpt = cookieManager.getTokenFromCookie(request, true);
 
         if (refreshTokenOpt.isEmpty() || !jwtProvider.isValidToken(refreshTokenOpt.get(), true)) {

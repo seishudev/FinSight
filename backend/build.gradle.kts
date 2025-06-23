@@ -43,6 +43,8 @@ dependencies {
     implementation("org.springframework.security:spring-security-crypto")
     implementation("org.bouncycastle:bcprov-jdk15on:1.70")
 
+    implementation("com.vdurmont:emoji-java:5.1.1")
+
     runtimeOnly("org.postgresql:postgresql")
     implementation("org.flywaydb:flyway-core")
     implementation("org.flywaydb:flyway-database-postgresql")
