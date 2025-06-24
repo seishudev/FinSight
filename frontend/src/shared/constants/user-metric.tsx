@@ -5,19 +5,19 @@ export const userMetric = [
     type: 'balance',
     emoji: '💰',
     title: 'Баланс',
-    indicator: '69 722 ₽'
+    amount: 69722,
   },
   {
     type: 'income',
     emoji: '📈',
     title: 'Доходы',
-    indicator: '75 000 ₽'
+    amount: 75000,
   },
   {
     type: 'expense',
     emoji: '📉',
     title: 'Расходы',
-    indicator: '5 278 ₽'
+    amount: 5278,
   }
 ] as const;
 

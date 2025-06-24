@@ -1,0 +1,11 @@
+.wrapper {
+  @apply w-full;
+
+  .empty {
+    @apply my-4 smx:my-8 mdx:my-16 text-gray-400 flex flex-col items-center [&>p]:mt-2;
+  }
+
+  .chart {
+   @apply mdx:mt-4 max-w-fit mx-auto;
+  }
+}
