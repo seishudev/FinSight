@@ -1,5 +1,5 @@
 .container {
-  @apply flex flex-col gap-6 p-5 md:p-8 w-full;
+  @apply flex flex-col gap-6;
 
   .header {
     @apply mdx:flex justify-between items-center;

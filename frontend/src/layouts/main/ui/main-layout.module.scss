@@ -2,14 +2,14 @@
    @apply h-screen flex;
 
    .content {
-      @apply max-h-full overflow-y-auto w-full md:w-[80%];
+      @apply max-h-full overflow-y-auto w-full p-5 md:p-8 md:w-[80%];
 
       &::-webkit-scrollbar {
          @apply w-2 bg-[#12192880];
       }
       
       &::-webkit-scrollbar-thumb {
-         @apply rounded-lg bg-[#660bb1eb];
+         @apply rounded-[10px] bg-[#660bb1eb];
       }
    }
 }

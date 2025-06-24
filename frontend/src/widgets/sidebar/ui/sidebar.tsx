@@ -2,7 +2,8 @@ import { Link, useLocation } from 'react-router';
 import { Bot, LogOut, ReceiptText } from 'lucide-react';
 
 import { sidebarRoutes } from '@/shared/constants/sidebar-routes';
-import { Brand } from '@/entities/brand';
+import { PageTitle } from '@/entities/page-title';
+import { Logo } from '@/entities/logo';
 import s from './sidebar.module.scss';
 
 export const Sidebar = () => {
@@ -11,7 +12,11 @@ export const Sidebar = () => {
   return (
     <aside className={s.container}>
       <div className={s.brand}>
-        <Brand />
+        <PageTitle
+          icon={<Logo />}
+          title='FinSight'
+          description='Финансовый трекер'
+        />
       </div>
 
       <nav className={s.menu}>

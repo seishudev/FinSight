@@ -12,11 +12,11 @@
          @apply space-y-2;
 
          .link {
-            @apply w-full flex items-center gap-3 px-4 py-3 transition-all duration-200 ease-in-out rounded-xl text-white shadow-lg border-transparent;
+            @apply w-full flex items-center gap-3 px-4 py-3 transition-all duration-200 ease-in-out rounded-xl text-white shadow-lg border border-transparent;
          }
 
          .activeLink {
-            @apply bg-gradient-to-r from-indigo-500/20 to-purple-700/20 border border-indigo-500/30;
+            @apply bg-gradient-to-r from-indigo-500/20 to-purple-700/20 border-indigo-500/30;
          }
       }
    }

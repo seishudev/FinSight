@@ -7,7 +7,7 @@ import s from './metric.module.scss';
 interface MetricProps {
   emoji: string;
   title: string;
-  indicator: string;
+  amount: number;
   type: MetricType;
   className?: string;
 }
@@ -15,7 +15,7 @@ interface MetricProps {
 export const Metric = ({
   emoji,
   title,
-  indicator,
+  amount,
   type,
   className,
 }: MetricProps) => {
@@ -29,7 +29,7 @@ export const Metric = ({
       </div>
 
       <h3 className={s.title}>{title}</h3>
-      <p className={s.indicator} style={{ color }}>{indicator}</p>
+      <p className={s.indicator} style={{ color }}>{amount.toLocaleString('ru-RU')} ₽</p>
     </ExpenseWrapper>
   );
 };
