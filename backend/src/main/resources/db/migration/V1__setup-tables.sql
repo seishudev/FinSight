@@ -33,3 +33,15 @@ CREATE TABLE IF NOT EXISTS transactions (
     CONSTRAINT fk_transaction_user FOREIGN KEY (user_id) REFERENCES users(id),
     CONSTRAINT check_transaction_type CHECK (type IN ('INCOME', 'EXPENSE'))
 );
+
+CREATE TABLE IF NOT EXISTS budgets(
+    id            BIGSERIAL      PRIMARY KEY,
+    limit_amount  NUMERIC(19, 4) NOT NULL,
+    period        VARCHAR(20)    NOT NULL,
+    user_id       BIGINT         NOT NULL,
+    category_id   BIGINT         NOT NULL,
+    created_at    TIMESTAMP      DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_budgets_on_user FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
+    CONSTRAINT fk_budgets_on_category FOREIGN KEY (category_id) REFERENCES categories (id) ON DELETE CASCADE
+);
