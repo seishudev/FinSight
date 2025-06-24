@@ -1,0 +1,17 @@
+.container {
+  @apply h-dvh w-full flex items-center justify-center bg-black/80 p-8;
+}
+
+.wrapper {
+  @apply bg-gray-900/95 backdrop-blur-md rounded-3xl border border-white/20 w-full max-w-md shadow-2xl pb-4;
+
+  composes: animate-fade-in from global;
+}
+
+.login {
+  @apply text-center text-gray-400 text-sm mt-4;
+
+  a {
+    @apply ml-1 text-indigo-400 hover:text-indigo-300 font-medium transition-colors text-sm;
+  }
+}
