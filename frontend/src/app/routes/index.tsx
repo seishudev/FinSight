@@ -1,4 +1,5 @@
 import { MainLayout } from '@/layouts/main';
+import { Categories } from '@pages/categories';
 import { Home } from '@pages/home';
 import { Login } from '@pages/login';
 import { Register } from '@pages/register';
@@ -12,7 +13,7 @@ export const AppRouter = () => {
         <Route path='/' element={<MainLayout />}>
           <Route index element={<Home />} />
           <Route path='analytics' element={<></>} />
-          <Route path='categories' element={<></>} />
+          <Route path='categories' element={<Categories />} />
           <Route path='budget' element={<></>} />
         </Route>
         <Route path='login' element={<Login />} />

@@ -1,0 +1,11 @@
+.container {
+  @apply bg-white/10 backdrop-blur-md rounded-2xl p-4 mdx:p-6 border border-white/20 mt-6;
+
+  .title {
+    @apply text-lg lg:text-xl font-semibold text-white mb-4 flex items-center gap-2;
+  }
+
+  .wrapper {
+    @apply grid grid-cols-1 md:grid-cols-2 mdx:grid-cols-3 gap-3 mdx:gap-4;
+  }
+}
