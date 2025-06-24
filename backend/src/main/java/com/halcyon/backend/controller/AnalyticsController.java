@@ -2,6 +2,7 @@ package com.halcyon.backend.controller;
 
 import com.halcyon.backend.dto.analytics.AnalyticsSummaryItemResponse;
 import com.halcyon.backend.dto.analytics.CategorizedAnalyticsResponse;
+import com.halcyon.backend.dto.analytics.TrendDataPointResponse;
 import com.halcyon.backend.service.AnalyticsService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -53,6 +54,21 @@ public class AnalyticsController {
     @GetMapping("/categories/current-month")
     public ResponseEntity<CategorizedAnalyticsResponse> getCategorizedAnalytics() {
         CategorizedAnalyticsResponse response = analyticsService.getCategorizedAnalyticsForCurrentMonth();
+        return ResponseEntity.ok(response);
+    }
+
+    @Operation(
+            summary = "Тренд доходов и расходов за последние 7 дней",
+            description = "Возвращает список данных для построения графика тренда. Каждая точка в списке представляет один день и содержит сумму доходов и расходов за этот день."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Данные для графика успешно получены",
+                    content = @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = TrendDataPointResponse.class))))
+    })
+    @GetMapping("/trend/last-7-days")
+    public ResponseEntity<List<TrendDataPointResponse>> getTrendAnalytics() {
+        List<TrendDataPointResponse> response = analyticsService.getIncomeExpenseTrendForLast7Days();
         return ResponseEntity.ok(response);
     }
 }

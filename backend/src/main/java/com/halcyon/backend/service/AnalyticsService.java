@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 @RequiredArgsConstructor
@@ -115,6 +116,37 @@ public class AnalyticsService {
                         proj.getCategoryName(),
                         proj.getTotalAmount(),
                         percentage
+                    );
+                })
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<TrendDataPointResponse> getIncomeExpenseTrendForLast7Days() {
+        User user = userService.getCurrentUser();
+
+        LocalDate endDate = LocalDate.now();
+        LocalDate startDate = endDate.minusDays(6);
+
+        List<DailyTrendProjection> projections =
+                transactionRepository.findDailyTrendStatsByDateRange(user, startDate, endDate);
+
+        Map<LocalDate, Map<TransactionType, BigDecimal>> dataByDate = projections.stream()
+                .collect(Collectors.groupingBy(
+                        DailyTrendProjection::getDate,
+                        Collectors.toMap(DailyTrendProjection::getType, DailyTrendProjection::getTotalAmount)
+                ));
+
+        return IntStream.rangeClosed(0, 6)
+                .mapToObj(i -> startDate.plusDays(i))
+                .map(date -> {
+                    Map<TransactionType, BigDecimal> dailyData =
+                            dataByDate.getOrDefault(date, Collections.emptyMap());
+
+                    return new TrendDataPointResponse(
+                            date,
+                            dailyData.getOrDefault(TransactionType.INCOME, BigDecimal.ZERO),
+                            dailyData.getOrDefault(TransactionType.EXPENSE, BigDecimal.ZERO)
                     );
                 })
                 .toList();
