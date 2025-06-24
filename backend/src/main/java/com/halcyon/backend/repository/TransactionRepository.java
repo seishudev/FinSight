@@ -1,6 +1,7 @@
 package com.halcyon.backend.repository;
 
 import com.halcyon.backend.dto.analytics.TransactionSummaryProjection;
+import com.halcyon.backend.dto.analytics.TypedCategoryAnalyticsProjection;
 import com.halcyon.backend.model.Transaction;
 import com.halcyon.backend.model.User;
 import com.halcyon.backend.model.support.TransactionType;
@@ -37,6 +38,19 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
             "AND t.date BETWEEN :startDate AND :endDate " +
             "GROUP BY t.type")
     List<TransactionSummaryProjection> findSummaryStatsByDateRange(
+            @Param("user") User user,
+            @Param("startDate") LocalDate startDate,
+            @Param("endDate") LocalDate endDate
+    );
+
+    @Query("SELECT new com.halcyon.backend.dto.analytics.TypedCategoryAnalyticsProjection(" +
+            "t.type, t.category.id, t.category.name, SUM(t.amount)) " +
+            "FROM Transaction t " +
+            "WHERE t.user = :user " +
+            "AND t.date BETWEEN :startDate AND :endDate " +
+            "GROUP BY t.type, t.category.id, t.category.name " +
+            "ORDER BY t.type, SUM(t.amount) DESC")
+    List<TypedCategoryAnalyticsProjection> findCategoryAnalyticsStatsByDateRange(
             @Param("user") User user,
             @Param("startDate") LocalDate startDate,
             @Param("endDate") LocalDate endDate

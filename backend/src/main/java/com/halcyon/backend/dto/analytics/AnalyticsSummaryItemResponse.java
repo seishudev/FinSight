@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 
 @Data
 @AllArgsConstructor
-public class AnalyticsSummaryItemDto {
+public class AnalyticsSummaryItemResponse {
 
     private String type;
     private BigDecimal amount;
