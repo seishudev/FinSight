@@ -1,7 +1,7 @@
 import { CategoriesList } from '@/widgets/categories-list';
-import { Button } from '@shared/ui/button';
-import { Plus, Tag } from 'lucide-react';
+import { Tag } from 'lucide-react';
 import s from './Categories.module.scss';
+import { CategoryDialog } from './CategoryDialog';
 
 export const Categories = () => {
   return (
@@ -16,11 +16,7 @@ export const Categories = () => {
             <p>Управление категориями доходов и расходов</p>
           </div>
         </div>
-
-        <Button className={s.btn}>
-          <Plus size={18} />
-          Добавить категорию
-        </Button>
+        <CategoryDialog />
       </section>
 
       <CategoriesList title='Категории расходов' icon='📉' />
