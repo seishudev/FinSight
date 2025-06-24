@@ -1,3 +1,4 @@
+import { CategoryCard } from '@entities/category-card';
 import s from './CategoriesList.module.scss';
 
 export const CategoriesList = ({ title, icon }: Record<string, string>) => {
@@ -7,7 +8,14 @@ export const CategoriesList = ({ title, icon }: Record<string, string>) => {
         <span className='text-xl lg:text-2xl'>{icon}</span>
         {title}
       </h3>
-      <div className={s.wrapper}></div>
+      <div className={s.wrapper}>
+        <CategoryCard />
+        <CategoryCard />
+        <CategoryCard />
+        <CategoryCard />
+        <CategoryCard />
+        <CategoryCard />
+      </div>
     </section>
   );
 };
