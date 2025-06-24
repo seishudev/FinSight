@@ -1,6 +1,7 @@
 package com.halcyon.backend.dto.transaction;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.halcyon.backend.dto.category.CategoryResponse;
 import com.halcyon.backend.model.support.TransactionType;
 import lombok.Data;
 
@@ -18,7 +19,6 @@ public class TransactionResponse {
     private LocalDate date;
 
     private String comment;
-    private Long categoryId;
-    private String categoryName;
     private Instant createdAt;
+    private CategoryResponse category;
 }

@@ -92,7 +92,7 @@ public class BudgetService {
                     .doubleValue();
         }
 
-        BudgetResponse response = budgetMapper.toResponse(budget, budget.getCategory());
+        BudgetResponse response = budgetMapper.toResponse(budget);
         response.setSpentAmount(spentAmount);
         response.setRemainingAmount(remainingAmount);
         response.setPercentageUsed(percentageUsed);
