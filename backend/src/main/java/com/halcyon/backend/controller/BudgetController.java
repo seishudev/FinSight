@@ -6,6 +6,7 @@ import com.halcyon.backend.exception.handler.ErrorDetailsResponse;
 import com.halcyon.backend.exception.handler.ValidationErrorsResponse;
 import com.halcyon.backend.service.BudgetService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -15,10 +16,9 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/budgets")
@@ -48,5 +48,17 @@ public class BudgetController {
     public ResponseEntity<BudgetResponse> create(@RequestBody @Valid CreateBudgetRequest request) {
         BudgetResponse response = budgetService.create(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @Operation(summary = "Получить все бюджеты пользователя", description = "Возвращает список всех бюджетов текущего пользователя с актуальной информацией о тратах.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Бюджеты успешно получены",
+                    content = @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = BudgetResponse.class))))
+    })
+    @GetMapping
+    public ResponseEntity<List<BudgetResponse>> getUserBudgets() {
+        List<BudgetResponse> budgets = budgetService.getUserBudgets();
+        return ResponseEntity.ok(budgets);
     }
 }

@@ -20,6 +20,7 @@ import java.math.RoundingMode;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -95,5 +96,15 @@ public class BudgetService {
         response.setPercentageUsed(percentageUsed);
 
         return response;
+    }
+
+    @Transactional(readOnly = true)
+    public List<BudgetResponse> getUserBudgets() {
+        User user = userService.getCurrentUser();
+        List<Budget> budgets = budgetRepository.findAllByUser(user);
+
+        return budgets.stream()
+                .map(this::mapToBudgetResponse)
+                .toList();
     }
 }
