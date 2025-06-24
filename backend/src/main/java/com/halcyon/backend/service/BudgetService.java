@@ -2,7 +2,9 @@ package com.halcyon.backend.service;
 
 import com.halcyon.backend.dto.budget.BudgetResponse;
 import com.halcyon.backend.dto.budget.CreateBudgetRequest;
+import com.halcyon.backend.exception.AccessDeniedException;
 import com.halcyon.backend.exception.budget.BudgetAlreadyExistsException;
+import com.halcyon.backend.exception.budget.BudgetNotFoundException;
 import com.halcyon.backend.exception.category.InvalidCategoryException;
 import com.halcyon.backend.mapper.BudgetMapper;
 import com.halcyon.backend.model.Budget;
@@ -106,5 +108,22 @@ public class BudgetService {
         return budgets.stream()
                 .map(this::mapToBudgetResponse)
                 .toList();
+    }
+
+    @Transactional
+    public void delete(Long budgetId) {
+        User user = userService.getCurrentUser();
+        Budget budget = findById(budgetId);
+
+        if (!budget.getId().equals(user.getId())) {
+            throw new AccessDeniedException("You do not have permissions to delete this budget.");
+        }
+
+        budgetRepository.delete(budget);
+    }
+
+    private Budget findById(Long budgetId) {
+        return budgetRepository.findById(budgetId)
+                .orElseThrow(() -> new BudgetNotFoundException("Budget with id " + budgetId + " not found."));
     }
 }

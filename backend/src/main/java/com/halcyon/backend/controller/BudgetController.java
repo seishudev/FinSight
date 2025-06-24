@@ -1,5 +1,6 @@
 package com.halcyon.backend.controller;
 
+import com.halcyon.backend.dto.SuccessResponse;
 import com.halcyon.backend.dto.budget.BudgetResponse;
 import com.halcyon.backend.dto.budget.CreateBudgetRequest;
 import com.halcyon.backend.exception.handler.ErrorDetailsResponse;
@@ -60,5 +61,20 @@ public class BudgetController {
     public ResponseEntity<List<BudgetResponse>> getUserBudgets() {
         List<BudgetResponse> budgets = budgetService.getUserBudgets();
         return ResponseEntity.ok(budgets);
+    }
+
+    @Operation(summary = "Удалить бюджет", description = "Удаляет бюджет текущего пользователя по ID.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Бюджет успешно удален",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = SuccessResponse.class))),
+            @ApiResponse(responseCode = "403", description = "Нет доступа к бюджету",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDetailsResponse.class))),
+            @ApiResponse(responseCode = "404", description = "Бюджет не найден",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDetailsResponse.class)))
+    })
+    @DeleteMapping("/{id}")
+    public ResponseEntity<SuccessResponse> delete(@PathVariable Long id) {
+        budgetService.delete(id);
+        return ResponseEntity.ok(new SuccessResponse("Budget with id " + id + " has been successfully deleted."));
     }
 }
