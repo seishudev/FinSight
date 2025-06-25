@@ -13,9 +13,15 @@ import {
   DialogHeader,
   DialogTrigger
 } from '@shared/ui/dialog';
-import { Plus } from 'lucide-react';
+import EmojiPicker, {
+  Emoji,
+  Theme as EmojiTheme,
+  SkinTonePickerLocation,
+  type EmojiClickData
+} from 'emoji-picker-react';
+import { Plus, Smile } from 'lucide-react';
 import { observer } from 'mobx-react-lite';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { categorySchema, type CategoryBody } from '../model/categorySchema';
 import s from './CategoryDialog.module.scss';
@@ -23,21 +29,52 @@ import s from './CategoryDialog.module.scss';
 export const CategoryDialog = observer(() => {
   const { categoryType, setCategoryType } = categoriesInteractionsStore;
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const emojiPickerRef = useRef<HTMLDivElement>(null);
 
   const {
     formState: { errors },
     handleSubmit,
     register,
-    reset
+    reset,
+    setValue,
+    watch
   } = useForm<CategoryBody>({
-    resolver: zodResolver(categorySchema)
+    resolver: zodResolver(categorySchema),
+    defaultValues: {
+      title: '',
+      emoji: '💵'
+    }
   });
 
-  const onSubmit = () => {
-    console.log('артур идет нахуй');
+  const currentEmoji = watch('emoji');
+
+  const onEmojiClick = (data: EmojiClickData) => {
+    setValue('emoji', data.emoji);
+    setShowEmojiPicker(false);
+  };
+
+  const onSubmit = (data: CategoryBody) => {
+    console.log(data);
     setIsModalOpen(false);
     reset();
+    setShowEmojiPicker(false);
   };
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (
+        emojiPickerRef.current &&
+        !emojiPickerRef.current.contains(e.target as Node)
+      ) {
+        setShowEmojiPicker(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [currentEmoji]);
 
   return (
     <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
@@ -73,11 +110,48 @@ export const CategoryDialog = observer(() => {
             title='Название'
             className={s.input}
           />
+          <div className='mt-5'>
+            <div className='flex gap-3 items-center'>
+              <div className='relative'>
+                <Button
+                  type='button'
+                  variant='outline'
+                  onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+                  className={s.emojiButton}
+                >
+                  Добавить иконку
+                </Button>
+                {showEmojiPicker && (
+                  <div ref={emojiPickerRef} className={s.emojiPickerWrapper}>
+                    <EmojiPicker
+                      onEmojiClick={onEmojiClick}
+                      autoFocusSearch={false}
+                      theme={EmojiTheme.DARK}
+                      lazyLoadEmojis
+                      skinTonePickerLocation={SkinTonePickerLocation.PREVIEW}
+                      height={350}
+                      width='100%'
+                    />
+                  </div>
+                )}
+              </div>
+              <div className='flex-shrink-0'>
+                {currentEmoji ? (
+                  <Emoji
+                    unified={currentEmoji.codePointAt(0)?.toString(16) || ''}
+                    size={28}
+                  />
+                ) : (
+                  <Smile size={28} />
+                )}
+              </div>
+            </div>
+          </div>
 
           <DialogFooter>
             <Button
               type='submit'
-              className={`${s.close} ${categoryType == 'income' ? s.income : s.expense}`}
+              className={`${s.close} ${categoryType === 'income' ? s.income : s.expense}`}
             >
               Добавить категорию
             </Button>
