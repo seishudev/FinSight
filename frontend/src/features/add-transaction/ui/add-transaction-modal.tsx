@@ -1,8 +1,15 @@
+import { zodResolver } from '@hookform/resolvers/zod';
 import { CirclePlus } from 'lucide-react';
 import { observer } from 'mobx-react-lite';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 
+import { transactionTabs } from '@/shared/constants/transaction-tabs';
+import {
+  transactionsInteractionsStore,
+  type TransactionType
+} from '@/shared/stores/transactions';
+import { Button } from '@/shared/ui/button';
+import { FormField } from '@/shared/ui/custom';
 import {
   Dialog,
   DialogClose,
@@ -11,14 +18,7 @@ import {
   DialogTitle,
   DialogTrigger
 } from '@/shared/ui/dialog';
-import {
-  transactionsInteractionsStore,
-  type TransactionType
-} from '@/shared/stores/transactions';
-import { transactionTabs } from '@/shared/constants/transaction-tabs';
-import { Button } from '@/shared/ui/button';
 import { Tabs } from '@entities/tabs';
-import { FormField } from '@/shared/ui/custom';
 import {
   transactionSchema,
   type TransactionBody

@@ -1,0 +1,51 @@
+.btn {
+  @apply bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white px-4 mdx:px-6 py-6 rounded-xl flex items-center justify-center gap-2 transition-all duration-300 transform hover:scale-105 shadow-lg text-sm mdx:text-base;
+}
+
+.title {
+  @apply text-white;
+}
+
+.tabs {
+  @apply w-full mt-2 h-14 bg-[#ffffff0d];
+
+  .tab {
+    @apply w-1/2 h-12 first:data-[state=active]:bg-red-500/20 first:data-[state=active]:text-red-400 last:data-[state=active]:bg-green-500/20 last:data-[state=active]:text-green-400 gap-1 md:text-base md:font-normal;
+  }
+}
+
+.close {
+  @apply w-full py-6 px-4 rounded-xl font-medium transition-all duration-300 transform text-sm mdx:text-base bg-gradient-to-r text-white shadow-lg scalable-down mt-4;
+}
+
+.income {
+  @apply from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700;
+}
+
+.expense {
+  @apply from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700;
+}
+
+.input {
+  input {
+    @apply px-4 py-3 text-sm mdx:text-base;
+  }
+}
+
+.emojiButton {
+  @apply bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white py-3 px-4 rounded-xl transition-all duration-300 transform hover:scale-105 text-sm mdx:text-base;
+}
+
+.emojiPickerWrapper {
+  @apply fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4;
+  & > div {
+    @apply bg-gray-800 rounded-lg shadow-2xl overflow-hidden max-w-sm w-full;
+  }
+
+  @apply md:absolute md:inset-auto md:mt-2 md:bg-transparent md:backdrop-blur-none md:p-0 md:z-10;
+  & > div {
+    @apply md:bg-gray-800 md:rounded-lg md:shadow-xl md:border md:border-gray-700;
+  }
+
+  @apply md:left-0;
+}

@@ -1,0 +1,32 @@
+.container {
+  @apply flex justify-between items-center p-3 mdx:p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-all duration-200 text-white;
+}
+
+.title {
+  @apply flex items-center gap-3;
+
+  span {
+    @apply text-lg mdx:text-2xl;
+  }
+
+  p {
+    @apply font-medium text-sm mdx:text-base;
+  }
+}
+
+.actions {
+  @apply flex gap-1 mdx:gap-2 opacity-0 transition-opacity;
+
+  button {
+    @apply transition-colors bg-transparent;
+    border-radius: 8px;
+  }
+
+  .edit {
+    @apply p-1.5 mdx:p-2 hover:bg-white/10;
+  }
+
+  .delete {
+    @apply p-1.5 mdx:p-2 hover:bg-red-500/20;
+  }
+}
