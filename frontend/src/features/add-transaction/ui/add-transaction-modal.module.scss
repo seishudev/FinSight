@@ -3,25 +3,39 @@
 }
 
 .title {
-   @apply text-white;
+  @apply text-white;
 }
 
 .tabs {
-   @apply w-full mt-2 h-14 bg-[#ffffff0d];
+  @apply w-full mt-2 h-14 bg-[#ffffff0d];
 
-   .tab {
-      @apply w-1/2 h-12 first:data-[state=active]:bg-red-500/20 first:data-[state=active]:text-red-400 last:data-[state=active]:bg-green-500/20 last:data-[state=active]:text-green-400 gap-1 md:text-base md:font-normal;
-   }
+  .tab {
+    @apply w-1/2 h-12 first:data-[state=active]:bg-red-500/20 first:data-[state=active]:text-red-400 last:data-[state=active]:bg-green-500/20 last:data-[state=active]:text-green-400 gap-1 md:text-base md:font-normal;
+  }
+}
+
+.form {
+  @apply flex flex-col gap-6;
+
+  .input {
+    @apply [&>div>input]:px-4;
+
+    & > div > input::-webkit-outer-spin-button,
+    & > div > input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  }
 }
 
 .close {
-   @apply w-full py-3 px-4 rounded-xl font-medium transition-all duration-300 transform text-sm lg:text-base bg-gradient-to-r text-white shadow-lg scalable-down;
+  @apply w-full py-3 px-4 rounded-xl font-medium transition-all duration-300 transform text-sm lg:text-base bg-gradient-to-r text-white shadow-lg scalable-down;
 }
 
 .income {
-   @apply from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700
+  @apply from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700;
 }
 
 .expense {
-   @apply from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700
+  @apply from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700;
 }

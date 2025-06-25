@@ -10,11 +10,12 @@ export const ColumnChart = ({ values }: PieChartProps) => {
     chart: {
       type: 'column',
       backgroundColor: 'transparent',
-      width: 300,
-      height: 275,
     },
     title: {
       text: ''
+    },
+    legend: {
+      enabled: false,
     },
     xAxis: {
       categories: ['', '', '', '', '', ''],
