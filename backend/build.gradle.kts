@@ -39,6 +39,10 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.9")
+    implementation("org.springframework.ai:spring-ai-openai-spring-boot-starter:1.0.0-M6") {
+        exclude(group = "org.springdoc")
+        exclude(group = "io.swagger.core.v3")
+    }
 
     implementation("org.springframework.security:spring-security-crypto")
     implementation("org.bouncycastle:bcprov-jdk15on:1.70")

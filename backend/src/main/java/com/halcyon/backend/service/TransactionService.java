@@ -73,8 +73,7 @@ public class TransactionService {
         User user = userService.getCurrentUser();
         Page<Transaction> transactions = transactionRepository.findUserTransactions(user, type, categoryId, pageable);
 
-        return transactions.map(transaction ->
-                transactionMapper.toResponse(transaction));
+        return transactions.map(transactionMapper::toResponse);
     }
 
     @Transactional

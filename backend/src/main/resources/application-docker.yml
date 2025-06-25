@@ -6,9 +6,9 @@ spring:
     name: finsight
 
   datasource:
-    url: jdbc:postgresql://db:5432/finsight_db
-    username: postgres
-    password: password
+    url: ${DOCKER_POSTGRES_URL}
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
 
   flyway:
     enabled: true
@@ -19,7 +19,16 @@ spring:
     hibernate:
       ddl-auto: none
 
+  ai:
+    openai:
+      api-key: ${AI_API_KEY}
+      base-url: ${AI_BASE_URL}
+
+      chat:
+        options:
+          model: ${AI_CHAT_MODEL}
+
 jwt:
   secret:
-    access: LA4XZ8oPuhwbaGHpPZBA7j6AzdnaufJxcA3BqN8qu/c/1mKklF+60Ds0PH4W/+yDXtZ4Ptaij135LReqleMEwg==
-    refresh: 40bibBIBBT9lhB4xcAq4PqxBBkpi0Gw5okd8GrlGaLzIYjSPfTG1Xc+WPT0UxqXfyDV4P5WuPMecRkwM+e8c5Q==
+    access: ${JWT_SECRET_ACCESS}
+    refresh: ${JWT_SECRET_REFRESH}
