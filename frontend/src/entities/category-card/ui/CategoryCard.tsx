@@ -19,6 +19,7 @@ export const CategoryCard = (props: CategoryCardProps) => {
     try {
       const data = await deleteCategory(id);
       categoriesApiStore.getCategoriesByTypeAction(categoryType);
+      return data;
     } catch (err) {
       console.error(err);
     }

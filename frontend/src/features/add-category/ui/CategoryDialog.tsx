@@ -1,8 +1,12 @@
+import { createNewCategory } from '@/shared/stores/categories/api/create-new-category';
 import { Tabs } from '@entities/tabs';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { DialogTitle } from '@radix-ui/react-dialog';
 import { categoryTabs } from '@shared/constants/category-tabs';
-import { categoriesInteractionsStore } from '@shared/stores/categories';
+import {
+  categoriesApiStore,
+  categoriesInteractionsStore
+} from '@shared/stores/categories';
 import type { CategoryType } from '@shared/stores/categories/interactions/types';
 import { Button } from '@shared/ui/button';
 import { FormField } from '@shared/ui/custom';
@@ -55,7 +59,10 @@ export const CategoryDialog = observer(() => {
   };
 
   const onSubmit = (data: CategoryBody) => {
-    console.log(data);
+    createNewCategory(data.title, data.emoji, categoryType)
+      .then(() => categoriesApiStore.getCategoriesByTypeAction(categoryType))
+      .catch(err => console.error(err));
+
     setIsModalOpen(false);
     reset();
     setShowEmojiPicker(false);
