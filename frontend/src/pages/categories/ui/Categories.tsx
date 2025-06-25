@@ -1,7 +1,7 @@
 import { CategoriesList } from '@/widgets/categories-list';
 import { Tag } from 'lucide-react';
+import { CategoryDialog } from '../../../features/add-category/ui/CategoryDialog';
 import s from './Categories.module.scss';
-import { CategoryDialog } from './CategoryDialog';
 
 export const Categories = () => {
   return (
