@@ -1,14 +1,8 @@
-import { zodResolver } from '@hookform/resolvers/zod';
 import { CirclePlus } from 'lucide-react';
 import { observer } from 'mobx-react-lite';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 
-import { transactionTabs } from '@/shared/constants/transaction-tabs';
-import {
-  transactionsInteractionsStore,
-  type TransactionType
-} from '@/shared/stores/transactions';
-import { Button } from '@/shared/ui/button';
 import { FormField } from '@/shared/ui/custom';
 import {
   Dialog,
@@ -18,26 +12,53 @@ import {
   DialogTitle,
   DialogTrigger
 } from '@/shared/ui/dialog';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue
+} from '@/shared/ui/select';
+import {
+  // transactionsApiStore,
+  transactionsInteractionsStore,
+  type TransactionType
+} from '@/shared/stores/transactions';
+import { transactionTabs } from '@/shared/constants/transaction-tabs';
+import { Button } from '@/shared/ui/button';
 import { Tabs } from '@entities/tabs';
 import {
   transactionSchema,
   type TransactionBody
 } from '../lib/transaction-schema';
 import s from './add-transaction-modal.module.scss';
+import { DatePicker } from '@/shared/ui/custom/DatePicker';
+import { Textarea } from '@/shared/ui/textarea';
+import { Label } from '@/shared/ui/label';
 
 export const AddTransactionModal = observer(() => {
-  const { transactionType, setTransactionType } = transactionsInteractionsStore;
+  // const { createTransactionAction } = transactionsApiStore;
 
   const {
-    formState: { errors },
+    transactionType,
+    setTransactionType,
+    isTransactionDatePickerOpen,
+    setIsTransactionDatePickerOpen
+  } = transactionsInteractionsStore;
+
+  const {
+    control,
+    register,
     handleSubmit,
-    register
+    formState: { errors }
   } = useForm<TransactionBody>({
     resolver: zodResolver(transactionSchema)
   });
 
   return (
-    <Dialog>
+    <Dialog onOpenChange={() => setTransactionType('expense')}>
       <DialogTrigger asChild>
         <Button className={s.addTransaction}>
           <CirclePlus />
@@ -57,12 +78,15 @@ export const AddTransactionModal = observer(() => {
           onTabChange={v => setTransactionType(v as TransactionType)}
         />
 
-        <form onSubmit={handleSubmit(() => console.log('submit'))}>
-          {/* TODO: Separate it into another file */}
+        <form
+          className={s.form}
+          onSubmit={handleSubmit(data => console.log(data))}
+        >
           <FormField
             id='quantity'
             type='number'
             placeholder='0.00'
+            className={s.input}
             error={errors.quantity}
             register={register}
             name='quantity'
@@ -70,15 +94,58 @@ export const AddTransactionModal = observer(() => {
             valueAsNumber
           />
 
-          <FormField
-            id='comment'
-            type='text'
-            error={errors.comment}
-            maxLength={300}
-            register={register}
+          <Controller
+            name='category'
+            control={control}
+            render={({ field }) => (
+              <div>
+                <Label>Категория *</Label>
+                <Select onValueChange={field.onChange} value={field.value}>
+                  <SelectTrigger>
+                    <SelectValue placeholder='Выберите категорию' />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Выберите категорию</SelectLabel>
+                      <SelectItem value='apple'>Apple</SelectItem>
+                      <SelectItem value='banana'>Banana</SelectItem>
+                      <SelectItem value='blueberry'>Blueberry</SelectItem>
+                      <SelectItem value='grapes'>Grapes</SelectItem>
+                      <SelectItem value='pineapple'>Pineapple</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
+          />
+
+          <Controller
+            name='date'
+            control={control}
+            render={({ field }) => (
+              <DatePicker
+                date={new Date(field.value || Date.now())}
+                open={isTransactionDatePickerOpen}
+                setOpen={setIsTransactionDatePickerOpen}
+                onSelect={field.onChange}
+                label="Дата"
+              />
+            )}
+          />
+
+          <Controller
             name='comment'
-            title='Комментарий'
-            placeholder='Дополнительная информация...'
+            control={control}
+            render={({ field }) => (
+              <div>
+                <Label>Комментарий</Label>
+                <Textarea
+                  onChange={field.onChange}
+                  value={field.value!}
+                  placeholder='Дополнительная информация...'
+                />
+              </div>
+            )}
           />
 
           <DialogClose

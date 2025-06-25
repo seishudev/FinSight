@@ -63,10 +63,12 @@ export const Analytics = () => {
           values={[
             {
               name: 'Расходы',
+              type: "column",
               data: [1534, 435, 3453, 34535]
             },
             {
               name: 'Доходы',
+              type: "column",
               data: [1000, 500]
             }
           ]}
