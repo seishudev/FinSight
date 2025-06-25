@@ -24,6 +24,7 @@ export const CategoriesList = (props: CategoriesListProps) => {
             name={categery.name}
             icon={categery.icon}
             id={categery.id}
+            categoryType={categery.type}
           />
         ))}
       </div>
