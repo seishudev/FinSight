@@ -20,7 +20,9 @@ import org.springframework.context.annotation.Configuration;
                 @Tag(name = "Authentication", description = "Эндпоинты для регистрации, входа и управления токенами"),
                 @Tag(name = "Categories", description = "Управление пользовательскими категориями"),
                 @Tag(name = "Transactions", description = "Управление транзакциями пользователя (доходы/расходы)"),
-                @Tag(name = "Analytics", description = "Аналитика по финансам пользователя")
+                @Tag(name = "Analytics", description = "Аналитика по финансам пользователя"),
+                @Tag(name = "Budgets", description = "Управление бюджетами и лимитами по категориям расходов"),
+                @Tag(name = "AI Assistant", description = "Взаимодействие с AI-помощником")
         }
 )
 @SecuritySchemes({

@@ -3,6 +3,7 @@ package com.halcyon.backend.repository;
 import com.halcyon.backend.dto.analytics.DailyTrendProjection;
 import com.halcyon.backend.dto.analytics.TransactionSummaryProjection;
 import com.halcyon.backend.dto.analytics.TypedCategoryAnalyticsProjection;
+import com.halcyon.backend.model.Category;
 import com.halcyon.backend.model.Transaction;
 import com.halcyon.backend.model.User;
 import com.halcyon.backend.model.support.TransactionType;
@@ -13,6 +14,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -66,6 +68,19 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
             "ORDER BY t.date ASC")
     List<DailyTrendProjection> findDailyTrendStatsByDateRange(
             @Param("user") User user,
+            @Param("startDate") LocalDate startDate,
+            @Param("endDate") LocalDate endDate
+    );
+
+    @Query("SELECT COALESCE(SUM(t.amount), 0) " +
+            "FROM Transaction t " +
+            "WHERE t.user = :user " +
+            "AND t.category = :category " +
+            "AND t.type = com.halcyon.backend.model.support.TransactionType.EXPENSE " +
+            "AND t.date BETWEEN :startDate AND :endDate")
+    BigDecimal findTotalExpensesForCategoryInPeriod(
+            @Param("user") User user,
+            @Param("category") Category category,
             @Param("startDate") LocalDate startDate,
             @Param("endDate") LocalDate endDate
     );

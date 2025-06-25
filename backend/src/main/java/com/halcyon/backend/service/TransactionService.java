@@ -38,7 +38,7 @@ public class TransactionService {
         transaction.setCategory(category);
 
         transaction = transactionRepository.save(transaction);
-        return transactionMapper.toResponse(transaction, transaction.getCategory());
+        return transactionMapper.toResponse(transaction);
     }
 
     private void isValidCategory(TransactionType transactionType, Category category) {
@@ -54,7 +54,7 @@ public class TransactionService {
 
         doesUserHavePermission(transaction, user);
 
-        return transactionMapper.toResponse(transaction, transaction.getCategory());
+        return transactionMapper.toResponse(transaction);
     }
 
     private Transaction findById(Long transactionId) {
@@ -73,8 +73,7 @@ public class TransactionService {
         User user = userService.getCurrentUser();
         Page<Transaction> transactions = transactionRepository.findUserTransactions(user, type, categoryId, pageable);
 
-        return transactions.map(transaction ->
-                transactionMapper.toResponse(transaction, transaction.getCategory()));
+        return transactions.map(transactionMapper::toResponse);
     }
 
     @Transactional
@@ -95,7 +94,7 @@ public class TransactionService {
         }
 
         transaction = transactionRepository.save(transaction);
-        return transactionMapper.toResponse(transaction, transaction.getCategory());
+        return transactionMapper.toResponse(transaction);
     }
 
     @Transactional

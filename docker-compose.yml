@@ -20,6 +20,8 @@ services:
     restart: on-failure
     ports:
       - "8080:8080"
+    env_file:
+      - backend/.env
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     networks:
