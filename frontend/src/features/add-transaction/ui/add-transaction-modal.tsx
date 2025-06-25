@@ -6,21 +6,12 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { FormField } from '@/shared/ui/custom';
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger
 } from '@/shared/ui/dialog';
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue
-} from '@/shared/ui/select';
+import { Select } from '@/shared/ui/custom';
 import {
   // transactionsApiStore,
   transactionsInteractionsStore,
@@ -28,15 +19,11 @@ import {
 } from '@/shared/stores/transactions';
 import { transactionTabs } from '@/shared/constants/transaction-tabs';
 import { Button } from '@/shared/ui/button';
-import { Tabs } from '@entities/tabs';
-import {
-  transactionSchema,
-  type TransactionBody
-} from '../lib/transaction-schema';
-import s from './add-transaction-modal.module.scss';
 import { DatePicker } from '@/shared/ui/custom/DatePicker';
 import { Textarea } from '@/shared/ui/textarea';
-import { Label } from '@/shared/ui/label';
+import { Tabs } from '@entities/tabs';
+import { transactionSchema, type TransactionBody } from '../lib/transaction-schema';
+import s from './add-transaction-modal.module.scss';
 
 export const AddTransactionModal = observer(() => {
   // const { createTransactionAction } = transactionsApiStore;
@@ -54,7 +41,7 @@ export const AddTransactionModal = observer(() => {
     handleSubmit,
     formState: { errors }
   } = useForm<TransactionBody>({
-    resolver: zodResolver(transactionSchema)
+    resolver: zodResolver(transactionSchema),
   });
 
   return (
@@ -66,7 +53,7 @@ export const AddTransactionModal = observer(() => {
         </Button>
       </DialogTrigger>
 
-      <DialogContent>
+      <DialogContent className="max-w-[446px]">
         <DialogHeader>
           <DialogTitle className={s.title}>Новая транзакция</DialogTitle>
         </DialogHeader>
@@ -95,27 +82,17 @@ export const AddTransactionModal = observer(() => {
           />
 
           <Controller
-            name='category'
+            name='categoryId'
             control={control}
             render={({ field }) => (
-              <div>
-                <Label>Категория *</Label>
-                <Select onValueChange={field.onChange} value={field.value}>
-                  <SelectTrigger>
-                    <SelectValue placeholder='Выберите категорию' />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectLabel>Выберите категорию</SelectLabel>
-                      <SelectItem value='apple'>Apple</SelectItem>
-                      <SelectItem value='banana'>Banana</SelectItem>
-                      <SelectItem value='blueberry'>Blueberry</SelectItem>
-                      <SelectItem value='grapes'>Grapes</SelectItem>
-                      <SelectItem value='pineapple'>Pineapple</SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-              </div>
+              <Select
+                values={[{ label:"dfdg", value: "fdg" }]}
+                label='Категория *'
+                onValueChange={field.onChange}
+                selectPlaceholder='Выберите категорию'
+                triggerPlaceholder='Выберите категорию'
+                value={field.value}
+              />
             )}
           />
 
@@ -128,7 +105,7 @@ export const AddTransactionModal = observer(() => {
                 open={isTransactionDatePickerOpen}
                 setOpen={setIsTransactionDatePickerOpen}
                 onSelect={field.onChange}
-                label="Дата"
+                label='Дата'
               />
             )}
           />
@@ -137,23 +114,22 @@ export const AddTransactionModal = observer(() => {
             name='comment'
             control={control}
             render={({ field }) => (
-              <div>
-                <Label>Комментарий</Label>
-                <Textarea
-                  onChange={field.onChange}
-                  value={field.value!}
-                  placeholder='Дополнительная информация...'
-                />
-              </div>
+              <Textarea
+                onChange={field.onChange}
+                value={field.value!}
+                maxLength={128}
+                placeholder='Дополнительная информация...'
+                label='Комментарий'
+              />
             )}
           />
 
-          <DialogClose
+          <button
             type='submit'
             className={`${s.close} ${transactionType == 'income' ? s.income : s.expense}`}
           >
             Добавить {transactionType == 'income' ? 'доход' : 'расход'}
-          </DialogClose>
+          </button>
         </form>
       </DialogContent>
     </Dialog>
