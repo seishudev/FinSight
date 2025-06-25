@@ -1,22 +1,27 @@
-import * as React from "react"
+import * as React from 'react';
 
-import { cn } from "@/shared/utils/tw-merge"
+import { cn } from '@/shared/utils/tw-merge';
+import { Label } from './label'
 
 const Textarea = React.forwardRef<
   HTMLTextAreaElement,
-  React.ComponentProps<"textarea">
->(({ className, ...props }, ref) => {
+  React.ComponentProps<'textarea'> & { label?: string }
+>(({ className, label, ...props }, ref) => {
   return (
-    <textarea
-      className={cn(
-        "flex min-h-[60px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-base shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
-        className
-      )}
-      ref={ref}
-      {...props}
-    />
-  )
-})
-Textarea.displayName = "Textarea"
+    <div>
+      {label && <Label className="text-white">{label}</Label>}
+      <textarea
+        className={cn(
+          'flex border resize-none border-white/10 h-24 w-full bg-white/5 rounded-xl px-3 py-2 text-base shadow-sm placeholder:text-muted-foreground text-white focus-visible:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm',
+          label && "mt-2",
+          className,
+        )}
+        ref={ref}
+        {...props}
+      />
+    </div>
+  );
+});
+Textarea.displayName = 'Textarea';
 
-export { Textarea }
+export { Textarea };

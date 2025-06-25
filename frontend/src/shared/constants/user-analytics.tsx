@@ -1,24 +1,5 @@
 import { Calendar, DollarSign, TrendingDown, TrendingUp } from 'lucide-react'
 
-export const userAnalytics = [
-   {
-      amount: 0,
-      type: "balance",
-   },
-   {
-      amount: 0,
-      type: "income",
-   },
-   {
-      amount: 0,
-      type: "expense",
-   },
-   {
-      amount: 0,
-      type: "transactions",
-   },
-] as const;
-
 export const analyticsPresets = {
    balance: {
       icon: <DollarSign size={20} color="#4ade80" />,

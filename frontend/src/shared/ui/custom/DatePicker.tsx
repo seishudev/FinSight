@@ -31,7 +31,7 @@ export const DatePicker = ({
         <PopoverTrigger asChild>
           <Button
             className={cn(
-              'w-full py-2 text-left bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 hover:bg-white/5 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 text-sm lg:text-base block',
+              'w-full py-[22px] text-left bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 hover:bg-white/5 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 text-sm lg:text-base flex justify-start',
               label && 'mt-2'
             )}
           >

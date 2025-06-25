@@ -3,7 +3,7 @@ import type { IPromiseBasedObservable } from 'mobx-utils';
 
 import type { TransactionBody } from '@/features/add-transaction';
 import type { Transaction } from '@/shared/model/Transaction';
-import { createTransaction } from '@/pages/analytics/api/create-transaction';
+import { createTransaction } from '@/pages/analytics';
 
 class TransactionsApiStore {
   constructor() { makeAutoObservable(this) }
