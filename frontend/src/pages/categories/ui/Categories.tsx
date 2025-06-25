@@ -1,9 +1,27 @@
+import { categoriesApiStore } from '@/shared/stores/categories';
+import type { Category } from '@/shared/stores/categories/interactions/types';
 import { CategoriesList } from '@/widgets/categories-list';
 import { Tag } from 'lucide-react';
+import { observer } from 'mobx-react-lite';
+import { useEffect } from 'react';
 import { CategoryDialog } from '../../../features/add-category/ui/CategoryDialog';
 import s from './Categories.module.scss';
 
-export const Categories = () => {
+export const Categories = observer(() => {
+  const { categoriesExpense, categoriesIncome, getCategoriesByTypeAction } =
+    categoriesApiStore;
+
+  useEffect(() => {
+    getCategoriesByTypeAction('expense');
+    getCategoriesByTypeAction('income');
+  }, [getCategoriesByTypeAction]);
+
+  const expenseData: Category[] | null =
+    categoriesExpense?.state === 'fulfilled' ? categoriesExpense.value : null;
+
+  const incomeData: Category[] | null =
+    categoriesIncome?.state === 'fulfilled' ? categoriesIncome.value : null;
+
   return (
     <div className={s.container}>
       <section className={s.introduction}>
@@ -19,8 +37,16 @@ export const Categories = () => {
         <CategoryDialog />
       </section>
 
-      <CategoriesList title='Категории расходов' icon='📉' />
-      <CategoriesList title='Категории доходов' icon='📈' />
+      <CategoriesList
+        title='Категории расходов'
+        icon='📉'
+        categories={expenseData}
+      />
+      <CategoriesList
+        title='Категории доходов'
+        icon='📈'
+        categories={incomeData}
+      />
     </div>
   );
-};
+});

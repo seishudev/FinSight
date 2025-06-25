@@ -1,7 +1,9 @@
 import { makeAutoObservable } from 'mobx';
 
 class TransactionsApiStore {
-  constructor() { makeAutoObservable(this) }
+  constructor() {
+    makeAutoObservable(this);
+  }
 }
 
 export const transactionsApiStore = new TransactionsApiStore();
