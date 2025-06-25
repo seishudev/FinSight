@@ -48,6 +48,7 @@ dependencies {
     implementation("org.bouncycastle:bcprov-jdk15on:1.70")
 
     implementation("com.vdurmont:emoji-java:5.1.1")
+    implementation("net.sourceforge.tess4j:tess4j:5.11.0")
 
     runtimeOnly("org.postgresql:postgresql")
     implementation("org.flywaydb:flyway-core")
