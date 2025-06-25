@@ -42,10 +42,10 @@
     @apply bg-gray-800 rounded-lg shadow-2xl overflow-hidden max-w-sm w-full;
   }
 
-  @apply md:absolute md:inset-auto md:mt-2 md:bg-transparent md:backdrop-blur-none md:p-0 md:z-10;
+  @apply lg:absolute lg:inset-auto lg:mt-2 lg:bg-transparent lg:backdrop-blur-none lg:p-0 lg:z-10;
   & > div {
-    @apply md:bg-gray-800 md:rounded-lg md:shadow-xl md:border md:border-gray-700;
+    @apply lg:bg-gray-800 lg:rounded-lg lg:shadow-xl lg:border lg:border-gray-700;
   }
 
-  @apply md:left-0;
+  @apply lg:left-0;
 }
