@@ -4,7 +4,7 @@ export const categorySchema = z.object({
   title: z.string().nonempty({
     message: 'Чтобы создать категорию, вы должны ввести название'
   }),
-  emoji: z.string().optional()
+  emoji: z.string()
 });
 
 export type CategoryBody = z.infer<typeof categorySchema>;
