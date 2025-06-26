@@ -133,7 +133,7 @@ export const EditCategory = observer((props: EditCategoryProps) => {
   }, [showEmojiPicker]);
 
   return (
-    <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+    <Dialog open={isModalOpen} onOpenChange={handleDialogVisibilityChange}>
       <DialogTrigger asChild>
         <button className={s.edit}>
           <Edit2 size={14} className='text-gray-400' />
@@ -149,9 +149,10 @@ export const EditCategory = observer((props: EditCategoryProps) => {
 
         <Tabs
           tabs={categoryTabs}
+          defaultValue={storeCategoryType}
           tabClassName={s.tab}
           tabsClassName={s.tabs}
-          onTabChange={v => setCategoryType(v as CategoryType)}
+          onTabChange={v => setStoreCategoryType(v as CategoryType)}
         ></Tabs>
 
         <form onSubmit={handleSubmit(onSubmit)}>
