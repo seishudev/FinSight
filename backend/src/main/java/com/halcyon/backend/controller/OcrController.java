@@ -1,6 +1,5 @@
 package com.halcyon.backend.controller;
 
-import com.halcyon.backend.dto.SuccessResponse;
 import com.halcyon.backend.dto.receipt.ParsedTransactionResponse;
 import com.halcyon.backend.exception.handler.ErrorDetailsResponse;
 import com.halcyon.backend.service.OcrService;
@@ -13,7 +12,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,7 +32,7 @@ public class OcrController {
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Чек успешно обработан",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = SuccessResponse.class))),
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ParsedTransactionResponse.class))),
             @ApiResponse(responseCode = "400", description = "Неправильный формат файла",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDetailsResponse.class))),
     })
