@@ -135,7 +135,7 @@ export const EditCategory = observer((props: EditCategoryProps) => {
                   onClick={() => setShowEmojiPicker(!showEmojiPicker)}
                   className={s.emojiButton}
                 >
-                  Добавить иконку
+                  Изменить иконку
                 </Button>
                 {showEmojiPicker && (
                   <div ref={emojiPickerRef} className={s.emojiPickerWrapper}>
