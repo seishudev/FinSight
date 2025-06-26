@@ -45,3 +45,14 @@ CREATE TABLE IF NOT EXISTS budgets(
     CONSTRAINT fk_budgets_on_user FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
     CONSTRAINT fk_budgets_on_category FOREIGN KEY (category_id) REFERENCES categories (id) ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS ai_chat_messages(
+    id          BIGSERIAL    PRIMARY KEY,
+    role        VARCHAR(20)  NOT NULL,
+    content     TEXT         NOT NULL,
+    user_id     BIGINT       NOT NULL,
+    created_at  TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_ai_chat_messages_on_user FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
+    CONSTRAINT check_ai_chat_role CHECK (role IN ('USER', 'ASSISTANT'))
+);

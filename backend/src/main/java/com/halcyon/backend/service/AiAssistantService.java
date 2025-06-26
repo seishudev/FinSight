@@ -2,26 +2,36 @@ package com.halcyon.backend.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.halcyon.backend.dto.ai.AiChatResponse;
 import com.halcyon.backend.dto.ai.DataRequestAction;
+import com.halcyon.backend.mapper.AiChatMessageMapper;
+import com.halcyon.backend.model.AiChatMessage;
+import com.halcyon.backend.model.User;
+import com.halcyon.backend.model.support.MessageRole;
+import com.halcyon.backend.repository.AiChatMessageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.ai.chat.messages.SystemMessage;
-import org.springframework.ai.chat.messages.UserMessage;
+import org.springframework.ai.chat.messages.*;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class AiAssistantService {
 
+    private final AiChatMessageRepository aiChatMessageRepository;
     private final ChatClient chatClient;
     private final TransactionService transactionService;
     private final CategoryService categoryService;
     private final BudgetService budgetService;
+    private final UserService userService;
     private final ObjectMapper objectMapper;
+    private final AiChatMessageMapper aiChatMessageMapper;
 
     private static final String SYSTEM_PROMPT = """
             Ты — дружелюбный и умный финансовый ассистент в приложении для учета финансов. Твоя главная задача — помогать пользователям анализировать их расходы и доходы.
@@ -47,21 +57,30 @@ public class AiAssistantService {
             5.  **Тон:** Будь вежливым, позитивным и поддерживающим.
             """;
 
-    public String getChatResponse(String userMessage) {
-        Prompt firstPrompt = createPrompt(userMessage);
-        String firstResponse = chatClient.prompt(firstPrompt).call().content();
+    public AiChatResponse getChatResponse(String userMessage) {
+        User user = userService.getCurrentUser();
+        saveMessage(user, MessageRole.USER, userMessage);
+
+        List<AiChatMessage> history = aiChatMessageRepository.findByUserOrderByCreatedAtAsc(user);
+
+        Prompt firstPrompt = createPromptWithHistory(history);
+        String assistantResponseContent = chatClient.prompt(firstPrompt).call().content();
 
         try {
-            DataRequestAction action = objectMapper.readValue(firstResponse, DataRequestAction.class);
+            DataRequestAction action = objectMapper.readValue(assistantResponseContent, DataRequestAction.class);
 
             if ("request_data".equals(action.getAction())) {
-                return handleDataRequest(action, userMessage);
+                String secondResponseContent = handleDataRequest(action, userMessage);
+                AiChatMessage message = saveMessage(user, MessageRole.ASSISTANT, secondResponseContent);
+                return aiChatMessageMapper.toResponse(message);
             }
         } catch (JsonProcessingException e) {
-            return firstResponse;
+            AiChatMessage message = saveMessage(user, MessageRole.ASSISTANT, assistantResponseContent);
+            return aiChatMessageMapper.toResponse(message);
         }
 
-        return firstResponse;
+        AiChatMessage message = saveMessage(user, MessageRole.ASSISTANT, assistantResponseContent);
+        return aiChatMessageMapper.toResponse(message);
     }
 
     private Prompt createPrompt(String userMessage) {
@@ -69,6 +88,30 @@ public class AiAssistantService {
         var message = new UserMessage(userMessage);
 
         return new Prompt(List.of(systemMessage, message));
+    }
+
+    private AiChatMessage saveMessage(User user, MessageRole role, String content) {
+        var message = new AiChatMessage();
+        message.setUser(user);
+        message.setRole(role);
+        message.setContent(content);
+
+        return aiChatMessageRepository.save(message);
+    }
+
+    private Prompt createPromptWithHistory(List<AiChatMessage> history) {
+        List<Message> messages = new ArrayList<>();
+        messages.add(new SystemMessage(SYSTEM_PROMPT));
+
+        for (AiChatMessage chatMessage : history) {
+            if (chatMessage.getRole() == MessageRole.USER) {
+                messages.add(new UserMessage(chatMessage.getContent()));
+            } else if (chatMessage.getRole() == MessageRole.ASSISTANT) {
+                messages.add(new AssistantMessage(chatMessage.getContent()));
+            }
+        }
+
+        return new Prompt(messages);
     }
 
     private String handleDataRequest(DataRequestAction action, String originalUserMessage) {
@@ -82,6 +125,7 @@ public class AiAssistantService {
                 "Вот данные в формате JSON, которые ты просил для анализа вопроса пользователя: '%s'.\n\nДанные:\n%s\n\nТеперь, пожалуйста, ответь на первоначальный вопрос пользователя, основываясь на этих данных.",
                 originalUserMessage, dataAsJson
         );
+
         Prompt secondPrompt = createPrompt(secondUserMessage);
         return chatClient.prompt(secondPrompt).call().content();
     }
@@ -104,5 +148,14 @@ public class AiAssistantService {
             e.printStackTrace();
             return "{\"error\": \"Не удалось сериализовать данные\"}";
         }
+    }
+
+    @Transactional(readOnly = true)
+    public List<AiChatResponse> getChatHistory() {
+        User user = userService.getCurrentUser();
+        return aiChatMessageRepository.findByUserOrderByCreatedAtAsc(user)
+                .stream()
+                .map(aiChatMessageMapper::toResponse)
+                .toList();
     }
 }

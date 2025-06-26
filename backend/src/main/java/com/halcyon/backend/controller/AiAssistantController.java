@@ -4,6 +4,7 @@ import com.halcyon.backend.dto.ai.AiChatRequest;
 import com.halcyon.backend.dto.ai.AiChatResponse;
 import com.halcyon.backend.service.AiAssistantService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -13,10 +14,9 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/ai")
@@ -36,7 +36,20 @@ public class AiAssistantController {
     })
     @PostMapping("/chat")
     public ResponseEntity<AiChatResponse> chatWithAssistant(@RequestBody @Valid AiChatRequest aiChatRequest) {
-        String response = aiAssistantService.getChatResponse(aiChatRequest.getMessage());
-        return ResponseEntity.ok(new AiChatResponse(response));
+        AiChatResponse response = aiAssistantService.getChatResponse(aiChatRequest.getMessage());
+        return ResponseEntity.ok(response);
+    }
+
+    @Operation(summary = "Получить историю чата",
+            description = "Возвращает историю сообщений AI-помощника для текущего пользователя.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "История чата успешно получена",
+                    content = @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = AiChatResponse.class))))
+    })
+    @GetMapping("/chat/history")
+    public ResponseEntity<List<AiChatResponse>> getChatHistory() {
+        List<AiChatResponse> chatHistory = aiAssistantService.getChatHistory();
+        return ResponseEntity.ok(chatHistory);
     }
 }
