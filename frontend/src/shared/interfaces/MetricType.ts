@@ -1,3 +1,3 @@
-import { userMetric } from '../constants/user-metric';
+import type { AnalyticsType } from './AnalyticsType';
 
-export type MetricType = typeof userMetric[number]['type']
+export type MetricType = Exclude<AnalyticsType, 'transactions'>;

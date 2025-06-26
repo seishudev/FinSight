@@ -5,21 +5,17 @@ import { ExpenseWrapper } from '@/widgets/expense-wrapper';
 import s from './metric.module.scss';
 
 interface MetricProps {
-  emoji: string;
-  title: string;
   amount: number;
   type: MetricType;
   className?: string;
 }
 
 export const Metric = ({
-  emoji,
-  title,
   amount,
   type,
   className,
 }: MetricProps) => {
-    const { gradient, color, icon } = metricPresets[type];
+    const { icon, emoji, title, gradient, color } = metricPresets[type];
 
   return (
     <ExpenseWrapper className={cn("hover-card", className)}>
