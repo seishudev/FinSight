@@ -1,13 +1,13 @@
-import { nanoid } from 'nanoid';
 import { PieChart, TrendingDown, TrendingUp } from 'lucide-react';
+import { nanoid } from 'nanoid';
 
-import { userAnalytics } from '@/shared/constants/user-analytics';
-import { UserAnalytics } from '@/entities/user-analytics';
-import { PageTitle } from '@/entities/page-title';
 import { AnalyticsPieChart } from '@/entities/analytics-pie-chart';
+import { PageTitle } from '@/entities/page-title';
+import { UserAnalytics } from '@/entities/user-analytics';
+import { analyticsPresets } from '@/shared/constants/user-analytics';
+import { ColumnChart } from '@/shared/ui/custom/ColumnChart';
 import { ExpenseWrapper } from '@/widgets/expense-wrapper';
 import s from './analytics.module.scss';
-import { ColumnChart } from '@/shared/ui/custom/ColumnChart';
 
 export const Analytics = () => {
   return (
@@ -23,7 +23,7 @@ export const Analytics = () => {
       />
 
       <div className={s.analytics}>
-        {userAnalytics.map(analytics => (
+        {analyticsPresets.map(analytics => (
           <UserAnalytics key={nanoid(4)} {...analytics} />
         ))}
       </div>
@@ -63,12 +63,12 @@ export const Analytics = () => {
           values={[
             {
               name: 'Расходы',
-              type: "column",
+              type: 'column',
               data: [1534, 435, 3453, 34535]
             },
             {
               name: 'Доходы',
-              type: "column",
+              type: 'column',
               data: [1000, 500]
             }
           ]}
