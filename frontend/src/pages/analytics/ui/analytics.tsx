@@ -1,15 +1,21 @@
-import { PieChart, TrendingDown, TrendingUp } from 'lucide-react';
+import { useEffect } from 'react';
 import { nanoid } from 'nanoid';
+import { PieChart, TrendingDown, TrendingUp } from 'lucide-react';
+import { observer } from 'mobx-react-lite';
 
-import { AnalyticsPieChart } from '@/entities/analytics-pie-chart';
-import { PageTitle } from '@/entities/page-title';
+import { analyticsApiStore } from '@/shared/stores/analytics';
 import { UserAnalytics } from '@/entities/user-analytics';
-import { analyticsPresets } from '@/shared/constants/user-analytics';
-import { ColumnChart } from '@/shared/ui/custom/ColumnChart';
+import { PageTitle } from '@/entities/page-title';
+import { AnalyticsPieChart } from '@/entities/analytics-pie-chart';
 import { ExpenseWrapper } from '@/widgets/expense-wrapper';
+import { ColumnChart } from '@/shared/ui/custom/ColumnChart';
 import s from './analytics.module.scss';
 
-export const Analytics = () => {
+export const Analytics = observer(() => {
+  const { getUserSummaryAnalyticsAction, summaryAnalytics } = analyticsApiStore;
+
+  useEffect(() => { getUserSummaryAnalyticsAction() }, []);
+
   return (
     <div className={s.container}>
       <PageTitle
@@ -23,9 +29,11 @@ export const Analytics = () => {
       />
 
       <div className={s.analytics}>
-        {analyticsPresets.map(analytics => (
+        {summaryAnalytics?.state === 'fulfilled' && (
+          summaryAnalytics.value.map(analytics => (
           <UserAnalytics key={nanoid(4)} {...analytics} />
-        ))}
+        ))
+        )}
       </div>
 
       <div className={s.structures}>
@@ -76,4 +84,4 @@ export const Analytics = () => {
       </ExpenseWrapper>
     </div>
   );
-};
+});
