@@ -207,7 +207,7 @@ export const EditCategory = observer((props: EditCategoryProps) => {
           <DialogFooter>
             <Button
               type='submit'
-              className={`${s.close} ${categoryType === 'income' ? s.income : s.expense}`}
+              className={`${s.close} ${storeCategoryType === 'income' ? s.income : s.expense}`}
             >
               Изменить категорию
             </Button>
