@@ -40,8 +40,9 @@ interface EditCategoryProps {
 export const EditCategory = observer((props: EditCategoryProps) => {
   const { id, name, icon, initialCategoryType } = props;
 
-  const { categoryType = initialCategoryType, setCategoryType } =
-    categoriesInteractionsStore;
+  const storeCategoryType = categoriesInteractionsStore.categoryType;
+  const setStoreCategoryType = categoriesInteractionsStore.setCategoryType;
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const emojiPickerRef = useRef<HTMLDivElement>(null);
@@ -61,6 +62,30 @@ export const EditCategory = observer((props: EditCategoryProps) => {
     }
   });
 
+  useEffect(() => {
+    if (isModalOpen) {
+      setStoreCategoryType(initialCategoryType);
+      reset({
+        title: name,
+        emoji: icon
+      });
+    }
+  }, [
+    isModalOpen,
+    initialCategoryType,
+    name,
+    icon,
+    setStoreCategoryType,
+    reset
+  ]);
+
+  const handleDialogVisibilityChange = (open: boolean) => {
+    setIsModalOpen(open);
+    if (!open) {
+      setShowEmojiPicker(false);
+    }
+  };
+
   const currentEmoji = watch('emoji');
 
   const onEmojiClick = (data: EmojiClickData) => {
@@ -69,9 +94,23 @@ export const EditCategory = observer((props: EditCategoryProps) => {
   };
 
   const onSubmit = (data: CategoryBody) => {
-    editCategoryApi(id, data.title, data.emoji, categoryType)
-      .then(() => categoriesApiStore.getCategoriesByTypeAction(categoryType))
-      .catch(err => console.error(err));
+    const currentSelectedTypeInModal = categoriesInteractionsStore.categoryType;
+
+    editCategoryApi(id, data.title, data.emoji, currentSelectedTypeInModal)
+      .then(() => {
+        categoriesApiStore.getCategoriesByTypeAction(
+          currentSelectedTypeInModal
+        );
+
+        if (initialCategoryType !== currentSelectedTypeInModal) {
+          categoriesApiStore.getCategoriesByTypeAction(initialCategoryType);
+        }
+      })
+      .catch(err => console.error(err))
+      .finally(() => {
+        setIsModalOpen(false);
+        setShowEmojiPicker(false);
+      });
 
     setIsModalOpen(false);
     reset();
@@ -79,7 +118,7 @@ export const EditCategory = observer((props: EditCategoryProps) => {
   };
 
   useEffect(() => {
-    function handleClickOutside(e: MouseEvent) {
+    function handleClickOutsideEmojiPicker(e: MouseEvent) {
       if (
         emojiPickerRef.current &&
         !emojiPickerRef.current.contains(e.target as Node)
@@ -87,11 +126,11 @@ export const EditCategory = observer((props: EditCategoryProps) => {
         setShowEmojiPicker(false);
       }
     }
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutsideEmojiPicker);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutsideEmojiPicker);
     };
-  }, [currentEmoji]);
+  }, [showEmojiPicker]);
 
   return (
     <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
