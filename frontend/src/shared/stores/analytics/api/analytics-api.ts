@@ -2,7 +2,7 @@ import { makeAutoObservable } from 'mobx';
 import { fromPromise, type IPromiseBasedObservable } from 'mobx-utils';
 
 import type { UserSummaryAnalytics } from '@/shared/model/UserSummaryAnalytics';
-import { getUserSummary } from '@/pages/analytics/api/get-summary';
+import { getUserSummary } from '@/pages/analytics';
 
 class AnalyticsApiStore {
   constructor() {

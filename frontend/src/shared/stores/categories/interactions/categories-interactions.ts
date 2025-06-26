@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx';
-import type { CategoryType } from './types';
+import type { CategoryType } from '../interactions/types';
 
 class CategoriesInteractions {
   constructor() {

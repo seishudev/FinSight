@@ -1,5 +1,6 @@
 import { api } from '@shared/api';
-import type { Category, CategoryType } from '../interactions/types';
+import type { Category } from '../types';
+import type { CategoryType } from '../interactions/types';
 
 export const getCategoriesByType = async (type: CategoryType) => {
   try {
