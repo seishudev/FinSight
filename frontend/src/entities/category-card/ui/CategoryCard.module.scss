@@ -22,10 +22,6 @@
     border-radius: 8px;
   }
 
-  .edit {
-    @apply p-1.5 mdx:p-2 hover:bg-white/10;
-  }
-
   .delete {
     @apply p-1.5 mdx:p-2 hover:bg-red-500/20;
   }

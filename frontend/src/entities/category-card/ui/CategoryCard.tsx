@@ -1,8 +1,9 @@
+import { EditCategory } from '@/features/edit-category';
 import { categoriesApiStore } from '@/shared/stores/categories';
 import { deleteCategory } from '@/shared/stores/categories/api/delete-category';
 import type { CategoryType } from '@/shared/stores/categories/interactions/types';
 import { cn } from '@shared/utils/tw-merge';
-import { Edit2, Trash2 } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
 import s from './CategoryCard.module.scss';
 
 interface CategoryCardProps {
@@ -32,9 +33,12 @@ export const CategoryCard = (props: CategoryCardProps) => {
         <p>{name}</p>
       </div>
       <div className={cn(s.actions, 'group-hover:opacity-100')}>
-        <button className={s.edit}>
-          <Edit2 size={14} className='text-gray-400' />
-        </button>
+        <EditCategory
+          id={id}
+          name={name}
+          icon={icon}
+          initialCategoryType={categoryType}
+        />
         <button onClick={handleDelete} className={s.delete}>
           <Trash2 size={14} className='text-red-400' />
         </button>

@@ -1,10 +1,10 @@
-import { categoriesApiStore } from '@/shared/stores/categories';
-import type { Category } from '@/shared/stores/categories/interactions/types';
-import { CategoriesList } from '@/widgets/categories-list';
+import { CategoryDialog } from '@features/add-category';
+import { categoriesApiStore } from '@shared/stores/categories';
+import type { Category } from '@shared/stores/categories/interactions/types';
+import { CategoriesList } from '@widgets/categories-list';
 import { Tag } from 'lucide-react';
 import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
-import { CategoryDialog } from '../../../features/add-category/ui/CategoryDialog';
 import s from './Categories.module.scss';
 
 export const Categories = observer(() => {
@@ -12,8 +12,8 @@ export const Categories = observer(() => {
     categoriesApiStore;
 
   useEffect(() => {
-    getCategoriesByTypeAction('expense');
-    getCategoriesByTypeAction('income');
+    //   getCategoriesByTypeAction('expense');
+    //   getCategoriesByTypeAction('income');
   }, [getCategoriesByTypeAction]);
 
   const expenseData: Category[] | null =

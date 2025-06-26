@@ -1,4 +1,4 @@
-import { createNewCategory } from '@/shared/stores/categories/api/create-new-category';
+import { editCategoryApi } from '@/shared/stores/categories/api/edit-category-api';
 import { Tabs } from '@entities/tabs';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { DialogTitle } from '@radix-ui/react-dialog';
@@ -23,18 +23,25 @@ import EmojiPicker, {
   SkinTonePickerLocation,
   type EmojiClickData
 } from 'emoji-picker-react';
-import { Plus, Smile } from 'lucide-react';
+import { Edit2, Smile } from 'lucide-react';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import {
-  categorySchema,
-  type CategoryBody
-} from '../../edit-category/model/categorySchema';
-import s from './CategoryDialog.module.scss';
+import { categorySchema, type CategoryBody } from '../model/categorySchema';
+import s from './EditCategory.module.scss';
 
-export const CategoryDialog = observer(() => {
-  const { categoryType, setCategoryType } = categoriesInteractionsStore;
+interface EditCategoryProps {
+  id: number;
+  name: string;
+  icon: string;
+  initialCategoryType: CategoryType;
+}
+
+export const EditCategory = observer((props: EditCategoryProps) => {
+  const { id, name, icon, initialCategoryType } = props;
+
+  const { categoryType = initialCategoryType, setCategoryType } =
+    categoriesInteractionsStore;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const emojiPickerRef = useRef<HTMLDivElement>(null);
@@ -49,8 +56,8 @@ export const CategoryDialog = observer(() => {
   } = useForm<CategoryBody>({
     resolver: zodResolver(categorySchema),
     defaultValues: {
-      title: '',
-      emoji: '💵'
+      title: name,
+      emoji: icon
     }
   });
 
@@ -62,7 +69,7 @@ export const CategoryDialog = observer(() => {
   };
 
   const onSubmit = (data: CategoryBody) => {
-    createNewCategory(data.title, data.emoji, categoryType)
+    editCategoryApi(id, data.title, data.emoji, categoryType)
       .then(() => categoriesApiStore.getCategoriesByTypeAction(categoryType))
       .catch(err => console.error(err));
 
@@ -89,16 +96,15 @@ export const CategoryDialog = observer(() => {
   return (
     <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
       <DialogTrigger asChild>
-        <Button className={s.btn} onClick={() => setIsModalOpen(true)}>
-          <Plus size={18} />
-          Добавить категорию
-        </Button>
+        <button className={s.edit}>
+          <Edit2 size={14} className='text-gray-400' />
+        </button>
       </DialogTrigger>
 
       <DialogContent className='sm:max-w-[425px] bg-gray-900/95'>
         <DialogHeader className={s.title}>
           <DialogTitle className='text-lg mdx:text-xl font-semibold text-white'>
-            Новая категория
+            Редактирование категории
           </DialogTitle>
         </DialogHeader>
 
