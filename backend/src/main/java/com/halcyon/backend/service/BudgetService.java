@@ -22,6 +22,7 @@ import java.math.RoundingMode;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -125,5 +126,16 @@ public class BudgetService {
     private Budget findById(Long budgetId) {
         return budgetRepository.findById(budgetId)
                 .orElseThrow(() -> new BudgetNotFoundException("Budget with id " + budgetId + " not found."));
+    }
+
+    @Transactional(readOnly = true)
+    public BudgetResponse getMostUsedBudget() {
+        User user = userService.getCurrentUser();
+        List<Budget> budgets = budgetRepository.findAllByUser(user);
+
+        return budgets.stream()
+                .map(this::mapToBudgetResponse)
+                .max(Comparator.comparingDouble(BudgetResponse::getPercentageUsed))
+                .orElseThrow(() -> new BudgetNotFoundException("No budgets found for user " + user.getId()));
     }
 }
