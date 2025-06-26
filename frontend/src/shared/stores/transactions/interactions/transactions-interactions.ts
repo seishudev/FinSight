@@ -12,6 +12,14 @@ class TransactionsInteractionsStore {
   // MOVES
   setTransactionType = (v: TransactionType) => this.transactionType = v;
   setIsTransactionDatePickerOpen = (v: boolean) => this.isTransactionDatePickerOpen = v;
+
+  // PAGINATION
+  transactionsPage = 1;
+  transactionsSize = 15;
+
+  // PAGINATION MOVES
+  setTransactionsPage = (page: number) => this.transactionsPage = page;
+  setTransactionsSize = (size: number) => this.transactionsSize = size;
 }
 
 export const transactionsInteractionsStore = new TransactionsInteractionsStore()

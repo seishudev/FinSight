@@ -1,6 +1,6 @@
 import { CategoryDialog } from '@features/add-category';
 import { categoriesApiStore } from '@shared/stores/categories';
-import type { Category } from '@shared/stores/categories/interactions/types';
+import type { Category } from '@/shared/stores/categories/types';
 import { CategoriesList } from '@widgets/categories-list';
 import { Tag } from 'lucide-react';
 import { observer } from 'mobx-react-lite';

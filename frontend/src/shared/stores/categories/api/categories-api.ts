@@ -1,6 +1,7 @@
 import { makeAutoObservable } from 'mobx';
 import { fromPromise, type IPromiseBasedObservable } from 'mobx-utils';
-import type { Category, CategoryType } from '../interactions/types';
+import type { Category } from '../types';
+import type { CategoryType } from '../interactions/types';
 import { getCategoriesByType } from './get-categories-by-type';
 
 class CategoriesApiStore {

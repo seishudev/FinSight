@@ -1,0 +1,1 @@
+export type BudgetPeriod = "weekly" | "monthly" | "yearly";

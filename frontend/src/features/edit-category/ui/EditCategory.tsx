@@ -7,7 +7,7 @@ import {
   categoriesApiStore,
   categoriesInteractionsStore
 } from '@shared/stores/categories';
-import type { CategoryType } from '@shared/stores/categories/interactions/types';
+import type { CategoryType } from '@/shared/stores/categories/interactions/types';
 import { Button } from '@shared/ui/button';
 import { FormField } from '@shared/ui/custom';
 import {

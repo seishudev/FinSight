@@ -1,4 +1,4 @@
-import type { Category } from '@/shared/stores/categories/interactions/types';
+import type { Category } from '@/shared/stores/categories/types';
 import { CategoryCard } from '@entities/category-card';
 import s from './CategoriesList.module.scss';
 
