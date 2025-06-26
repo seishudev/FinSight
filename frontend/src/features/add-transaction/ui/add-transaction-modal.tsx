@@ -91,6 +91,7 @@ export const AddTransactionModal = observer(() => {
                 onValueChange={field.onChange}
                 selectPlaceholder='Выберите категорию'
                 triggerPlaceholder='Выберите категорию'
+                // @ts-ignore
                 value={field.value}
               />
             )}
