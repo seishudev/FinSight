@@ -27,10 +27,7 @@ import { Plus, Smile } from 'lucide-react';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import {
-  categorySchema,
-  type CategoryBody
-} from '../../edit-category/model/categorySchema';
+import { categorySchema, type CategoryBody } from '../model/categorySchema';
 import s from './CategoryDialog.module.scss';
 
 export const CategoryDialog = observer(() => {
