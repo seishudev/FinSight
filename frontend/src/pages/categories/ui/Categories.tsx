@@ -12,8 +12,8 @@ export const Categories = observer(() => {
     categoriesApiStore;
 
   useEffect(() => {
-    //   getCategoriesByTypeAction('expense');
-    //   getCategoriesByTypeAction('income');
+    getCategoriesByTypeAction('expense');
+    getCategoriesByTypeAction('income');
   }, [getCategoriesByTypeAction]);
 
   const expenseData: Category[] | null =
