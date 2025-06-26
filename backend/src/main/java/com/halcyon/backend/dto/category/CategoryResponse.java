@@ -5,7 +5,7 @@ import com.halcyon.backend.model.support.TransactionType;
 public record CategoryResponse(
     Long id,
     String name,
-    Character icon,
+    String icon,
     TransactionType type
 ) {
 }
