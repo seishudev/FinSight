@@ -169,7 +169,7 @@ export const EditCategory = observer((props: EditCategoryProps) => {
               type='submit'
               className={`${s.close} ${categoryType === 'income' ? s.income : s.expense}`}
             >
-              Добавить категорию
+              Изменить категорию
             </Button>
           </DialogFooter>
         </form>
