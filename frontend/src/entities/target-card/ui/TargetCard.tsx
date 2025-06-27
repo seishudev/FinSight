@@ -1,3 +1,4 @@
+import { getDaysRemaining } from '@shared/utils/remaining-days';
 import { Calendar, Trash2 } from 'lucide-react';
 import s from './TargetCard.module.scss';
 
@@ -7,28 +8,20 @@ interface TargetCardProps {
   date: Date;
   currentAmount: number;
   targetAmount: number;
+  remainingAmount: number;
   percentageUsed: number;
 }
 
 export const TargetCard = (props: TargetCardProps) => {
-  const { icon, title, date, currentAmount, targetAmount, percentageUsed } =
-    props;
-
-  const getDaysRemaining = (targetDate: Date): string => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    const timeDiff = targetDate.getTime() - today.getTime();
-    const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
-
-    if (daysDiff < 0) {
-      return 'Просрочено';
-    } else if (daysDiff === 0) {
-      return 'Сегодня';
-    } else {
-      return `${daysDiff} дн.`;
-    }
-  };
+  const {
+    icon,
+    title,
+    date,
+    currentAmount,
+    targetAmount,
+    remainingAmount,
+    percentageUsed
+  } = props;
 
   return (
     <article className={s.container}>
@@ -62,6 +55,17 @@ export const TargetCard = (props: TargetCardProps) => {
             <Calendar size={12} />
             {getDaysRemaining(date)}
           </span>
+        </div>
+      </div>
+
+      <div className={s.money}>
+        <p>
+          💡 Осталось накопить:{' '}
+          {new Intl.NumberFormat('ru-RU').format(remainingAmount)} ₽
+        </p>
+        <div className={s.actions}>
+          <button>-1.000 ₽</button>
+          <button>+1.000 ₽</button>
         </div>
       </div>
     </article>

@@ -37,7 +37,8 @@ export const Budget = () => {
           title='Новый iPhone'
           date={new Date('2025-06-28')}
           currentAmount={20000}
-          targetAmount={10000}
+          targetAmount={100000}
+          remainingAmount={80000}
           percentageUsed={20}
         />
       </section>

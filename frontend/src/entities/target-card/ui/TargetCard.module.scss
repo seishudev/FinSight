@@ -58,3 +58,20 @@
     @apply flex items-center gap-1 text-gray-400;
   }
 }
+
+.money {
+  @apply flex flex-col gap-1 p-3 bg-purple-500/10 border border-purple-500/20 mt-3;
+  border-radius: 8px;
+
+  p {
+    @apply text-xs lg:text-sm text-purple-300 mb-2;
+  }
+
+  .actions {
+    @apply flex gap-2;
+  }
+
+  button {
+    @apply flex-1 bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 py-2 px-3 rounded-lg transition-colors text-xs mdx:text-sm;
+  }
+}
