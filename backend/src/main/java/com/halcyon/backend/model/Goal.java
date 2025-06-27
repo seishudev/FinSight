@@ -30,9 +30,6 @@ public class Goal {
     @Column(name = "icon", nullable = false)
     private String icon;
 
-    @Column(name = "category", nullable = false)
-    private String category;
-
     @Column(name = "target_amount", nullable = false)
     private BigDecimal targetAmount;
 

@@ -77,20 +77,4 @@ public class BudgetController {
         budgetService.delete(id);
         return ResponseEntity.ok(new SuccessResponse("Budget with id " + id + " has been successfully deleted."));
     }
-
-    @Operation(summary = "Получить самый заполненный бюджет", description = """
-        Возвращает бюджет с наибольшим процентом использования среди всех бюджетов текущего пользователя.
-        Используется для отображения на дашборде или в аналитике.
-        """)
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Самый заполненный бюджет успешно получен",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = BudgetResponse.class))),
-            @ApiResponse(responseCode = "404", description = "У пользователя нет ни одного бюджета",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorDetailsResponse.class)))
-    })
-    @GetMapping("/most-used")
-    public ResponseEntity<BudgetResponse> getMostUsedBudget() {
-        BudgetResponse response = budgetService.getMostUsedBudget();
-        return ResponseEntity.ok(response);
-    }
 }

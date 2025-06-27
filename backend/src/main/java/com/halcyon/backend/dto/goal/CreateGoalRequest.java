@@ -18,10 +18,6 @@ public class CreateGoalRequest {
     @Emoji
     private String icon;
 
-    @NotBlank(message = "Goal category cannot be blank")
-    @Size(min = 2, max = 50, message = "The goal category must contain from 2 to 50 characters.")
-    private String category;
-
     @NotNull(message = "The target amount cannot be empty.")
     @Positive(message = "The target amount must be greater than zero.")
     private BigDecimal targetAmount;

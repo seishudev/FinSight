@@ -2,7 +2,9 @@ package com.halcyon.backend.controller;
 
 import com.halcyon.backend.dto.analytics.AnalyticsSummaryItemResponse;
 import com.halcyon.backend.dto.analytics.CategorizedAnalyticsResponse;
+import com.halcyon.backend.dto.analytics.ProgressiveItemResponse;
 import com.halcyon.backend.dto.analytics.TrendDataPointResponse;
+import com.halcyon.backend.exception.handler.ErrorDetailsResponse;
 import com.halcyon.backend.service.AnalyticsService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -69,6 +71,40 @@ public class AnalyticsController {
     @GetMapping("/trend/last-7-days")
     public ResponseEntity<List<TrendDataPointResponse>> getTrendAnalytics() {
         List<TrendDataPointResponse> response = analyticsService.getIncomeExpenseTrendForLast7Days();
+        return ResponseEntity.ok(response);
+    }
+
+    @Operation(
+            summary = "Получить самый прогрессивный элемент (цель или бюджет)",
+            description = """
+                Анализирует все цели и бюджеты текущего пользователя и возвращает тот элемент,
+                у которого самый высокий процент выполнения на данный момент.
+                
+                Ответ будет содержать поле `type` ("goal" или "budget") и соответствующий
+                вложенный объект с деталями: `goal` или `budget`.
+                """
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Элемент с наибольшим прогрессом успешно найден.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ProgressiveItemResponse.class)
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Не найдено ни одной цели или бюджета у пользователя.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorDetailsResponse.class)
+                    )
+            )
+    })
+    @GetMapping("/most-used")
+    public ResponseEntity<ProgressiveItemResponse> getTopProgressItem() {
+        ProgressiveItemResponse response = analyticsService.getTopProgressItem();
         return ResponseEntity.ok(response);
     }
 }

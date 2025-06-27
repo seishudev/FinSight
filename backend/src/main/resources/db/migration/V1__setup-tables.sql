@@ -61,7 +61,6 @@ CREATE TABLE IF NOT EXISTS goals(
     id             BIGSERIAL      PRIMARY KEY,
     name           VARCHAR(255)   NOT NULL UNIQUE,
     icon           VARCHAR(50)    NOT NULL,
-    category       VARCHAR(255)   NOT NULL,
     target_amount  NUMERIC(19, 4) NOT NULL,
     current_amount NUMERIC(19, 4) NOT NULL DEFAULT 0,
     target_date    DATE           NOT NULL,

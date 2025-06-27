@@ -1,6 +1,9 @@
 package com.halcyon.backend.service;
 
 import com.halcyon.backend.dto.analytics.*;
+import com.halcyon.backend.dto.budget.BudgetResponse;
+import com.halcyon.backend.dto.goal.GoalResponse;
+import com.halcyon.backend.exception.analytics.TopProgressItemNotFoundException;
 import com.halcyon.backend.model.User;
 import com.halcyon.backend.model.support.TransactionType;
 import com.halcyon.backend.repository.TransactionRepository;
@@ -12,9 +15,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -24,6 +25,8 @@ public class AnalyticsService {
 
     private final TransactionRepository transactionRepository;
     private final UserService userService;
+    private final BudgetService budgetService;
+    private final GoalService goalService;
 
     @Transactional(readOnly = true)
     public List<AnalyticsSummaryItemResponse> getSummaryForCurrentMonth() {
@@ -138,7 +141,7 @@ public class AnalyticsService {
                 ));
 
         return IntStream.rangeClosed(0, 6)
-                .mapToObj(i -> startDate.plusDays(i))
+                .mapToObj(startDate::plusDays)
                 .map(date -> {
                     Map<TransactionType, BigDecimal> dailyData =
                             dataByDate.getOrDefault(date, Collections.emptyMap());
@@ -150,5 +153,43 @@ public class AnalyticsService {
                     );
                 })
                 .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public ProgressiveItemResponse getTopProgressItem() {
+        Optional<GoalResponse> topGoalOpt = goalService.getAllForCurrentUser().stream()
+                .max(Comparator.comparing(GoalResponse::getPercentage));
+
+        Optional<BudgetResponse> topBudgetOpt = budgetService.getUserBudgets().stream()
+                .max(Comparator.comparing(BudgetResponse::getPercentageUsed));
+
+        if (topGoalOpt.isEmpty() && topBudgetOpt.isEmpty()) {
+            throw new TopProgressItemNotFoundException("The user has no active goals or budgets.");
+        }
+
+        if (topGoalOpt.isPresent() && topBudgetOpt.isEmpty()) {
+            return buildGoalResponse(topGoalOpt.get());
+        }
+
+        if (topGoalOpt.isEmpty()) {
+            return buildBudgetResponse(topBudgetOpt.get());
+        }
+
+        GoalResponse topGoal = topGoalOpt.get();
+        BudgetResponse topBudget = topBudgetOpt.get();
+
+        if (topGoal.getPercentage() >= topBudget.getPercentageUsed()) {
+            return buildGoalResponse(topGoal);
+        } else {
+            return buildBudgetResponse(topBudget);
+        }
+    }
+
+    private ProgressiveItemResponse buildGoalResponse(GoalResponse goal) {
+        return new ProgressiveItemResponse("goal", goal, null);
+    }
+
+    private ProgressiveItemResponse buildBudgetResponse(BudgetResponse budget) {
+        return new ProgressiveItemResponse("budget", null, budget);
     }
 }

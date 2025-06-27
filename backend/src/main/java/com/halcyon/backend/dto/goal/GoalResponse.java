@@ -12,7 +12,6 @@ public class GoalResponse {
     private Long id;
     private String name;
     private String icon;
-    private String category;
     private BigDecimal targetAmount;
     private BigDecimal currentAmount;
 
