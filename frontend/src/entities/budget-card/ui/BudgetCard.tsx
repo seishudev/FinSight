@@ -1,9 +1,12 @@
+import { budgetsApiStore } from '@/shared/stores/budgets';
+import { deleteBudgetApi } from '@/shared/stores/budgets/api/delete-budget-api';
 import { Trash2 } from 'lucide-react';
 import s from './BudgetCard.module.scss';
 
 export type PeriodType = 'weekly' | 'monthly' | 'yearly';
 
 interface BudgetCardProps {
+  id: number;
   icon: string;
   title: string;
   period: PeriodType;
@@ -15,6 +18,7 @@ interface BudgetCardProps {
 
 export const BudgetCard = (props: BudgetCardProps) => {
   const {
+    id,
     icon,
     title,
     period,
@@ -30,6 +34,15 @@ export const BudgetCard = (props: BudgetCardProps) => {
     yearly: 'Годовой'
   };
 
+  const handleDelete = async () => {
+    try {
+      await deleteBudgetApi(id);
+      budgetsApiStore.getBudgetsAction();
+    } catch (e) {
+      console.error('Failed to delete budget', e);
+    }
+  };
+
   return (
     <article className={s.container}>
       <div className={s.intro}>
@@ -40,7 +53,7 @@ export const BudgetCard = (props: BudgetCardProps) => {
             <p>{periodTextMap[period]} бюджет</p>
           </div>
         </div>
-        <button>
+        <button onClick={handleDelete}>
           <Trash2 size={14} className='text-red-400' />
         </button>
       </div>

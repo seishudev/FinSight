@@ -1,8 +1,12 @@
+import { budgetsApiStore } from '@/shared/stores/budgets';
+import { addFundsApi } from '@/shared/stores/budgets/api/add-funds-api';
+import { deleteTargetApi } from '@/shared/stores/budgets/api/delete-target-api';
 import { getDaysRemaining } from '@shared/utils/remaining-days';
 import { Calendar, Trash2 } from 'lucide-react';
 import s from './TargetCard.module.scss';
 
 interface TargetCardProps {
+  id: number;
   icon: string;
   title: string;
   date: Date;
@@ -14,6 +18,7 @@ interface TargetCardProps {
 
 export const TargetCard = (props: TargetCardProps) => {
   const {
+    id,
     icon,
     title,
     date,
@@ -22,6 +27,24 @@ export const TargetCard = (props: TargetCardProps) => {
     remainingAmount,
     percentageUsed
   } = props;
+
+  const handleDelete = async () => {
+    try {
+      await deleteTargetApi(id);
+      budgetsApiStore.getTargetsAction();
+    } catch (e) {
+      console.error('Failed to delete target', e);
+    }
+  };
+
+  const handleFundAction = async (amount: number) => {
+    try {
+      await addFundsApi(id, amount);
+      budgetsApiStore.getTargetsAction();
+    } catch (e) {
+      console.error('Failed to update target funds', e);
+    }
+  };
 
   return (
     <article className={s.container}>
@@ -32,7 +55,7 @@ export const TargetCard = (props: TargetCardProps) => {
             <h3>{title}</h3>
           </div>
         </div>
-        <button>
+        <button onClick={handleDelete}>
           <Trash2 size={14} className='text-red-400' />
         </button>
       </div>
@@ -64,8 +87,8 @@ export const TargetCard = (props: TargetCardProps) => {
           {new Intl.NumberFormat('ru-RU').format(remainingAmount)} ₽
         </p>
         <div className={s.actions}>
-          <button>-1.000 ₽</button>
-          <button>+1.000 ₽</button>
+          <button onClick={() => handleFundAction(-1000)}>-1.000 ₽</button>
+          <button onClick={() => handleFundAction(1000)}>+1.000 ₽</button>
         </div>
       </div>
     </article>
