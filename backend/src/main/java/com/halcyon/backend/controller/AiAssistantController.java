@@ -52,4 +52,13 @@ public class AiAssistantController {
         List<AiChatResponse> chatHistory = aiAssistantService.getChatHistory();
         return ResponseEntity.ok(chatHistory);
     }
+
+    @Operation(summary = "Получить приветственное сообщение", description = "Генерирует короткое, мотивирующее приветствие для пользователя.")
+    @ApiResponse(responseCode = "200", description = "Сообщение успешно сгенерировано",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = AiChatResponse.class)))
+    @GetMapping("/chat/welcome")
+    public ResponseEntity<AiChatResponse> getWelcomeMessage() {
+        AiChatResponse welcomeMessage = aiAssistantService.getWelcomeMessage();
+        return ResponseEntity.ok(welcomeMessage);
+    }
 }
