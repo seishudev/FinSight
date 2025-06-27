@@ -12,7 +12,7 @@ interface FailedRequest {
 }
 
 export const api = axios.create({
-  baseURL: 'https://finsight.duckdns.org/api/api/v1',
+  baseURL: 'http://localhost:8080/api/v1',
   withCredentials: true
 });
 
