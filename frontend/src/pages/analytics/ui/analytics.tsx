@@ -72,9 +72,13 @@ export const Analytics = observer(() => {
           emptyText='Нет данных о доходах'
           emptyDesc='Чтобы получить аналитику доходов, вам нужно произвести как минимум 1 транзакцию'
           values={
-            incomeCategories?.map(c => ({
+            incomeCategories?.map((c, i) => ({
               name: c.categoryName,
-              y: c.totalAmount
+              y: c.totalAmount,
+              color: {
+                linearGradient: { x1: 0, y1: 0, x2: 1, y2: 1 },
+                stops: getGradient(i, true)
+              }
             })) ?? []
           }
           icon={<TrendingUp size={20} color='#4ade80' />}
@@ -116,9 +120,13 @@ export const Analytics = observer(() => {
           emptyText='Нет данных о расходах'
           emptyDesc='Чтобы получить аналитику расходов, вам нужно произвести как минимум 1 транзакцию'
           values={
-            expenseCategories?.map(c => ({
+            expenseCategories?.map((c, i) => ({
               name: c.categoryName,
-              y: c.totalAmount
+              y: c.totalAmount,
+              color: {
+                linearGradient: { x1: 0, y1: 0, x2: 1, y2: 1 },
+                stops: getGradient(i, true)
+              }
             })) ?? []
           }
           icon={<TrendingDown size={20} color='#f87171' />}
