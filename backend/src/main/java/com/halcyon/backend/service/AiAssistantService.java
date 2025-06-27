@@ -53,6 +53,8 @@ public class AiAssistantService {
               }
             }
             Для `budgets` и `goals` поле `period` можно игнорировать и всегда возвращать `all_time`, если пользователь не указал конкретный период.
+            Если приходит пустой список, то просто ответь что-то наподобие "У вас нет данных по этому запросу.".
+            Отвечай **ТОЛЬКО** по делу, на вопросы, не касающие финансов, говори, что ты не можешь ответить на них.
 
         4.  **Уточнение:** Если запрос пользователя нечеткий (например, "Как мои дела с накоплениями?"), попроси его уточнить, о чем идет речь — о бюджетах или целях.
 
@@ -82,6 +84,7 @@ public class AiAssistantService {
             if ("request_data".equals(action.getAction())) {
                 String secondResponseContent = handleDataRequest(action, userMessage);
                 AiChatMessage message = saveMessage(user, MessageRole.ASSISTANT, secondResponseContent);
+                System.out.println(secondResponseContent);
                 return aiChatMessageMapper.toResponse(message);
             }
         } catch (JsonProcessingException e) {
