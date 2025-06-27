@@ -25,12 +25,12 @@ export const Home = observer(() => {
   const { getUserSummaryAnalyticsAction, summaryAnalytics } = analyticsApiStore;
   const { getMostUsedBudgetAction, mostUsedBudget } = budgetsApiStore;
 
-  // useEffect(() => {
-  //   getUserSummaryAnalyticsAction();
-  //   getMostUsedBudgetAction();
-  //   setTransactionsSize(3);
-  //   getTransactions();
-  // }, []);
+  useEffect(() => {
+    getUserSummaryAnalyticsAction();
+    getMostUsedBudgetAction();
+    setTransactionsSize(3);
+    getTransactions();
+  }, []);
 
   return (
     <div className={s.container}>
