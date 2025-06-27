@@ -1,0 +1,23 @@
+.container {
+  @apply flex items-center justify-between p-3 mdx:p-4 bg-white/5 rounded-xl hover-card;
+
+  .characteristic {
+    @apply flex items-center gap-3;
+
+    .icon {
+      @apply w-4 h-4 rounded-full;
+    }
+
+    .transactionCategory {
+      @apply text-white font-medium text-sm lg:text-base;
+    }
+  }
+
+  .amount {
+    @apply text-right text-white;
+  }
+
+  .percentage {
+    @apply text-gray-400 text-xs max-w-32 overflow-hidden text-ellipsis text-right;
+  }
+}

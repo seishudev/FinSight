@@ -1,0 +1,15 @@
+.trigger {
+  @apply text-gray-400 cursor-pointer text-sm hover:underline text-center select-none;
+}
+
+.modal {
+  @apply bg-gray-900/95;
+
+  .title {
+    @apply text-white;
+  }
+
+  .scrollarea {
+    @apply h-96 [&>div>div]:!flex [&>div>div]:!flex-col [&>div>div]:!gap-4 pr-3;
+  }
+}

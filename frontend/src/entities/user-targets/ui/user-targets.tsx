@@ -9,6 +9,7 @@ export const UserTargets = (props: Budget) => {
   return (
     <ExpenseWrapper
       title='Бюджеты и цели'
+      className={s.wrapper}
       icon={<Target />}
     >
       <div className={s.budget}>

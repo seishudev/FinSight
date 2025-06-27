@@ -1,19 +1,23 @@
-.budget {
-  @apply bg-white/5 rounded-[12px] p-3;
+.wrapper {
+  @apply mdx:w-1/2;
 
-  .name {
-    @apply flex justify-between mb-2;
+  .budget {
+    @apply bg-white/5 rounded-[12px] p-3;
 
-    h3 {
-      @apply text-gray-300;
+    .name {
+      @apply flex justify-between mb-2;
+
+      h3 {
+        @apply text-gray-300;
+      }
+
+      p {
+        @apply text-gray-400;
+      }
     }
 
-    p {
-      @apply text-gray-400;
+    .progress {
+      @apply bg-gray-700 [&>*]:bg-gradient-to-r [&>*]:rounded-full [&>*]:from-amber-500 [&>*]:to-orange-600;
     }
-  }
-
-  .progress {
-    @apply bg-gray-700 [&>*]:bg-gradient-to-r [&>*]:rounded-full [&>*]:from-amber-500 [&>*]:to-orange-600;
   }
 }
