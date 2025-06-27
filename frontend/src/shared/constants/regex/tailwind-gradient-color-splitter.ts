@@ -1,0 +1,1 @@
+export const tailwindGradientColorSplitterRegex = /(?:from|to|bg|text)-([a-z]+)-(\d{3})/;

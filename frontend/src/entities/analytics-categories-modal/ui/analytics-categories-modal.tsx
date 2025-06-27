@@ -22,13 +22,15 @@ export const AnalyticsCategoriesModal = ({
   categories,
   splicedCategoriesCount = 3
 }: AnalyticsCategoriesModalProps) => {
+  const diff = categories.length - splicedCategoriesCount;
+
   return (
     <Dialog>
-      <DialogTrigger>
-        <p className={s.trigger}>
-          И еще {categories.length - splicedCategoriesCount}...
-        </p>
-      </DialogTrigger>
+      {diff > 0 && (
+        <DialogTrigger>
+          <p className={s.trigger}>И еще {diff}...</p>
+        </DialogTrigger>
+      )}
 
       <DialogContent className={s.modal}>
         <DialogHeader>
