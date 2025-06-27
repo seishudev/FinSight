@@ -23,6 +23,10 @@
 
   .actions {
     @apply flex flex-col mdx:flex-row gap-4 mdx:gap-6;
+
+    .emptyUserTargets {
+      @apply mdx:w-1/2;
+    }
   }
 
   .transactions {

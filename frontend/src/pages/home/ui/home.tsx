@@ -58,7 +58,11 @@ export const Home = observer(() => {
         {mostUsedBudget?.state === 'fulfilled' && <UserTargets {...mostUsedBudget.value} />}
 
         {mostUsedBudget?.state === 'rejected' && (
-          <ExpenseWrapper title='Бюджеты и цели' icon={<Target />}>
+          <ExpenseWrapper
+            className={s.emptyUserTargets}
+            title='Бюджеты и цели'
+            icon={<Target />}
+          >
             <Empty
               icon={<Goal />}
               title='Нет бюджетов или целей'

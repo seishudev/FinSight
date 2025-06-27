@@ -1,6 +1,7 @@
-import { cloneElement, type JSX } from 'react';
+import { type JSX } from 'react';
+import type { PointOptionsObject } from 'highcharts';
 
-import { PieChart } from '@/shared/ui/custom';
+import { Empty, PieChart } from '@/shared/ui/custom';
 import { ExpenseWrapper } from '@/widgets/expense-wrapper';
 import s from './analytics-pie-chart.module.scss';
 
@@ -8,8 +9,9 @@ interface AnalyticsPieChartProps {
   title: string;
   icon: JSX.Element;
   emptyText?: string;
+  emptyDesc?: string;
   pieceTitle: string;
-  values: number[];
+  values: PointOptionsObject[];
 }
 
 export const AnalyticsPieChart = ({
@@ -17,20 +19,25 @@ export const AnalyticsPieChart = ({
   icon,
   values,
   pieceTitle,
+  emptyDesc,
   emptyText = 'Нет данных'
 }: AnalyticsPieChartProps) => {
   return (
     <ExpenseWrapper title={title} icon={icon} className={s.wrapper}>
       {values.length == 0 ? (
-        <div className={s.empty}>
-          {cloneElement(icon, { color: '#9ca3af', size: 48 })}
-          <p>{emptyText}</p>
-        </div>
+        <Empty
+          link='/'
+          linkLabel='Создать'
+          icon={icon}
+          className={s.empty}
+          title={emptyText}
+          description={emptyDesc}
+        />
       ) : (
         <div className={s.chart}>
           <PieChart
-            values={values.map(n => ({ name: pieceTitle, y: n }))}
-            pieceLabel={"Рублей"}
+            values={values}
+            pieceLabel={`${pieceTitle} (рублей)`}
             size={300}
           />
         </div>

@@ -14,6 +14,15 @@
    @apply w-full;
 }
 
+.wrapper {
+   @apply flex flex-col gap-4 [&>div]:!mb-0;
+
+   .emptyCategories {
+      @apply mdx:my-12;
+   }
+}
+
+
 .trend {
    @apply mt-6;
 }
