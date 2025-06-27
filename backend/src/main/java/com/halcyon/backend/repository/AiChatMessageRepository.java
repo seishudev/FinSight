@@ -18,4 +18,6 @@ public interface AiChatMessageRepository extends JpaRepository<AiChatMessage, Lo
     @Modifying
     @Query("DELETE FROM AiChatMessage m WHERE m.createdAt < :cutoff")
     void deleteMessagesOlderThan(Instant cutoff);
+
+    void deleteAllByUser(User user);
 }

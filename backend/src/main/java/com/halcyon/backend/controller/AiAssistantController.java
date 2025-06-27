@@ -1,5 +1,6 @@
 package com.halcyon.backend.controller;
 
+import com.halcyon.backend.dto.SuccessResponse;
 import com.halcyon.backend.dto.ai.AiChatRequest;
 import com.halcyon.backend.dto.ai.AiChatResponse;
 import com.halcyon.backend.service.AiAssistantService;
@@ -60,5 +61,17 @@ public class AiAssistantController {
     public ResponseEntity<AiChatResponse> getWelcomeMessage() {
         AiChatResponse welcomeMessage = aiAssistantService.getWelcomeMessage();
         return ResponseEntity.ok(welcomeMessage);
+    }
+
+    @Operation(summary = "Очистить историю чата", description = "Удаляет всю историю сообщений у AI-ассистента.")
+    @ApiResponse(
+            responseCode = "200",
+            description = "История чата успешно очищена",
+            content = @Content(schema = @Schema(implementation = SuccessResponse.class))
+    )
+    @DeleteMapping("/chat/clean")
+    public ResponseEntity<SuccessResponse> clean() {
+        aiAssistantService.cleanHistory();
+        return ResponseEntity.ok(new SuccessResponse("Chat cleaned."));
     }
 }

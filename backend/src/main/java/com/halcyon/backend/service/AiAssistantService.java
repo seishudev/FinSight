@@ -187,4 +187,9 @@ public class AiAssistantService {
 
         return aiChatMessageMapper.toResponse(aiChatMessage);
     }
+
+    @Transactional
+    public void cleanHistory() {
+        aiChatMessageRepository.deleteAllByUser(userService.getCurrentUser());
+    }
 }
