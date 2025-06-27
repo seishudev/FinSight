@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from 'react-router';
 
 import { MainLayout } from '@/layouts/main';
 import { Analytics } from '@pages/analytics';
+import { Budget } from '@pages/budget';
 import { Categories } from '@pages/categories';
 import { Home } from '@pages/home';
 import { Login } from '@pages/login';
@@ -16,7 +17,7 @@ export const AppRouter = () => {
           <Route index element={<Home />} />
           <Route path='analytics' element={<Analytics />} />
           <Route path='categories' element={<Categories />} />
-          <Route path='budget' element={<></>} />
+          <Route path='budget' element={<Budget />} />
         </Route>
         <Route path='login' element={<Login />} />
         <Route path='register' element={<Register />} />

@@ -26,7 +26,7 @@ export const DatePicker = ({
 
   return (
     <div>
-      <Label className='text-white'>{label}</Label>
+      <Label className='text-sm font-medium text-gray-300 mb-2'>{label}</Label>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button

@@ -1,0 +1,7 @@
+.logo {
+  @apply p-2 mdx:p-3 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-xl w-fit text-white;
+}
+
+.introduction {
+  @apply flex flex-col mdx:flex-row justify-between mdx:items-center gap-3 mdx:gap-0;
+}
