@@ -1,3 +1,5 @@
+import { createBudgetApi } from '@/shared/stores/budgets/api/create-budget-api';
+import { createTargetApi } from '@/shared/stores/budgets/api/create-target-api';
 import { categoriesApiStore } from '@/shared/stores/categories';
 import { Tabs } from '@entities/tabs';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -18,7 +20,7 @@ import {
 } from '@shared/ui/dialog';
 import { Plus } from 'lucide-react';
 import { observer } from 'mobx-react-lite';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { type BudgetBody, budgetSchema } from '../model/schema';
 import s from './AddBudget.module.scss';
@@ -40,11 +42,11 @@ export const AddBudget = observer(() => {
     mode: 'onChange'
   });
 
-  // useEffect(() => {
-  //   if (isModalOpen) {
-  //     getCategoriesByType('expense');
-  //   }
-  // }, [isModalOpen, getCategoriesByType]);
+  useEffect(() => {
+    if (isModalOpen) {
+      getCategoriesByTypeAction('expense');
+    }
+  }, [isModalOpen, getCategoriesByTypeAction]);
 
   const handleClose = () => {
     setBudgetType('target');
@@ -59,7 +61,22 @@ export const AddBudget = observer(() => {
         }))
       : [];
 
-  const onSubmit = () => {};
+  const onSubmit = (data: BudgetBody) => {
+    if (budgetType === 'budget') {
+      createBudgetApi(Number(data.budgetId), data.budget!, data.periodId!)
+        .then(() => setIsModalOpen(false))
+        .catch(e => console.error(e));
+    } else {
+      createTargetApi(
+        data.name!,
+        '🎯',
+        data.amount!,
+        new Date(data.date!).toISOString()
+      )
+        .then(() => setIsModalOpen(false))
+        .catch(e => console.error(e));
+    }
+  };
 
   const handleOpenChange = (open: boolean) => {
     if (open) {
@@ -103,7 +120,7 @@ export const AddBudget = observer(() => {
                 render={({ field }) => (
                   <div>
                     <Select
-                      values={[]}
+                      values={categoryOptions}
                       label='Категория'
                       selectPlaceholder='Категория'
                       triggerPlaceholder='Выберите категорию'

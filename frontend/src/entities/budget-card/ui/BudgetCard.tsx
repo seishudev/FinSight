@@ -1,7 +1,7 @@
 import { Trash2 } from 'lucide-react';
 import s from './BudgetCard.module.scss';
 
-type PeriodType = 'weekly' | 'monthly' | 'yearly';
+export type PeriodType = 'weekly' | 'monthly' | 'yearly';
 
 interface BudgetCardProps {
   icon: string;
