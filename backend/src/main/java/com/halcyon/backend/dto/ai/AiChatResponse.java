@@ -18,7 +18,7 @@ public class AiChatResponse {
     @JsonFormat(
             shape = JsonFormat.Shape.STRING,
             pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSX",
-            timezone = "Europe/Moscow"
+            timezone = "UTC"
     )
     private Instant createdAt;
 }
