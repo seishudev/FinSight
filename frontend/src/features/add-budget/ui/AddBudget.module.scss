@@ -27,3 +27,7 @@
     @apply px-4 py-3 text-sm mdx:text-base;
   }
 }
+
+.error {
+  @apply mt-2 inline-block text-xs smx:text-sm text-red-600;
+}

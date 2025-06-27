@@ -42,7 +42,7 @@ export const Select = ({
         >
           <SelectValue placeholder={triggerPlaceholder} />
         </SelectTrigger>
-        <SelectContent className='bg-white/5 backdrop-blur-3xl rounded-xl'>
+        <SelectContent className='bg-gray-900 border border-gray-700 rounded-xl'>
           <SelectGroup>
             {selectPlaceholder && (
               <SelectLabel>{selectPlaceholder}</SelectLabel>
