@@ -23,7 +23,8 @@ import org.springframework.context.annotation.Configuration;
                 @Tag(name = "Analytics", description = "Аналитика по финансам пользователя"),
                 @Tag(name = "Budgets", description = "Управление бюджетами и лимитами по категориям расходов"),
                 @Tag(name = "AI Assistant", description = "Взаимодействие с AI-помощником"),
-                @Tag(name = "OCR", description = "Распознавание чеков")
+                @Tag(name = "OCR", description = "Распознавание чеков"),
+                @Tag(name = "Goals", description = "Управление финансовыми целями пользователя")
         }
 )
 @SecuritySchemes({

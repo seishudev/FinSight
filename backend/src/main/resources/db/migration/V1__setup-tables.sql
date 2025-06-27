@@ -10,7 +10,7 @@ CREATE TABLE categories
 (
     id         BIGSERIAL    PRIMARY KEY,
     name       VARCHAR(50)  NOT NULL,
-    icon       VARCHAR(50),
+    icon       VARCHAR(50)  NOT NULL,
     type       VARCHAR(20)  NOT NULL,
     user_id    BIGINT       NOT NULL,
     created_at TIMESTAMP    WITHOUT TIME ZONE,
@@ -55,4 +55,20 @@ CREATE TABLE IF NOT EXISTS ai_chat_messages(
 
     CONSTRAINT fk_ai_chat_messages_on_user FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
     CONSTRAINT check_ai_chat_role CHECK (role IN ('USER', 'ASSISTANT'))
+);
+
+CREATE TABLE IF NOT EXISTS goals(
+    id             BIGSERIAL      PRIMARY KEY,
+    name           VARCHAR(255)   NOT NULL UNIQUE,
+    icon           VARCHAR(50)    NOT NULL,
+    category       VARCHAR(255)   NOT NULL,
+    target_amount  NUMERIC(19, 4) NOT NULL,
+    current_amount NUMERIC(19, 4) NOT NULL DEFAULT 0,
+    target_date    DATE           NOT NULL,
+    user_id        BIGINT         NOT NULL,
+    created_at     TIMESTAMP      DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_goals_on_user FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
+    CONSTRAINT check_target_amount_positive CHECK (target_amount > 0),
+    CONSTRAINT check_current_amount_not_negative CHECK (current_amount >= 0)
 );
