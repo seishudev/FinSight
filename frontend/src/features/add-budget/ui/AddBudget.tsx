@@ -120,7 +120,7 @@ export const AddBudget = observer(() => {
               <FormField
                 id='budget'
                 type='text'
-                placeholder='5000'
+                placeholder='10000'
                 error={errors.budget}
                 register={register}
                 name='budget'
@@ -170,7 +170,7 @@ export const AddBudget = observer(() => {
               <FormField
                 id='amount'
                 type='text'
-                placeholder='5000'
+                placeholder='15000'
                 error={errors.amount}
                 register={register}
                 name='amount'

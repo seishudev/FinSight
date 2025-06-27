@@ -1,0 +1,60 @@
+.container {
+  @apply bg-white/10 backdrop-blur-md rounded-2xl p-4 mdx:p-6 border border-white/20 hover:bg-white/15 transition-all duration-300;
+}
+
+.intro {
+  @apply flex justify-between items-center mb-8;
+
+  .description {
+    @apply flex gap-3 items-center;
+
+    span {
+      @apply text-xl mdx:text-2xl;
+    }
+
+    div {
+      @apply flex flex-col text-white;
+    }
+
+    h3 {
+      @apply text-base mdx:text-lg font-semibold text-white;
+    }
+  }
+
+  button {
+    @apply transition-colors bg-transparent p-1.5 mdx:p-2 hover:bg-red-500/20;
+    border-radius: 8px;
+  }
+}
+
+.collection {
+  @apply flex justify-between items-center;
+
+  p {
+    @apply text-gray-300 text-sm mdx:text-base;
+  }
+
+  span {
+    @apply text-white font-semibold text-sm mdx:text-base;
+  }
+}
+
+.chart {
+  @apply w-full bg-gray-700 rounded-full h-2 mdx:h-3 overflow-hidden mt-3;
+
+  div {
+    @apply h-full bg-gradient-to-r from-purple-500 to-indigo-600 transition-all duration-500 rounded-full;
+  }
+}
+
+.remainder {
+  @apply flex justify-between items-center text-xs mdx:text-sm mt-3;
+
+  p {
+    @apply font-medium text-purple-400;
+  }
+
+  span {
+    @apply flex items-center gap-1 text-gray-400;
+  }
+}
