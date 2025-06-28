@@ -1,9 +1,14 @@
 import { z } from 'zod';
 
 export const categorySchema = z.object({
-  title: z.string().nonempty({
-    message: 'Чтобы создать категорию, вы должны ввести название'
-  }),
+  title: z
+    .string()
+    .nonempty({
+      message: 'Чтобы создать категорию, вы должны ввести название'
+    })
+    .max(20, {
+      message: 'Максимальная длина названия не должна превышать 20 символов'
+    }),
   emoji: z.string()
 });
 
