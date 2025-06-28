@@ -11,8 +11,14 @@ import { useEffect } from 'react';
 import s from './Budget.module.scss';
 
 export const Budget = observer(() => {
-  const { budgets, targets, getBudgetsAction, getTargetsAction } =
-    budgetsApiStore;
+  const {
+    budgets,
+    targets,
+    budgetsState,
+    targetsState,
+    getBudgetsAction,
+    getTargetsAction
+  } = budgetsApiStore;
 
   useEffect(() => {
     getBudgetsAction();
@@ -29,17 +35,17 @@ export const Budget = observer(() => {
   );
 
   const renderBudgets = () => {
-    if (!budgets || budgets.state === 'pending') {
+    if (budgetsState === 'pending') {
       return renderLoader();
     }
-    if (budgets.state === 'rejected') {
+    if (budgetsState === 'rejected') {
       return (
         <p className='text-red-500 text-center col-span-1 lg:col-span-2'>
           Ошибка загрузки бюджетов
         </p>
       );
     }
-    if (budgets.value.length === 0) {
+    if (budgets.length === 0) {
       return (
         <div className='col-span-1 lg:col-span-2 flex justify-center items-center'>
           <Empty
@@ -50,7 +56,7 @@ export const Budget = observer(() => {
         </div>
       );
     }
-    return budgets.value.map(budget => (
+    return budgets.map(budget => (
       <BudgetCard
         key={nanoid(4)}
         id={budget.id}
@@ -66,17 +72,17 @@ export const Budget = observer(() => {
   };
 
   const renderTargets = () => {
-    if (!targets || targets.state === 'pending') {
+    if (targetsState === 'pending') {
       return renderLoader();
     }
-    if (targets.state === 'rejected') {
+    if (targetsState === 'rejected') {
       return (
         <p className='text-red-500 text-center col-span-1 lg:col-span-2'>
           Ошибка загрузки целей
         </p>
       );
     }
-    if (targets.value.length === 0) {
+    if (targets.length === 0) {
       return (
         <div className='col-span-1 lg:col-span-2 flex justify-center items-center'>
           <Empty
@@ -87,7 +93,7 @@ export const Budget = observer(() => {
         </div>
       );
     }
-    return targets.value.map(target => (
+    return targets.map(target => (
       <TargetCard
         key={nanoid(4)}
         id={target.id}

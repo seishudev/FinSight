@@ -4,6 +4,7 @@ import sound from '@shared/assets/sounds/startup-chime.mp3';
 import { AuthForm } from '@shared/ui/custom';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router';
+import { toast } from 'sonner';
 import { signIn } from '../api/loginApi';
 import { schema, type AuthByEmailFormData } from '../model/schema';
 
@@ -23,9 +24,13 @@ export const AuthByEmailForm = () => {
       .then(() => {
         const audio = new Audio(sound);
         audio.play().catch(err => console.error(err));
+        toast.success('Добро пожаловать!');
         navigate('/welcome', { replace: true });
       })
-      .catch(err => console.error(`Authorization error: ${err}`));
+      .catch(err => {
+        toast.error('Ошибка входа. Проверьте почту или пароль.');
+        console.error(`Authorization error: ${err}`);
+      });
   };
 
   return (

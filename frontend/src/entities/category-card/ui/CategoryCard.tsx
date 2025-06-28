@@ -4,6 +4,7 @@ import { deleteCategory } from '@/shared/stores/categories/api/delete-category';
 import type { CategoryType } from '@/shared/stores/categories/interactions/types';
 import { cn } from '@shared/utils/tw-merge';
 import { Trash2 } from 'lucide-react';
+import { toast } from 'sonner';
 import s from './CategoryCard.module.scss';
 
 interface CategoryCardProps {
@@ -18,11 +19,12 @@ export const CategoryCard = (props: CategoryCardProps) => {
 
   const handleDelete = async () => {
     try {
-      const data = await deleteCategory(id);
-      categoriesApiStore.getCategoriesByTypeAction(categoryType);
-      return data;
+      await deleteCategory(id);
+      categoriesApiStore.deleteCategoryAction(id, categoryType);
+      toast.success(`Категория "${name}" удалена`);
     } catch (err) {
       console.error(err);
+      toast.error('Ошибка при удалении категории');
     }
   };
 

@@ -3,6 +3,7 @@ import { addFundsApi } from '@/shared/stores/budgets/api/add-funds-api';
 import { deleteTargetApi } from '@/shared/stores/budgets/api/delete-target-api';
 import { getDaysRemaining } from '@shared/utils/remaining-days';
 import { Calendar, Trash2 } from 'lucide-react';
+import { toast } from 'sonner';
 import s from './TargetCard.module.scss';
 
 interface TargetCardProps {
@@ -31,18 +32,22 @@ export const TargetCard = (props: TargetCardProps) => {
   const handleDelete = async () => {
     try {
       await deleteTargetApi(id);
-      budgetsApiStore.getTargetsAction();
+      budgetsApiStore.deleteTargetAction(id);
+      toast.success(`Цель "${title}" удалена`);
     } catch (e) {
       console.error('Failed to delete target', e);
+      toast.error('Ошибка при удалении цели');
     }
   };
 
   const handleFundAction = async (amount: number) => {
     try {
-      await addFundsApi(id, amount);
-      budgetsApiStore.getTargetsAction();
+      const updatedTarget = await addFundsApi(id, amount);
+      budgetsApiStore.updateTargetFundsAction(updatedTarget);
+      toast.success(`Сумма цели "${title}" обновлена`);
     } catch (e) {
       console.error('Failed to update target funds', e);
+      toast.error('Ошибка при обновлении суммы цели');
     }
   };
 

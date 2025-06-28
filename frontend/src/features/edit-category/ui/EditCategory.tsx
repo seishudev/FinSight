@@ -1,4 +1,5 @@
 import { editCategoryApi } from '@/shared/stores/categories/api/edit-category-api';
+import type { CategoryType } from '@/shared/stores/categories/interactions/types';
 import { Tabs } from '@entities/tabs';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { DialogTitle } from '@radix-ui/react-dialog';
@@ -7,7 +8,6 @@ import {
   categoriesApiStore,
   categoriesInteractionsStore
 } from '@shared/stores/categories';
-import type { CategoryType } from '@/shared/stores/categories/interactions/types';
 import { Button } from '@shared/ui/button';
 import { FormField } from '@shared/ui/custom';
 import {
@@ -27,6 +27,7 @@ import { Edit2, Smile } from 'lucide-react';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 import { categorySchema, type CategoryBody } from '../model/categorySchema';
 import s from './EditCategory.module.scss';
 
@@ -97,24 +98,20 @@ export const EditCategory = observer((props: EditCategoryProps) => {
     const currentSelectedTypeInModal = categoriesInteractionsStore.categoryType;
 
     editCategoryApi(id, data.title, data.emoji, currentSelectedTypeInModal)
-      .then(() => {
-        categoriesApiStore.getCategoriesByTypeAction(
-          currentSelectedTypeInModal
-        );
-
+      .then(updatedCategory => {
         if (initialCategoryType !== currentSelectedTypeInModal) {
-          categoriesApiStore.getCategoriesByTypeAction(initialCategoryType);
+          categoriesApiStore.deleteCategoryAction(id, initialCategoryType);
+          categoriesApiStore.addCategoryAction(updatedCategory);
+        } else {
+          categoriesApiStore.updateCategoryInPlaceAction(updatedCategory);
         }
-      })
-      .catch(err => console.error(err))
-      .finally(() => {
+        toast.success(`Категория "${data.title}" успешно изменена!`);
         setIsModalOpen(false);
-        setShowEmojiPicker(false);
+      })
+      .catch(err => {
+        toast.error('Ошибка при изменении категории');
+        console.error(err);
       });
-
-    setIsModalOpen(false);
-    reset();
-    setShowEmojiPicker(false);
   };
 
   useEffect(() => {

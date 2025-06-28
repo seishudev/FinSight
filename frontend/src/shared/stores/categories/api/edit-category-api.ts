@@ -13,7 +13,7 @@ export const editCategoryApi = async (
       icon,
       type
     });
-    return response;
+    return response.data;
   } catch (err) {
     if (err instanceof Error) {
       throw new Error(`Error: ${err}`);

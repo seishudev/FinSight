@@ -4,6 +4,7 @@ import sound from '@shared/assets/sounds/startup-chime.mp3';
 import { AuthForm } from '@shared/ui/custom';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router';
+import { toast } from 'sonner';
 import { signUp } from '../api/registerApi';
 import { schema, type RegisterByEmailFormData } from '../model/schema';
 
@@ -25,7 +26,12 @@ export const RegisterByEmailForm = () => {
         audio.play().catch(err => console.error(err));
         navigate('/welcome', { replace: true });
       })
-      .catch(err => console.error(`Registration error: ${err}`));
+      .catch(err =>
+        toast.error(
+          'Ошибка регистрации. Возможно, пользователь уже существует.',
+          err
+        )
+      );
   };
 
   return (

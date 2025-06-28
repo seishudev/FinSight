@@ -1,6 +1,7 @@
 import { budgetsApiStore } from '@/shared/stores/budgets';
 import { deleteBudgetApi } from '@/shared/stores/budgets/api/delete-budget-api';
 import { Trash2 } from 'lucide-react';
+import { toast } from 'sonner';
 import s from './BudgetCard.module.scss';
 
 export type PeriodType = 'weekly' | 'monthly' | 'yearly';
@@ -37,9 +38,11 @@ export const BudgetCard = (props: BudgetCardProps) => {
   const handleDelete = async () => {
     try {
       await deleteBudgetApi(id);
-      budgetsApiStore.getBudgetsAction();
+      budgetsApiStore.deleteBudgetAction(id);
+      toast.success(`Бюджет "${title}" успешно удален`);
     } catch (e) {
       console.error('Failed to delete budget', e);
+      toast.error('Ошибка при удалении бюджета');
     }
   };
 

@@ -1,4 +1,5 @@
 import { createNewCategory } from '@/shared/stores/categories/api/create-new-category';
+import type { CategoryType } from '@/shared/stores/categories/interactions/types';
 import { Tabs } from '@entities/tabs';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { DialogTitle } from '@radix-ui/react-dialog';
@@ -7,7 +8,6 @@ import {
   categoriesApiStore,
   categoriesInteractionsStore
 } from '@shared/stores/categories';
-import type { CategoryType } from '@/shared/stores/categories/interactions/types';
 import { Button } from '@shared/ui/button';
 import { FormField } from '@shared/ui/custom';
 import {
@@ -27,6 +27,7 @@ import { Plus, Smile } from 'lucide-react';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 import { categorySchema, type CategoryBody } from '../model/categorySchema';
 import s from './CategoryDialog.module.scss';
 
@@ -60,12 +61,16 @@ export const CategoryDialog = observer(() => {
 
   const onSubmit = (data: CategoryBody) => {
     createNewCategory(data.title, data.emoji, categoryType)
-      .then(() => categoriesApiStore.getCategoriesByTypeAction(categoryType))
-      .catch(err => console.error(err));
-
-    setIsModalOpen(false);
-    reset();
-    setShowEmojiPicker(false);
+      .then(newCategory => {
+        categoriesApiStore.addCategoryAction(newCategory);
+        toast.success(`Категория "${data.title}" успешно создана!`);
+        setIsModalOpen(false);
+        reset();
+      })
+      .catch(err => {
+        toast.error('Ошибка при создании категории');
+        console.error(err);
+      });
   };
 
   useEffect(() => {

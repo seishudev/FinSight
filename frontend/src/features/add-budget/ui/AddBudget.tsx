@@ -1,5 +1,7 @@
+import { budgetsApiStore } from '@/shared/stores/budgets';
 import { createBudgetApi } from '@/shared/stores/budgets/api/create-budget-api';
 import { createTargetApi } from '@/shared/stores/budgets/api/create-target-api';
+import type { Category } from '@/shared/stores/categories';
 import { categoriesApiStore } from '@/shared/stores/categories';
 import { Tabs } from '@entities/tabs';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -22,12 +24,14 @@ import { Plus } from 'lucide-react';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 import { type BudgetBody, budgetSchema } from '../model/schema';
 import s from './AddBudget.module.scss';
 
 export const AddBudget = observer(() => {
   const { budgetType, setBudgetType } = budgetInteractionsStore;
-  const { categoriesExpense, getCategoriesByTypeAction } = categoriesApiStore;
+  const { categoriesExpense, getCategoriesByTypeAction, expenseState } =
+    categoriesApiStore;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 
@@ -54,8 +58,8 @@ export const AddBudget = observer(() => {
   };
 
   const categoryOptions: SelectItem[] =
-    categoriesExpense?.state === 'fulfilled'
-      ? categoriesExpense.value.map(cat => ({
+    expenseState === 'fulfilled'
+      ? categoriesExpense.map((cat: Category) => ({
           label: `${cat.icon} ${cat.name}`,
           value: String(cat.id)
         }))
@@ -64,8 +68,15 @@ export const AddBudget = observer(() => {
   const onSubmit = (data: BudgetBody) => {
     if (budgetType === 'budget') {
       createBudgetApi(Number(data.budgetId), data.budget!, data.periodId!)
-        .then(() => setIsModalOpen(false))
-        .catch(e => console.error(e));
+        .then(newBudget => {
+          budgetsApiStore.addBudgetAction(newBudget);
+          toast.success('Бюджет успешно создан!');
+          setIsModalOpen(false);
+        })
+        .catch(e => {
+          toast.error('Ошибка при создании бюджета');
+          console.error(e);
+        });
     } else {
       createTargetApi(
         data.name!,
@@ -73,8 +84,15 @@ export const AddBudget = observer(() => {
         data.amount!,
         new Date(data.date!).toISOString()
       )
-        .then(() => setIsModalOpen(false))
-        .catch(e => console.error(e));
+        .then(newTarget => {
+          budgetsApiStore.addTargetAction(newTarget);
+          toast.success('Цель успешно создана!');
+          setIsModalOpen(false);
+        })
+        .catch(e => {
+          toast.error('Ошибка при создании цели');
+          console.error(e);
+        });
     }
   };
 
