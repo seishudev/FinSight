@@ -1,22 +1,22 @@
-import { useEffect } from 'react';
+import { ChevronRight, CirclePlus, Goal, Receipt, Target } from 'lucide-react';
 import { observer } from 'mobx-react-lite';
 import { nanoid } from 'nanoid';
-import { ChevronRight, Goal, Receipt, Target } from 'lucide-react';
+import { useEffect } from 'react';
 
+import { Metric } from '@/entities/metric';
+import { Transaction } from '@/entities/transaction';
+import type { UserSummaryMetric } from '@/shared/model/UserSummaryAnalytics';
 import { analyticsApiStore } from '@/shared/stores/analytics';
 import { budgetsApiStore } from '@/shared/stores/budgets';
 import {
   transactionsApiStore,
   transactionsInteractionsStore
 } from '@/shared/stores/transactions';
+import { Button } from '@/shared/ui/button';
 import { Empty } from '@/shared/ui/custom';
-import type { UserSummaryMetric } from '@/shared/model/UserSummaryAnalytics';
 import { ExpenseWrapper } from '@/widgets/expense-wrapper';
-import { AddTransactionModal } from '@/features/add-transaction';
 import { QuickAnalytics } from '@entities/quick-analytics';
 import { UserTargets } from '@entities/user-targets';
-import { Transaction } from '@/entities/transaction';
-import { Metric } from '@/entities/metric';
 import s from './home.module.scss';
 
 export const Home = observer(() => {
@@ -40,7 +40,15 @@ export const Home = observer(() => {
           <p>Управляйте своими финансами легко и красиво</p>
         </section>
 
-        <AddTransactionModal />
+        <Button
+          className={s.addTransactionBtn}
+          onClick={() =>
+            transactionsInteractionsStore.openAddTransactionModal()
+          }
+        >
+          <CirclePlus />
+          Добавить транзакцию
+        </Button>
       </div>
 
       {summaryAnalytics?.state === 'fulfilled' && (
@@ -55,7 +63,9 @@ export const Home = observer(() => {
 
       <div className={s.actions}>
         <QuickAnalytics />
-        {mostUsedBudget?.state === 'fulfilled' && <UserTargets {...mostUsedBudget.value} />}
+        {mostUsedBudget?.state === 'fulfilled' && (
+          <UserTargets {...mostUsedBudget.value} />
+        )}
 
         {mostUsedBudget?.state === 'rejected' && (
           <ExpenseWrapper

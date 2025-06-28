@@ -1,10 +1,11 @@
 import { Outlet } from 'react-router';
 import { Toaster } from 'sonner';
 
-import { Sidebar } from '@/widgets/sidebar';
-import s from './main-layout.module.scss';
+import { AddTransactionModal } from '@/features/add-transaction';
 import { useMobile } from '@/shared/hooks/useMobile';
 import { MobileSidebar } from '@/widgets/mobile-sidebar';
+import { Sidebar } from '@/widgets/sidebar';
+import s from './main-layout.module.scss';
 
 export const MainLayout = () => {
   const isMobile = useMobile(768);
@@ -22,6 +23,8 @@ export const MainLayout = () => {
           position='top-center'
           richColors
         />
+
+        <AddTransactionModal />
       </div>
     </div>
   );

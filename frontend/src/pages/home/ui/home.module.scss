@@ -13,6 +13,10 @@
     }
   }
 
+  .addTransactionBtn {
+    @apply bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white px-4 mt-4 w-full mdx:mt-0 mdx:w-fit mdx:px-6 mdx:py-6 rounded-xl flex items-center justify-center gap-2 transition-all duration-300 transform shadow-lg text-sm mdx:text-base scalable-down;
+  }
+
   .metric {
     @apply grid grid-cols-1 smx:grid-cols-2 mdx:grid-cols-3 gap-4 mdx:gap-6;
 
