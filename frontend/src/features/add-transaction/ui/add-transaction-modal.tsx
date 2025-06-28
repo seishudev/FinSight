@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import { createTransaction } from '@/pages/analytics';
 import { transactionTabs } from '@/shared/constants/transaction-tabs';
 import type { SelectItem } from '@/shared/interfaces/SelectItem';
 import { categoriesApiStore } from '@/shared/stores/categories';
@@ -124,12 +123,8 @@ export const AddTransactionModal = observer(() => {
   };
 
   const onSubmit = async (data: TransactionBody) => {
-    const transactionData = { ...data, type: transactionType };
     try {
-      const newTransaction = await createTransaction(transactionData as any);
-      if (transactionsApiStore.transactions?.state === 'fulfilled') {
-        transactionsApiStore.transactions.value.unshift(newTransaction);
-      }
+      await transactionsApiStore.createTransactionAction(data);
       toast.success('Транзакция успешно добавлена!');
       closeAddTransactionModal();
     } catch (e) {

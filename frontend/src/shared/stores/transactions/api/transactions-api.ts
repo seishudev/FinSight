@@ -2,8 +2,8 @@ import { makeAutoObservable } from 'mobx';
 import { fromPromise, type IPromiseBasedObservable } from 'mobx-utils';
 
 import type { TransactionBody } from '@/features/add-transaction';
-import type { Transaction } from '@/shared/model/Transaction';
 import { createTransaction } from '@/pages/analytics';
+import type { Transaction } from '@/shared/model/Transaction';
 import { transactionsInteractionsStore } from '../interactions/transactions-interactions';
 import { getTransactions } from './get-transactions.api';
 
@@ -40,15 +40,23 @@ class TransactionsApiStore {
           ])
         );
       } else this.transactions = fromPromise(promise);
-    } catch (e) { console.log(e) }
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   createTransactionAction = async (body: TransactionBody) => {
     try {
-      const transaction = await createTransaction(body);
-      if (this.transactions?.state == 'fulfilled')
+      const { transactionType } = transactionsInteractionsStore;
+      const payload = { ...body, type: transactionType };
+      const transaction = await createTransaction(payload);
+      if (this.transactions?.state == 'fulfilled') {
         this.transactions.value.unshift(transaction);
-    } catch (e) { console.log(e) }
+      }
+    } catch (e) {
+      console.error(e);
+      throw e;
+    }
   };
 }
 
