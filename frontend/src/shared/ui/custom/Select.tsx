@@ -1,8 +1,5 @@
 import { nanoid } from 'nanoid';
 
-import type { SelectItem as SelectUiItem } from '@/shared/interfaces/SelectItem';
-import { cn } from '@/shared/utils/tw-merge';
-import { Label } from '../label';
 import {
   SelectContent,
   SelectGroup,
@@ -12,11 +9,17 @@ import {
   Select as SelectUi,
   SelectValue
 } from '../select';
+import type { SelectItem as SelectUiItem } from '@/shared/interfaces/SelectItem';
+import { Label } from '../label';
+import { cn } from '@/shared/utils/tw-merge';
+import { LoadingIcon } from '@/shared/assets/icons/LoadingIcon';
+import { Empty } from './Empty';
 
 interface SelectProps {
   value?: string;
   label?: string;
-  values: SelectUiItem[];
+  values: SelectUiItem[] | null;
+  isLoading?: boolean;
   selectPlaceholder?: string;
   triggerPlaceholder?: string;
   onValueChange?: (value: string) => void;
@@ -27,6 +30,7 @@ export const Select = ({
   value,
   values,
   onValueChange,
+  isLoading = false,
   selectPlaceholder,
   triggerPlaceholder
 }: SelectProps) => {
@@ -42,13 +46,22 @@ export const Select = ({
         >
           <SelectValue placeholder={triggerPlaceholder} />
         </SelectTrigger>
-        <SelectContent className='bg-gray-900 border border-gray-700 rounded-xl'>
+
+        <SelectContent className='bg-white/5 backdrop-blur-3xl rounded-xl'>
           <SelectGroup>
             {selectPlaceholder && (
               <SelectLabel>{selectPlaceholder}</SelectLabel>
             )}
 
-            {values.map(({ label, value }) => (
+            {isLoading && (
+              <Empty
+                title='Подождите, идет загрузка...'
+                icon={<LoadingIcon />}
+                className='my-5 [&>h2]:text-sm [&>h2]:mt-1'
+              />
+            )}
+
+            {values?.map(({ label, value }) => (
               <SelectItem
                 className='focus:bg-transparent'
                 onClick={() => console.log('click')}
