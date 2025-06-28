@@ -21,7 +21,7 @@ import s from './home.module.scss';
 
 export const Home = observer(() => {
   const { transactions, getTransactions } = transactionsApiStore;
-  const { setTransactionsSize } = transactionsInteractionsStore;
+  const { setTransactionsSize, openAddTransactionModal } = transactionsInteractionsStore;
   const { getUserSummaryAnalyticsAction, summaryAnalytics } = analyticsApiStore;
   const { getMostUsedBudgetAction, mostUsedBudget } = budgetsApiStore;
 
@@ -42,9 +42,7 @@ export const Home = observer(() => {
 
         <Button
           className={s.addTransactionBtn}
-          onClick={() =>
-            transactionsInteractionsStore.openAddTransactionModal()
-          }
+          onClick={() => openAddTransactionModal()}
         >
           <CirclePlus />
           Добавить транзакцию
@@ -56,7 +54,11 @@ export const Home = observer(() => {
           {summaryAnalytics.value
             .filter(analytics => analytics.type !== 'transactions')
             .map(analytics => (
-              <Metric key={nanoid(4)} {...(analytics as UserSummaryMetric)} />
+              <Metric
+                key={nanoid(4)}
+                className={s.item}
+                {...(analytics as UserSummaryMetric)}
+              />
             ))}
         </div>
       )}
@@ -77,7 +79,7 @@ export const Home = observer(() => {
               icon={<Goal />}
               title='Нет бюджетов или целей'
               description='Чтобы посмотреть ваш прогресс, вы должны создать ваш первый бюджет'
-              link='/budgets'
+              link='/budget'
               linkLabel='Создать'
             />
           </ExpenseWrapper>
@@ -98,7 +100,7 @@ export const Home = observer(() => {
         {transactions?.state === 'fulfilled' &&
         transactions.value.length > 0 ? (
           transactions.value.map(transaction => (
-            <Transaction {...transaction} />
+            <Transaction key={transaction.id} {...transaction} />
           ))
         ) : (
           <Empty

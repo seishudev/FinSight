@@ -5,6 +5,7 @@ import { Logo } from '@/entities/logo';
 import { PageTitle } from '@/entities/page-title';
 import { logOut } from '@/shared/api/axiosInstance';
 import { sidebarRoutes } from '@/shared/constants/sidebar-routes';
+import { AiAssistant } from '@/widgets/ai-assistant';
 import { toast } from 'sonner';
 import s from './sidebar.module.scss';
 
@@ -50,10 +51,7 @@ export const Sidebar = () => {
       </nav>
 
       <div className={s.features}>
-        <button>
-          <Bot />
-          AI Помощник
-        </button>
+        <AiAssistant />
 
         <Link to='/scanner'>
           <button className={s.scanner}>

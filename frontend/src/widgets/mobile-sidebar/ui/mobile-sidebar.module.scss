@@ -1,5 +1,5 @@
 .trigger {
-   @apply fixed hover:bg-gray-900/70 top-4 left-4 p-3 h-[50px] bg-gray-900/90 backdrop-blur-md rounded-xl border border-white/20;
+   @apply fixed z-50 hover:bg-gray-900/70 top-4 left-4 p-3 h-[50px] bg-gray-900/90 backdrop-blur-md rounded-xl border border-white/20;
 }
 
 .content {

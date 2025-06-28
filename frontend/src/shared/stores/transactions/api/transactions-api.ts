@@ -1,5 +1,6 @@
 import { makeAutoObservable } from 'mobx';
 import { fromPromise, type IPromiseBasedObservable } from 'mobx-utils';
+import { toast } from 'sonner';
 
 import type { TransactionBody } from '@/features/add-transaction';
 import { createTransaction } from '@/pages/analytics';
@@ -40,22 +41,33 @@ class TransactionsApiStore {
           ])
         );
       } else this.transactions = fromPromise(promise);
-    } catch (e) {
-      console.log(e);
-    }
+    } catch (e) { console.log(e) }
   };
 
   createTransactionAction = async (body: TransactionBody) => {
+    const {
+      unshiftTransaction,
+      popTransaction,
+      increaseExpenses,
+      increaseIncomes
+    } = transactionsInteractionsStore;
+
     try {
       const { transactionType } = transactionsInteractionsStore;
       const payload = { ...body, type: transactionType };
+
       const transaction = await createTransaction(payload);
-      if (this.transactions?.state == 'fulfilled') {
-        this.transactions.value.unshift(transaction);
-      }
+
+      if (transactionType === 'income') increaseIncomes(transaction.amount);
+      else increaseExpenses(transaction.amount);
+
+      popTransaction();
+      unshiftTransaction(transaction);
+
+      toast.success('Транзакция добавлена!');
     } catch (e) {
-      console.error(e);
-      throw e;
+      console.log(e);
+      toast.error('Упс.. Произошла ошибка при добавлении транзакции');
     }
   };
 }

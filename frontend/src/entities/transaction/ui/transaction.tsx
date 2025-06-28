@@ -2,8 +2,8 @@ import { TrendingDown, TrendingUp } from 'lucide-react';
 
 import type { Transaction as TransactionModel } from '@/shared/model/Transaction';
 import { cn } from '@/shared/utils/tw-merge';
-import s from './transaction.module.scss';
 import { HoverCard } from '@/shared/ui/custom';
+import s from './transaction.module.scss';
 
 export const Transaction = (props: TransactionModel) => {
   const isIncome = props.type === 'income';
