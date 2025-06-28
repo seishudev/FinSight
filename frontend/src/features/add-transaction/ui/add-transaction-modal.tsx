@@ -183,6 +183,8 @@ export const AddTransactionModal = observer(() => {
                 isLoading={isLoadingCategories}
                 value={field.value ? String(field.value) : undefined}
                 error={errors.categoryId?.message}
+                emptyText='Отсутствуют категории'
+                emptyDesc='Чтобы тут появились значения, вам нужно создать свои категории в разделе "Категории"'
               />
             )}
           />

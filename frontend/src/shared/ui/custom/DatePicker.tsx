@@ -39,13 +39,14 @@ export const DatePicker = ({
           </Button>
         </PopoverTrigger>
 
-        <PopoverContent>
+        <PopoverContent className="bg-gray-800 rounded-xl p-0 border border-white/10">
           <Calendar
             required
             mode='single'
             captionLayout='dropdown'
             selected={date}
             onSelect={onSelectDate}
+            className="bg-gray-800 w-full"
           />
         </PopoverContent>
       </Popover>

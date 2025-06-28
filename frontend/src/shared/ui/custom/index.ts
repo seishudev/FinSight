@@ -3,3 +3,4 @@ export { Empty } from './Empty';
 export { FormField } from './FormField';
 export { PieChart } from './PieChart';
 export { Select } from './Select';
+export { HoverCard } from './HoverCard';

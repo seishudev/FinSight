@@ -1,5 +1,10 @@
+import type { JSX } from 'react';
 import { nanoid } from 'nanoid';
+import { Ban } from 'lucide-react';
 
+import { LoadingIcon } from '@/shared/assets/icons/LoadingIcon';
+import type { SelectItem as SelectUiItem } from '@/shared/interfaces/SelectItem';
+import { cn } from '@/shared/utils/tw-merge';
 import {
   SelectContent,
   SelectGroup,
@@ -9,10 +14,7 @@ import {
   Select as SelectUi,
   SelectValue
 } from '../select';
-import type { SelectItem as SelectUiItem } from '@/shared/interfaces/SelectItem';
 import { Label } from '../label';
-import { cn } from '@/shared/utils/tw-merge';
-import { LoadingIcon } from '@/shared/assets/icons/LoadingIcon';
 import { Empty } from './Empty';
 
 interface SelectProps {
@@ -23,6 +25,9 @@ interface SelectProps {
   selectPlaceholder?: string;
   triggerPlaceholder?: string;
   onValueChange?: (value: string) => void;
+  emptyText?: string;
+  emptyDesc?: string;
+  emptyIcon?: JSX.Element;
   error?: string;
 }
 
@@ -31,6 +36,9 @@ export const Select = ({
   error,
   value,
   values,
+  emptyDesc,
+  emptyIcon = <Ban />,
+  emptyText = 'Отсутствуют значения',
   onValueChange,
   isLoading = false,
   selectPlaceholder,
@@ -62,6 +70,15 @@ export const Select = ({
                 title='Подождите, идет загрузка...'
                 icon={<LoadingIcon />}
                 className='my-5 [&>h2]:text-sm [&>h2]:mt-1'
+              />
+            )}
+
+            {(values?.length || 0) <= 0 && (
+              <Empty
+                icon={emptyIcon}
+                title={emptyText}
+                description={emptyDesc}
+                className="[&>p]:mb-2 [&>p]:max-w-72"
               />
             )}
 
