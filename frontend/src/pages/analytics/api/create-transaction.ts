@@ -1,7 +1,7 @@
 import type { TransactionBody } from '@/features/add-transaction';
 import { api } from '@/shared/api';
+import type { TransactionType } from '@/shared/interfaces/TransactionType'
 import type { Transaction } from '@/shared/model/Transaction';
-import type { TransactionType } from '@/shared/stores/transactions';
 
 export interface CreateTransactionPayload extends TransactionBody {
   type: TransactionType;
