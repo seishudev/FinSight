@@ -2,15 +2,14 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { toast } from 'sonner';
 
-import { transactionTabs } from '@/shared/constants/transaction-tabs';
 import type { SelectItem } from '@/shared/interfaces/SelectItem';
+import type { TransactionType } from '@/shared/interfaces/TransactionType';
+import { transactionTabs } from '@/shared/constants/transaction-tabs';
 import { categoriesApiStore } from '@/shared/stores/categories';
 import {
   transactionsApiStore,
-  transactionsInteractionsStore,
-  type TransactionType
+  transactionsInteractionsStore
 } from '@/shared/stores/transactions';
 import { FormField, Select } from '@/shared/ui/custom';
 import { DatePicker } from '@/shared/ui/custom/DatePicker';
@@ -29,6 +28,8 @@ import {
 import s from './add-transaction-modal.module.scss';
 
 export const AddTransactionModal = observer(() => {
+  const { createTransactionAction } = transactionsApiStore;
+
   const {
     isAddTransactionModalOpen,
     addTransactionInitialData,
@@ -56,14 +57,18 @@ export const AddTransactionModal = observer(() => {
     formState: { errors },
     reset
   } = useForm<TransactionBody>({
+    // @ts-ignore
     resolver: zodResolver(transactionSchema),
-    defaultValues: {
-      date: new Date().toISOString()
-    }
+    defaultValues: { date: new Date().toISOString() }
   });
 
   useEffect(() => {
-    if (isAddTransactionModalOpen && !addTransactionInitialData) {
+    if (
+      isAddTransactionModalOpen &&
+      !addTransactionInitialData &&
+      ((transactionType === 'expense' && categoriesExpense.length <= 0) ||
+        (transactionType === 'income' && categoriesIncome.length <= 0))
+    ) {
       getCategoriesByTypeAction(transactionType);
     }
   }, [
@@ -83,9 +88,11 @@ export const AddTransactionModal = observer(() => {
             value: String(cat.id)
           })
         );
+
         setCategoryOptions(options);
+
         reset({
-          quantity: addTransactionInitialData.amount,
+          amount: addTransactionInitialData.amount,
           categoryId: addTransactionInitialData.suggestedCategory.id,
           date: addTransactionInitialData.date,
           comment: addTransactionInitialData.comment
@@ -93,16 +100,19 @@ export const AddTransactionModal = observer(() => {
       } else {
         const source =
           transactionType === 'income' ? categoriesIncome : categoriesExpense;
+
         const options = source.map(cat => ({
           label: `${cat.icon} ${cat.name}`,
           value: String(cat.id)
         }));
+
         setCategoryOptions(options);
+
         reset({
-          quantity: undefined,
+          amount: undefined,
           categoryId: undefined,
-          date: new Date().toISOString(),
-          comment: ''
+          comment: undefined,
+          date: new Date().toISOString()
         });
       }
     }
@@ -117,20 +127,12 @@ export const AddTransactionModal = observer(() => {
   ]);
 
   const handleOpenChange = (open: boolean) => {
-    if (!open) {
-      closeAddTransactionModal();
-    }
+    if (!open) closeAddTransactionModal();
   };
 
-  const onSubmit = async (data: TransactionBody) => {
-    try {
-      await transactionsApiStore.createTransactionAction(data);
-      toast.success('Транзакция успешно добавлена!');
-      closeAddTransactionModal();
-    } catch (e) {
-      toast.error('Ошибка при создании транзакции');
-      console.error(e);
-    }
+  const onSubmit = (data: TransactionBody) => {
+    createTransactionAction(data);
+    closeAddTransactionModal();
   };
 
   const isLoadingCategories =
@@ -154,15 +156,16 @@ export const AddTransactionModal = observer(() => {
           onTabChange={v => setTransactionType(v as TransactionType)}
         />
 
+        {/* @ts-ignore */}
         <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
           <FormField
-            id='quantity'
+            id='amount'
             type='number'
             placeholder='0.00'
             className={s.input}
-            error={errors.quantity}
+            error={errors.amount}
             register={register}
-            name='quantity'
+            name='amount'
             title='Сумма *'
             valueAsNumber
           />
@@ -174,14 +177,12 @@ export const AddTransactionModal = observer(() => {
               <Select
                 values={categoryOptions}
                 label='Категория *'
+                triggerPlaceholder='Выберите категорию'
+                selectPlaceholder='Выберите категорию'
                 onValueChange={v => field.onChange(Number(v))}
-                selectPlaceholder={
-                  isLoadingCategories ? 'Загрузка...' : 'Выберите категорию'
-                }
-                triggerPlaceholder={
-                  isLoadingCategories ? 'Загрузка...' : 'Выберите категорию'
-                }
-                value={String(field.value)}
+                isLoading={isLoadingCategories}
+                value={field.value ? String(field.value) : undefined}
+                error={errors.categoryId?.message}
               />
             )}
           />
@@ -191,7 +192,7 @@ export const AddTransactionModal = observer(() => {
             control={control}
             render={({ field }) => (
               <DatePicker
-                date={new Date(field.value || Date.now())}
+                date={new Date(field.value)}
                 open={isTransactionDatePickerOpen}
                 setOpen={setIsTransactionDatePickerOpen}
                 onSelect={field.onChange}
@@ -206,10 +207,11 @@ export const AddTransactionModal = observer(() => {
             render={({ field }) => (
               <Textarea
                 onChange={field.onChange}
-                value={field.value!}
+                value={field.value}
                 maxLength={128}
                 placeholder='Дополнительная информация...'
                 label='Комментарий'
+                error={errors.comment?.message}
               />
             )}
           />

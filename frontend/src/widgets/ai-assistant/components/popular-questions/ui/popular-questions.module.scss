@@ -1,0 +1,15 @@
+.popularQuestions {
+  @apply p-4 mdx:p-6 border-t border-white/10;
+
+  h3 {
+    @apply text-sm text-gray-400 mb-3;
+  }
+
+  .questions {
+    @apply flex flex-col gap-2;
+
+    .question {
+      @apply w-full text-left p-3 bg-white/5 hover:bg-white/10 rounded-xl text-sm text-gray-300 transition-all duration-200 border border-white/10 hover:border-white/20;
+    }
+  }
+}

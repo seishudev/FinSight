@@ -1,0 +1,19 @@
+.container {
+  @apply max-w-[85%] mdx:max-w-[80%] p-3 mdx:p-4 rounded-2xl bg-white/10 text-gray-200 border border-white/20;
+
+  .role {
+    @apply text-xs font-medium;
+
+    span {
+      @apply text-purple-400 flex gap-2 items-center;
+    }
+  }
+
+  .content {
+    @apply mt-[5px] text-sm leading-5 break-words;
+  }
+}
+
+.userMessage {
+  @apply bg-gradient-to-r from-indigo-500 to-purple-600 border-none min-w-[85%] ml-auto;
+}
