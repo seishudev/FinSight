@@ -1,10 +1,11 @@
-import type { TransactionType } from '../stores/transactions'
+import type { TransactionType } from '../interfaces/TransactionType';
+import type { Category } from '../stores/categories'
 
 export interface Transaction {
-   id: string;
+   id: number;
    type: TransactionType;
    amount: number;
-   category: string;
+   category: Category;
    date: string;
-   comment: string;
+   comment?: string;
 }
