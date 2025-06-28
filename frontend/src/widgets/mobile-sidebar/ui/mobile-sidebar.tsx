@@ -1,5 +1,6 @@
-import { Bot, LogOut, Menu, ReceiptText } from 'lucide-react';
+import { LogOut, Menu, ReceiptText } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router';
+import { toast } from 'sonner';
 
 import {
   Sheet,
@@ -9,10 +10,10 @@ import {
 } from '@/shared/ui/sheet';
 import { Button } from '@/shared/ui/button';
 import { sidebarRoutes } from '@/shared/constants/sidebar-routes';
+import { logOut } from '@/shared/api/axiosInstance';
 import { AiAssistant } from '@/widgets/ai-assistant';
 import { PageTitle } from '@/entities/page-title';
 import { Logo } from '@/entities/logo';
-import { toast } from 'sonner';
 import s from './mobile-sidebar.module.scss';
 
 export const MobileSidebar = () => {

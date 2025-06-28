@@ -1,12 +1,12 @@
-import { Bot, LogOut, ReceiptText } from 'lucide-react';
+import { LogOut, ReceiptText } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router';
+import { toast } from 'sonner';
 
 import { Logo } from '@/entities/logo';
 import { PageTitle } from '@/entities/page-title';
 import { logOut } from '@/shared/api/axiosInstance';
 import { sidebarRoutes } from '@/shared/constants/sidebar-routes';
 import { AiAssistant } from '@/widgets/ai-assistant';
-import { toast } from 'sonner';
 import s from './sidebar.module.scss';
 
 export const Sidebar = () => {
