@@ -30,6 +30,6 @@
   }
 
   .comment {
-    @apply text-gray-400 text-xs hidden smx:block max-w-32 overflow-hidden text-ellipsis text-right;
+    @apply text-gray-400 text-xs hidden smx:block max-w-52 overflow-hidden text-ellipsis whitespace-nowrap text-right;
   }
 }

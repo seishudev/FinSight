@@ -1,0 +1,1 @@
+export type FinancialTargetType = "goal" | "budget";

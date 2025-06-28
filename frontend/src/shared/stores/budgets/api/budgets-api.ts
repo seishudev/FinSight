@@ -5,20 +5,19 @@ import type { Budget, Target } from '@/shared/model/Budget';
 import { fromPromise, type IPromiseBasedObservable } from 'mobx-utils';
 import { getBudgetApi } from './get-budget-api';
 import { getTargetApi } from './get-target-api';
+import type { UserFinancialTarget } from '@/shared/model/UserFinancialTarget'
 
 type StoreState = 'initial' | 'pending' | 'fulfilled' | 'rejected';
 
 class BudgetsApiStore {
+  constructor() { makeAutoObservable(this) }
+
   // STATES
-  mostUsedBudget: IPromiseBasedObservable<Budget> | null = null;
+  mostUsedBudget: IPromiseBasedObservable<UserFinancialTarget> | null = null;
   budgets: Budget[] = [];
   targets: Target[] = [];
   budgetsState: StoreState = 'initial';
   targetsState: StoreState = 'initial';
-
-  constructor() {
-    makeAutoObservable(this);
-  }
 
   // ACTIONS
   addBudgetAction = (budget: Budget) => {
