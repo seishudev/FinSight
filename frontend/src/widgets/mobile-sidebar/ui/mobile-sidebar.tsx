@@ -1,5 +1,5 @@
-import { LogOut, Menu, ReceiptText } from 'lucide-react';
-import { Link, useLocation } from 'react-router';
+import { Bot, LogOut, Menu, ReceiptText } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router';
 
 import {
   Sheet,
@@ -12,10 +12,24 @@ import { sidebarRoutes } from '@/shared/constants/sidebar-routes';
 import { AiAssistant } from '@/widgets/ai-assistant';
 import { PageTitle } from '@/entities/page-title';
 import { Logo } from '@/entities/logo';
+import { toast } from 'sonner';
 import s from './mobile-sidebar.module.scss';
 
 export const MobileSidebar = () => {
   const pathname = useLocation().pathname;
+  const navigate = useNavigate();
+
+  const handleExit = () => {
+    logOut()
+      .then(() => {
+        navigate('/login', { replace: true });
+        toast.success('Вы вышли из аккаунта');
+      })
+      .catch(e => {
+        toast.error('Произошла ошибка');
+        console.error(e);
+      });
+  };
 
   return (
     <Sheet>
@@ -57,7 +71,7 @@ export const MobileSidebar = () => {
             Сканер чеков
           </button>
 
-          <button>
+          <button onClick={handleExit}>
             <LogOut />
             Выйти
           </button>
