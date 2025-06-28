@@ -1,43 +1,51 @@
 .container {
-   @apply hidden h-full backdrop-blur-md bg-gray-900/15 border-white/10 md:flex flex-col border-r min-w-fit w-[20%] max-w-96;
+  @apply hidden h-full backdrop-blur-md bg-gray-900/15 border-white/10 md:flex flex-col border-r min-w-fit w-[20%] max-w-96;
 
-   .brand {
-      @apply p-6;
-   }
+  .brand {
+    @apply p-6;
+  }
 
-   .menu {
-      @apply flex-1 px-4;
+  .menu {
+    @apply flex-1 px-4;
 
-      .list {
-         @apply space-y-2;
+    .list {
+      @apply space-y-2;
 
-         .link {
-            @apply w-full flex items-center gap-3 px-4 py-3 transition-all duration-200 ease-in-out rounded-xl text-white shadow-lg border border-transparent;
-         }
-
-         .activeLink {
-            @apply bg-gradient-to-r from-indigo-500/20 to-purple-700/20 border-indigo-500/30;
-         }
+      .link {
+        @apply w-full flex items-center gap-3 px-4 py-3 transition-all duration-200 ease-in-out rounded-xl text-white shadow-lg border border-transparent;
       }
-   }
 
-   .features {
-      @apply flex flex-col p-4 border-t border-t-white/10 gap-3;
-
-      button {
-         @apply w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-400 hover:text-white hover:bg-white/5 last:hover:bg-red-400/10 last:hover:text-red-400;
+      .activeLink {
+        @apply bg-gradient-to-r from-indigo-500/20 to-purple-700/20 border-indigo-500/30;
       }
-   }
+    }
+  }
 
-   .createdFor {
-      @apply flex justify-center border-t border-t-white/10 p-4;
+  .features {
+    @apply flex flex-col p-4 border-t border-t-white/10 gap-3;
 
-      p {
-         @apply text-center text-xs text-gray-400;
+    button {
+      @apply w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-400 hover:text-white hover:bg-white/5;
+    }
 
-         span {
-            @apply text-gray-500 mt-1 inline-block;
-         }
+    .exit {
+      @apply hover:bg-red-400/10 hover:text-red-400;
+    }
+  }
+
+  .scanner {
+    @apply w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-gray-400 hover:text-white;
+  }
+
+  .createdFor {
+    @apply flex justify-center border-t border-t-white/10 p-4;
+
+    p {
+      @apply text-center text-xs text-gray-400;
+
+      span {
+        @apply text-gray-500 mt-1 inline-block;
       }
-   }
+    }
+  }
 }

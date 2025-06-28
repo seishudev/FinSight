@@ -7,6 +7,7 @@ import { Categories } from '@pages/categories';
 import { Home } from '@pages/home';
 import { Login } from '@pages/login';
 import { Register } from '@pages/register';
+import { Scanner } from '@pages/scanner';
 import { WelcomeMessage } from '@widgets/welcome-message';
 
 export const AppRouter = () => {
@@ -22,6 +23,7 @@ export const AppRouter = () => {
         <Route path='login' element={<Login />} />
         <Route path='register' element={<Register />} />
         <Route path='welcome' element={<WelcomeMessage />} />
+        <Route path='scanner' element={<Scanner />} />
       </Routes>
     </BrowserRouter>
   );
