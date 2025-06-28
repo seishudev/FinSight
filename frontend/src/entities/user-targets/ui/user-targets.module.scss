@@ -7,17 +7,29 @@
     .name {
       @apply flex justify-between mb-2;
 
-      h3 {
-        @apply text-gray-300;
+      .head {
+        @apply flex gap-2 items-center;
+
+        h3 {
+          @apply text-gray-300 flex items-center gap-2 max-w-52 text-ellipsis overflow-hidden whitespace-nowrap;
+        }
+
+        .badge {
+          @apply rounded-xl px-2 py-[2px];
+
+          p {
+            @apply text-xs text-white;
+          }
+        }
       }
 
-      p {
-        @apply text-gray-400;
+      .value {
+        @apply text-gray-400 whitespace-nowrap text-ellipsis overflow-hidden ml-2;
       }
     }
 
     .progress {
-      @apply bg-gray-700 [&>*]:bg-gradient-to-r [&>*]:rounded-full [&>*]:from-amber-500 [&>*]:to-orange-600;
+      @apply bg-gray-600 [&>*]:bg-gradient-to-r [&>*]:rounded-full [&>*]:from-amber-500 [&>*]:to-orange-600;
     }
   }
 }
