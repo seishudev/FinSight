@@ -1,4 +1,4 @@
-import { Bot, LogOut, ReceiptText } from 'lucide-react';
+import { LogOut, ReceiptText } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router';
 
 import { Logo } from '@/entities/logo';
