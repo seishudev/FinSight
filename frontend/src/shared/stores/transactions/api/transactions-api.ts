@@ -17,31 +17,11 @@ class TransactionsApiStore {
   transactions: IPromiseBasedObservable<Transaction[]> | null = null;
 
   // ACTIONS
-  getTransactions = async (type?: string) => {
-    const {
-      transactionsPage,
-      transactionsSize,
-      setTransactionsPage,
-      setTransactionsSize
-    } = transactionsInteractionsStore;
+  getTransactions = () => {
+    const { transactionsPage, transactionsSize } = transactionsInteractionsStore;
 
-    try {
-      if (type === 'pagination') {
-        setTransactionsPage(transactionsPage + 1);
-        setTransactionsSize(transactionsSize + 15);
-      }
-
-      const promise = getTransactions(transactionsPage, transactionsSize);
-
-      if (type === 'pagination') {
-        this.transactions = fromPromise(
-          Promise.resolve([
-            ...(this.transactions!.value as Transaction[]),
-            ...(await promise)
-          ])
-        );
-      } else this.transactions = fromPromise(promise);
-    } catch (e) { console.log(e) }
+    try { this.transactions = fromPromise(getTransactions(transactionsPage, transactionsSize)) }
+    catch (e) { console.log(e) }
   };
 
   createTransactionAction = async (body: TransactionBody) => {

@@ -8,6 +8,7 @@ import { Home } from '@pages/home';
 import { Login } from '@pages/login';
 import { Register } from '@pages/register';
 import { Scanner } from '@pages/scanner';
+import { TransactionsHistory } from '@/pages/transactions-history';
 import { WelcomeMessage } from '@widgets/welcome-message';
 
 export const AppRouter = () => {
@@ -19,6 +20,7 @@ export const AppRouter = () => {
           <Route path='analytics' element={<Analytics />} />
           <Route path='categories' element={<Categories />} />
           <Route path='budget' element={<Budget />} />
+          <Route path='transactions' element={<TransactionsHistory />}/>
         </Route>
         <Route path='login' element={<Login />} />
         <Route path='register' element={<Register />} />

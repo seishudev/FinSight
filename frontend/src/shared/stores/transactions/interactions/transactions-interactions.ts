@@ -77,10 +77,12 @@ class TransactionsInteractionsStore {
   // PAGINATION
   transactionsPage = 0;
   transactionsSize = 15;
+  transactionsTotalPages: number | null = null;
 
   // PAGINATION MOVES
-  setTransactionsPage = (page: number) => (this.transactionsPage = page);
-  setTransactionsSize = (size: number) => (this.transactionsSize = size);
+  setTransactionsPage = (page: number) => this.transactionsPage = page;
+  setTransactionsSize = (size: number) => this.transactionsSize = size;
+  setTransactionsTotalPages = (total: number) => this.transactionsTotalPages = total;
 }
 
 export const transactionsInteractionsStore = new TransactionsInteractionsStore();
