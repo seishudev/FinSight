@@ -1,19 +1,19 @@
 import { LogOut, Menu, ReceiptText } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router';
+import { toast } from 'sonner';
 
-import { Logo } from '@/entities/logo';
-import { PageTitle } from '@/entities/page-title';
-import { logOut } from '@/shared/api/axiosInstance';
-import { sidebarRoutes } from '@/shared/constants/sidebar-routes';
-import { Button } from '@/shared/ui/button';
 import {
   Sheet,
   SheetContent,
   SheetTitle,
   SheetTrigger
 } from '@/shared/ui/sheet';
+import { Button } from '@/shared/ui/button';
+import { sidebarRoutes } from '@/shared/constants/sidebar-routes';
+import { logOut } from '@/shared/api/axiosInstance';
 import { AiAssistant } from '@/widgets/ai-assistant';
-import { toast } from 'sonner';
+import { PageTitle } from '@/entities/page-title';
+import { Logo } from '@/entities/logo';
 import s from './mobile-sidebar.module.scss';
 
 export const MobileSidebar = () => {
