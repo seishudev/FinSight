@@ -9,7 +9,12 @@ export const budgetSchema = z
       .positive('Лимит должен быть положительным числом')
       .optional(),
     periodId: z.enum(['weekly', 'monthly', 'yearly']).optional(),
-    name: z.string().optional(),
+    name: z
+      .string()
+      .max(20, {
+        message: 'Максимальная длина названия не должна превышать 20 символов'
+      })
+      .optional(),
     amount: z.coerce
       .number({ invalid_type_error: 'Сумма должна быть числом' })
       .positive('Сумма должна быть положительной')
