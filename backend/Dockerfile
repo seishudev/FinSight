@@ -3,6 +3,8 @@ FROM gradle:8.8.0-jdk21-alpine as builder
 WORKDIR /home/gradle/project
 
 COPY build.gradle.kts settings.gradle.kts gradlew ./
+RUN chmod +x ./gradlew
+
 COPY gradle ./gradle
 
 COPY src ./src
