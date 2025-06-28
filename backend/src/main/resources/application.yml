@@ -37,3 +37,6 @@ jwt:
   secret:
     access: ${JWT_SECRET_ACCESS}
     refresh: ${JWT_SECRET_REFRESH}
+
+tesseract:
+  datapath: /usr/share/tessdata
