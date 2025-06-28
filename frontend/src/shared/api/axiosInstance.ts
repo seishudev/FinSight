@@ -81,3 +81,15 @@ api.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+export const logOut = async () => {
+  try {
+    const { data } = await api.post('/auth/logout');
+    return data;
+  } catch (err) {
+    if (err instanceof Error) {
+      throw new Error(`Error: ${err}`);
+    }
+    throw new Error(`Unknown error`);
+  }
+};
