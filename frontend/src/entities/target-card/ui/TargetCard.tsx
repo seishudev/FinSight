@@ -1,6 +1,7 @@
 import { budgetsApiStore } from '@/shared/stores/budgets';
 import { addFundsApi } from '@/shared/stores/budgets/api/add-funds-api';
 import { deleteTargetApi } from '@/shared/stores/budgets/api/delete-target-api';
+import { cn } from '@/shared/utils/tw-merge';
 import { getDaysRemaining } from '@shared/utils/remaining-days';
 import { Calendar, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
@@ -15,6 +16,7 @@ interface TargetCardProps {
   targetAmount: number;
   remainingAmount: number;
   percentageUsed: number;
+  className?: string;
 }
 
 export const TargetCard = (props: TargetCardProps) => {
@@ -26,7 +28,8 @@ export const TargetCard = (props: TargetCardProps) => {
     currentAmount,
     targetAmount,
     remainingAmount,
-    percentageUsed
+    percentageUsed,
+    className
   } = props;
 
   const handleDelete = async () => {
@@ -52,7 +55,7 @@ export const TargetCard = (props: TargetCardProps) => {
   };
 
   return (
-    <article className={s.container}>
+    <article className={cn(s.container, className)}>
       <div className={s.intro}>
         <div className={s.description}>
           <span>{icon}</span>

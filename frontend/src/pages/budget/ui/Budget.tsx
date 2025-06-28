@@ -3,6 +3,7 @@ import { TargetCard } from '@/entities/target-card';
 import { AddBudget } from '@/features/add-budget';
 import { budgetsApiStore } from '@/shared/stores/budgets';
 import { Empty } from '@/shared/ui/custom';
+import { ExpenseWrapper } from '@/widgets/expense-wrapper';
 import { PageTitle } from '@entities/page-title';
 import { Goal, LoaderCircle, Target, Wallet } from 'lucide-react';
 import { observer } from 'mobx-react-lite';
@@ -47,13 +48,13 @@ export const Budget = observer(() => {
     }
     if (budgets.length === 0) {
       return (
-        <div className='col-span-1 lg:col-span-2 flex justify-center items-center'>
+        <ExpenseWrapper className='col-span-1 lg:col-span-2'>
           <Empty
             icon={<Wallet />}
             title='Нет созданных бюджетов'
             description='Создайте свой первый бюджет, чтобы начать отслеживать расходы по категориям.'
           />
-        </div>
+        </ExpenseWrapper>
       );
     }
     return budgets.map(budget => (
@@ -67,6 +68,7 @@ export const Budget = observer(() => {
         limit={budget.limitAmount}
         percentageUsed={budget.percentageUsed}
         remainingAmount={budget.remainingAmount}
+        className={budgets.length === 1 ? 'lg:col-span-2' : ''}
       />
     ));
   };
@@ -84,13 +86,13 @@ export const Budget = observer(() => {
     }
     if (targets.length === 0) {
       return (
-        <div className='col-span-1 lg:col-span-2 flex justify-center items-center'>
+        <ExpenseWrapper className='col-span-1 lg:col-span-2'>
           <Empty
             icon={<Goal />}
             title='Нет созданных целей'
             description='Поставьте финансовую цель, чтобы мотивировать себя на накопления.'
           />
-        </div>
+        </ExpenseWrapper>
       );
     }
     return targets.map(target => (
@@ -104,6 +106,7 @@ export const Budget = observer(() => {
         targetAmount={target.targetAmount}
         remainingAmount={target.remainingAmount}
         percentageUsed={target.percentage}
+        className={targets.length === 1 ? 'lg:col-span-2' : ''}
       />
     ));
   };

@@ -8,9 +8,6 @@ export const signIn = async (email: string, password: string) => {
     });
     return response.data;
   } catch (err) {
-    if (err instanceof Error) {
-      throw new Error(`An authorization error occurred: ${err}`);
-    }
-    throw new Error('Unknown error during login');
+    throw err;
   }
 };

@@ -2,6 +2,7 @@ import { UserAuthFields } from '@entities/user-auth-fields';
 import { zodResolver } from '@hookform/resolvers/zod';
 import sound from '@shared/assets/sounds/startup-chime.mp3';
 import { AuthForm } from '@shared/ui/custom';
+import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router';
 import { toast } from 'sonner';
@@ -28,7 +29,16 @@ export const AuthByEmailForm = () => {
         navigate('/welcome', { replace: true });
       })
       .catch(err => {
-        toast.error('Ошибка входа. Проверьте почту или пароль.');
+        if (
+          axios.isAxiosError(err) &&
+          (err.response?.status === 401 || err.response?.status === 404)
+        ) {
+          toast.error(
+            'Неверный логин или пароль. Возможно, такого аккаунта не существует.'
+          );
+        } else {
+          toast.error('Ошибка входа. Проверьте почту или пароль.');
+        }
         console.error(`Authorization error: ${err}`);
       });
   };

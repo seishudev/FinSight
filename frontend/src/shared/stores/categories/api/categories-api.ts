@@ -17,9 +17,9 @@ class CategoriesApiStore {
 
   addCategoryAction = (category: Category) => {
     if (category.type === 'income') {
-      this.categoriesIncome.push(category);
+      this.categoriesIncome = [...this.categoriesIncome, category];
     } else {
-      this.categoriesExpense.push(category);
+      this.categoriesExpense = [...this.categoriesExpense, category];
     }
   };
 
@@ -32,13 +32,14 @@ class CategoriesApiStore {
   };
 
   updateCategoryInPlaceAction = (category: Category) => {
-    const store =
-      category.type === 'income'
-        ? this.categoriesIncome
-        : this.categoriesExpense;
-    const index = store.findIndex(c => c.id === category.id);
-    if (index > -1) {
-      store[index] = category;
+    if (category.type === 'income') {
+      this.categoriesIncome = this.categoriesIncome.map(c =>
+        c.id === category.id ? category : c
+      );
+    } else {
+      this.categoriesExpense = this.categoriesExpense.map(c =>
+        c.id === category.id ? category : c
+      );
     }
   };
 

@@ -1,5 +1,6 @@
 import { budgetsApiStore } from '@/shared/stores/budgets';
 import { deleteBudgetApi } from '@/shared/stores/budgets/api/delete-budget-api';
+import { cn } from '@/shared/utils/tw-merge';
 import { Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 import s from './BudgetCard.module.scss';
@@ -15,6 +16,7 @@ interface BudgetCardProps {
   limit: number;
   percentageUsed: number;
   remainingAmount: number;
+  className?: string;
 }
 
 export const BudgetCard = (props: BudgetCardProps) => {
@@ -26,7 +28,8 @@ export const BudgetCard = (props: BudgetCardProps) => {
     spentAmount,
     limit,
     percentageUsed,
-    remainingAmount
+    remainingAmount,
+    className
   } = props;
 
   const periodTextMap: Record<PeriodType, string> = {
@@ -47,7 +50,7 @@ export const BudgetCard = (props: BudgetCardProps) => {
   };
 
   return (
-    <article className={s.container}>
+    <article className={cn(s.container, className)}>
       <div className={s.intro}>
         <div className={s.description}>
           <span>{icon}</span>
