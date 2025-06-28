@@ -14,9 +14,12 @@ RUN ./gradlew build --no-daemon -x test
 # --- FINAL STAGE ---
 FROM eclipse-temurin:21-jre-alpine
 
-# Install Tesseract OCR and the Russian language pack
-# The --no-cache flag updates the package list, installs, and cleans up in one step.
-RUN apk add --no-cache tesseract-ocr tesseract-ocr-data-rus
+# Install Tesseract OCR and the necessary language packs (Russian and English)
+RUN apk add --no-cache tesseract-ocr tesseract-ocr-data-rus tesseract-ocr-data-eng
+
+# Set the environment variable to tell Tesseract where to find the language data.
+# In Alpine, the 'tessdata' folder is typically located in /usr/share/
+ENV TESSDATA_PREFIX=/usr/share
 
 WORKDIR /app
 COPY --from=builder /home/gradle/project/build/libs/*.jar app.jar
