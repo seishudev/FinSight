@@ -5,8 +5,8 @@ import { Label } from './label'
 
 const Textarea = React.forwardRef<
   HTMLTextAreaElement,
-  React.ComponentProps<'textarea'> & { label?: string }
->(({ className, label, ...props }, ref) => {
+  React.ComponentProps<'textarea'> & { label?: string, error?: string }
+>(({ className, label, error, ...props }, ref) => {
   return (
     <div>
       {label && <Label className="text-white">{label}</Label>}
@@ -19,6 +19,7 @@ const Textarea = React.forwardRef<
         ref={ref}
         {...props}
       />
+      {error && <span className="mt-2 inline-block text-xs smx:text-sm text-red-600">{error}</span>}
     </div>
   );
 });

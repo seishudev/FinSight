@@ -23,10 +23,12 @@ interface SelectProps {
   selectPlaceholder?: string;
   triggerPlaceholder?: string;
   onValueChange?: (value: string) => void;
+  error?: string;
 }
 
 export const Select = ({
   label,
+  error,
   value,
   values,
   onValueChange,
@@ -40,14 +42,16 @@ export const Select = ({
       <SelectUi onValueChange={onValueChange} value={value}>
         <SelectTrigger
           className={cn(
-            'bg-white/5 border px-4 py-[24px] border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 hover:bg-white/5 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 text-sm lg:text-base',
+            'bg-white/5 border px-4 py-[22px] border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 hover:bg-white/5 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 text-sm lg:text-base',
             label && 'mt-2'
           )}
         >
           <SelectValue placeholder={triggerPlaceholder} />
         </SelectTrigger>
 
-        <SelectContent className='bg-white/5 backdrop-blur-3xl rounded-xl'>
+        {error && <span className="mt-2 inline-block text-xs smx:text-sm text-red-600">{error}</span>}
+
+        <SelectContent className='max-h-96 bg-gray-800 backdrop-blur-3xl rounded-xl'>
           <SelectGroup>
             {selectPlaceholder && (
               <SelectLabel>{selectPlaceholder}</SelectLabel>

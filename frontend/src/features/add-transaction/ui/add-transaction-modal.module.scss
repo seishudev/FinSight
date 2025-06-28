@@ -7,7 +7,7 @@
 }
 
 .tabs {
-  @apply w-full mt-2 h-14 bg-[#ffffff0d];
+  @apply w-full h-14 bg-[#ffffff0d];
 
   .tab {
     @apply w-1/2 h-12 first:data-[state=active]:bg-red-500/20 first:data-[state=active]:text-red-400 last:data-[state=active]:bg-green-500/20 last:data-[state=active]:text-green-400 gap-1 md:text-base md:font-normal;
