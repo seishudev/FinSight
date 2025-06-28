@@ -17,9 +17,13 @@ FROM eclipse-temurin:21-jre-alpine
 # Install Tesseract OCR and the necessary language packs (Russian and English)
 RUN apk add --no-cache tesseract-ocr tesseract-ocr-data-rus tesseract-ocr-data-eng
 
-# Set the environment variable to tell Tesseract where to find the language data.
-# In Alpine, the 'tessdata' folder is typically located in /usr/share/
-ENV TESSDATA_PREFIX=/usr/share
+# For debugging: Check if the traineddata files are in the expected location.
+# You can remove these two lines after confirming it works.
+RUN echo "--- Checking contents of /usr/share/tessdata ---" && \
+    ls -l /usr/share/tessdata
+
+# Set the environment variable to point DIRECTLY to the tessdata directory.
+ENV TESSDATA_PREFIX=/usr/share/tessdata
 
 WORKDIR /app
 COPY --from=builder /home/gradle/project/build/libs/*.jar app.jar
