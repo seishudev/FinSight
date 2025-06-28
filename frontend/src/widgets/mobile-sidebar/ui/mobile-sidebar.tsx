@@ -1,4 +1,4 @@
-import { Bot, LogOut, Menu, ReceiptText } from 'lucide-react';
+import { LogOut, Menu, ReceiptText } from 'lucide-react';
 import { Link, useLocation } from 'react-router';
 
 import {
@@ -9,6 +9,7 @@ import {
 } from '@/shared/ui/sheet';
 import { Button } from '@/shared/ui/button';
 import { sidebarRoutes } from '@/shared/constants/sidebar-routes';
+import { AiAssistant } from '@/widgets/ai-assistant';
 import { PageTitle } from '@/entities/page-title';
 import { Logo } from '@/entities/logo';
 import s from './mobile-sidebar.module.scss';
@@ -49,10 +50,7 @@ export const MobileSidebar = () => {
         </nav>
 
         <div className={s.features}>
-          <button>
-            <Bot />
-            AI Помощник
-          </button>
+          <AiAssistant />
 
           <button>
             <ReceiptText />

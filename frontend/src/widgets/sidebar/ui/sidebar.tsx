@@ -1,9 +1,10 @@
-import { Bot, LogOut, ReceiptText } from 'lucide-react';
 import { Link, useLocation } from 'react-router';
+import { LogOut, ReceiptText } from 'lucide-react';
 
 import { Logo } from '@/entities/logo';
 import { PageTitle } from '@/entities/page-title';
 import { sidebarRoutes } from '@/shared/constants/sidebar-routes';
+import { AiAssistant } from '@/widgets/ai-assistant';
 import s from './sidebar.module.scss';
 
 export const Sidebar = () => {
@@ -35,10 +36,7 @@ export const Sidebar = () => {
       </nav>
 
       <div className={s.features}>
-        <button>
-          <Bot />
-          AI Помощник
-        </button>
+        <AiAssistant />
 
         <Link to='/scanner'>
           <button className={s.scanner}>
