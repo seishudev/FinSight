@@ -90,6 +90,10 @@ public class GoalService {
 
         BigDecimal newCurrentAmount = goal.getCurrentAmount().add(request.getAmount());
 
+        if (newCurrentAmount.compareTo(BigDecimal.ZERO) < 0) {
+            throw new GoalUpdateException("Current amount cannot be negative.");
+        }
+
         if (newCurrentAmount.compareTo(goal.getTargetAmount()) > 0) {
             newCurrentAmount = goal.getTargetAmount();
         }

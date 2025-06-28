@@ -115,7 +115,7 @@ public class BudgetService {
         User user = userService.getCurrentUser();
         Budget budget = findById(budgetId);
 
-        if (!budget.getId().equals(user.getId())) {
+        if (!budget.getUser().getId().equals(user.getId())) {
             throw new AccessDeniedException("You do not have permissions to delete this budget.");
         }
 
