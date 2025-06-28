@@ -15,5 +15,5 @@
 }
 
 .indicator {
-  @apply text-xl lg:text-2xl font-bold text-green-400;
+  @apply text-xl lg:text-2xl font-bold text-green-400 w-fit overflow-hidden max-w-full text-ellipsis whitespace-nowrap;
 }
