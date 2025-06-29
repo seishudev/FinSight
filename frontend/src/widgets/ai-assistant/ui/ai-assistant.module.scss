@@ -2,6 +2,10 @@
   @apply p-0 shadow-2xl right-0 sm:max-w-full w-auto smx:w-96 bg-gray-900/95 flex flex-col gap-0 backdrop-blur-md;
 
   .title {
-    @apply py-5 px-4 border-b border-b-white/10;
+    @apply py-5 px-4 border-b border-b-white/10 flex justify-between items-center;
+  }
+
+  button {
+    @apply top-[31px];
   }
 }

@@ -6,7 +6,6 @@ import { useMobile } from '@/shared/hooks/useMobile';
 import { MobileSidebar } from '@/widgets/mobile-sidebar';
 import { Sidebar } from '@/widgets/sidebar';
 import s from './main-layout.module.scss';
-import { SkeletonTheme } from 'react-loading-skeleton'
 
 export const MainLayout = () => {
   const isMobile = useMobile(768);
@@ -16,9 +15,7 @@ export const MainLayout = () => {
       {isMobile ? <MobileSidebar /> : <Sidebar />}
 
       <div className={s.content}>
-        <SkeletonTheme baseColor="#212121" highlightColor="#333">
-          <Outlet />
-        </SkeletonTheme>
+        <Outlet />
 
         <Toaster
           duration={2000}

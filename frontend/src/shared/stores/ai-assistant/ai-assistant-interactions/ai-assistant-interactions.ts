@@ -7,10 +7,10 @@ class AiAssistantInteractionsStore {
   constructor() { makeAutoObservable(this) }
 
   // STATES
+  chatRef: HTMLDivElement | null = null;
   message = '';
 
-  // MOVES
-  setMessage = (v: string) => (this.message = v);
+  // ACTIONS
   pushMessage = (message: Message) => {
     const { messages } = aiAssistantApiStore;
 
@@ -18,6 +18,15 @@ class AiAssistantInteractionsStore {
       // @ts-ignore
       messages.value = [...messages.value, message];
   }
+
+  scrollToBottomChat = () => {
+    const bottom = this.chatRef?.getBoundingClientRect().bottom;
+    this.chatRef?.scrollBy({ behavior: 'smooth', top: bottom })
+  }
+
+  // MOVES
+  setMessage = (v: string) => (this.message = v);
+  setChatRef = (ref: HTMLDivElement) => this.chatRef = ref;
 }
 
 export const aiAssistantInteractionsStore = new AiAssistantInteractionsStore();

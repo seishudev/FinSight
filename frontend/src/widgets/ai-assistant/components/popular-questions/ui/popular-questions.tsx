@@ -12,7 +12,7 @@ export const PopularQuestions = observer(() => {
   const { setMessage } = aiAssistantInteractionsStore;
   const { messages } = aiAssistantApiStore;
 
-  if (messages?.state === 'fulfilled' && messages.value.length > 1) return;
+  if ((messages?.state === 'fulfilled' && messages.value.length > 1) || !messages?.value) return;
 
   const handleAddQuestionToInput = (e: MouseEvent<HTMLDivElement>) => {
     const element = (e.target as Element).closest('[data-index]');

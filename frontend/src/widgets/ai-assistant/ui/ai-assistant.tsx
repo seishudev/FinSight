@@ -7,6 +7,7 @@ import {
   SheetTrigger
 } from '@/shared/ui/sheet';
 import { SendMessage } from '@/features/send-message';
+import { ClearChat } from '@/features/clear-chat';
 import { PageTitle } from '@/entities/page-title';
 import { Logo } from '@/entities/logo';
 import { Chat } from '../components/chat';
@@ -30,6 +31,8 @@ export const AiAssistant = () => {
             title='AI Помощник'
             description='Финансовый консультант'
           />
+
+          <ClearChat />
         </SheetTitle>
 
         <Chat />

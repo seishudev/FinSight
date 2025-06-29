@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { BadgeDollarSign } from 'lucide-react';
 import { observer } from 'mobx-react-lite';
 import ResponsivePagination from 'react-responsive-pagination';
-import Skeleton from 'react-loading-skeleton';
 
 import {
   transactionsApiStore,
@@ -10,6 +9,7 @@ import {
 } from '@/shared/stores/transactions';
 import { cn } from '@/shared/utils/tw-merge';
 import { Logo } from '@/entities/logo';
+import { Skeleton } from '@/shared/ui/skeleton';
 import { PageTitle } from '@/entities/page-title';
 import { Transaction } from '@/entities/transaction';
 import s from './transactions-history.module.scss';
@@ -39,7 +39,7 @@ export const TransactionsHistory = observer(() => {
 
       <div className={s.content}>
         {!transactionsTotalPages ? (
-          <Skeleton width={'30%'} height={38} className={s.paginationSkeleton} />
+          <Skeleton className={s.paginationSkeleton} />
         ) : (
           <ResponsivePagination
             current={transactionsPage + 1}
@@ -50,10 +50,10 @@ export const TransactionsHistory = observer(() => {
 
         {transactions?.state === 'pending' && (
           <div className={cn(s.transactions, transactionsTotalPages && "mt-8")}>
-            {Array(5)
+            {Array(10)
               .fill('')
               .map((_, i) => (
-                <Skeleton key={i} height={76} />
+                <Skeleton key={i} className="h-[76px]" />
               ))}
           </div>
         )}
