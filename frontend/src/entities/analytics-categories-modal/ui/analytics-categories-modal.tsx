@@ -27,7 +27,7 @@ export const AnalyticsCategoriesModal = ({
   return (
     <Dialog>
       {diff > 0 && (
-        <DialogTrigger>
+        <DialogTrigger className={s.triggerWrapper}>
           <p className={s.trigger}>И еще {diff}...</p>
         </DialogTrigger>
       )}

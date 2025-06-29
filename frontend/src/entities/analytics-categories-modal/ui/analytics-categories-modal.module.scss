@@ -1,5 +1,9 @@
-.trigger {
-  @apply text-gray-400 cursor-pointer text-sm hover:underline text-center select-none;
+.triggerWrapper {
+  @apply w-fit mx-auto;
+
+  .trigger {
+    @apply text-gray-400 cursor-pointer text-sm hover:underline text-center select-none;
+  }
 }
 
 .modal {
