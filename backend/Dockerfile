@@ -1,4 +1,4 @@
-FROM gradle:8.8.0-jdk21-alpine as builderMore actions
+FROM gradle:8.8.0-jdk21-alpine AS builder
 
 WORKDIR /home/gradle/project
 
@@ -9,16 +9,19 @@ COPY gradle ./gradle
 
 COPY src ./src
 
+# Сборка проекта без запуска тестов
 RUN ./gradlew build --no-daemon -x test
 
 # --- FINAL STAGE ---
 FROM eclipse-temurin:21-jre-alpine
 
+# Установка Tesseract OCR для распознавания текста
 RUN apk add --no-cache tesseract-ocr tesseract-ocr-data-rus
 
-
 WORKDIR /app
-COPY --from=builder /home/gradle/project/build/libs/*.jar app.jarAdd commentMore actions
+
+# Копируем собранный .jar файл из стадии сборки (builder)
+COPY --from=builder /home/gradle/project/build/libs/*.jar app.jar
 
 EXPOSE 8080
 
