@@ -1,0 +1,11 @@
+.content {
+   @apply mt-4;
+
+   .paginationSkeleton {
+      @apply mx-auto block;
+   }
+
+   .transactions {
+      @apply flex flex-col gap-3;
+   }
+}
