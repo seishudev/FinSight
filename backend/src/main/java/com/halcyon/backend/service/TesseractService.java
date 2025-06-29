@@ -2,7 +2,6 @@ package com.halcyon.backend.service;
 
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,11 +14,11 @@ public class TesseractService {
 
     private final Tesseract tesseract;
 
-    public TesseractService(@Value("${tesseract.datapath}") String datapath) {
+    public TesseractService()  {
         this.tesseract = new Tesseract();
         
-        this.tesseract.setDatapath(datapath); 
-        this.tesseract.setLanguage("rus+eng");
+        tesseract.setDatapath("C:\\Program Files\\Tesseract-OCR\\tessdata");
+        tesseract.setLanguage("rus+eng");
     }
 
     public String recognizeText(MultipartFile imageFile) throws IOException, TesseractException {
