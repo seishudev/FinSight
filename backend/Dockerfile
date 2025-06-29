@@ -15,8 +15,6 @@ RUN ./gradlew build --no-daemon -x test
 # --- FINAL STAGE ---
 FROM eclipse-temurin:21-jre-alpine
 
-# Установка Tesseract OCR для распознавания текста
-RUN apk add --no-cache tesseract-ocr tesseract-ocr-data-rus
 
 WORKDIR /app
 
