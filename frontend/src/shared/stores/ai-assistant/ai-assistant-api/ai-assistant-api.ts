@@ -1,11 +1,12 @@
 import { makeAutoObservable, reaction, type IReactionDisposer } from 'mobx';
 import { fromPromise, type IPromiseBasedObservable } from 'mobx-utils';
+import { toast } from 'sonner';
 
+import { getWelcomeMessage, getChatHistory } from '@/widgets/ai-assistant/components/chat';
 import type { Message } from '@/shared/model/Message';
-import { aiAssistantInteractionsStore } from '../ai-assistant-interactions/ai-assistant-interactions'
-import { sendMessage } from '@/features/send-message/api/send-message'
-import { getWelcomeMessage } from '@/widgets/ai-assistant/components/chat/api/get-welcome-message'
-import { getChatHistory } from '@/widgets/ai-assistant/components/chat/api/get-chat-history'
+import { sendMessage } from '@/features/send-message';
+import { deleteChatHistory } from '@/features/clear-chat';
+import { aiAssistantInteractionsStore } from '../ai-assistant-interactions/ai-assistant-interactions';
 
 class AiAssistantApiStore {
   constructor() { makeAutoObservable(this) }
@@ -17,11 +18,20 @@ class AiAssistantApiStore {
 
   // ACTIONS
   getChatHistoryAction = async () => {
+    const { scrollToBottomChat } = aiAssistantInteractionsStore;
+    
     try {
-      const [startMessage, history] = await Promise.all([getWelcomeMessage(), getChatHistory()]);
-      const res = Promise.resolve([...history, startMessage]);
+      const res = Promise.all([getWelcomeMessage(), getChatHistory()]);
+      const mappedRes = res.then(([aiResponse, history]) => [...history, aiResponse]);
 
-      this.messages = fromPromise(res);
+      this.messages = fromPromise(mappedRes);
+
+      this._disposer?.();
+
+      this._disposer = reaction(
+        () => this.messages?.state === 'fulfilled',
+        (res) => res && scrollToBottomChat()
+      );
     } catch (e) { console.log(e) }
   }
 
@@ -50,6 +60,19 @@ class AiAssistantApiStore {
 
       setMessage('');
     } catch(e) { console.log(e) }
+  }
+
+  clearChatAction = async () => {
+    const messages = this.messages;
+
+    try {
+      this.messages = fromPromise(Promise.resolve([]));
+      await deleteChatHistory();
+    } catch (e) {
+      console.log(e);
+      toast.error("Произошла ошибка при очистке чата. Попробуйте позже");
+      this.messages = messages;
+    }
   }
 }
 

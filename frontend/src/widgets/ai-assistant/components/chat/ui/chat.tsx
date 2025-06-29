@@ -1,20 +1,27 @@
-import { useEffect } from 'react';
+import { useEffect, useRef, type RefObject } from 'react';
 import { observer } from 'mobx-react-lite';
 
-import { aiAssistantApiStore } from '@/shared/stores/ai-assistant';
+import { aiAssistantApiStore, aiAssistantInteractionsStore } from '@/shared/stores/ai-assistant';
 import { Message } from '@/entities/message';
+import { BounceLoader } from '@/entities/bounce-loader';
+import { MessagesPending } from '../components/messages-pending';
 import s from './chat.module.scss';
 
 export const Chat = observer(() => {
-  const { messages, getChatHistoryAction } = aiAssistantApiStore;
+  const chatRef: RefObject<HTMLDivElement | null> = useRef(null);
+
+  const { messages, getChatHistoryAction, message } = aiAssistantApiStore;
+  const { setChatRef } = aiAssistantInteractionsStore;
 
   useEffect(() => {
-    getChatHistoryAction();
+    if (chatRef.current) setChatRef(chatRef.current);
+    if (messages?.state !== 'fulfilled') getChatHistoryAction();
   }, []);
 
   return (
-    <div className={s.chat}>
-      {messages?.state === 'pending' && <>Загрузка</>}
+    <div ref={chatRef} className={s.chat}>
+      {/* MESSAGES */}
+      {messages?.state === 'pending' && <MessagesPending />}
 
       {messages?.state === 'fulfilled' && (
         <>
@@ -23,6 +30,11 @@ export const Chat = observer(() => {
           ))}
         </>
       )}
+
+      {/* AI REPEATING ANIMATION */}
+      {message?.state === 'pending' && <BounceLoader />}
+
+      <div id="bottom-scroller" />
     </div>
   );
 });

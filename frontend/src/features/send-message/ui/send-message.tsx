@@ -11,7 +11,7 @@ import { Button } from '@/shared/ui/button';
 import s from './send-message.module.scss';
 
 export const SendMessage = observer(() => {
-  const { sendMessageAction } = aiAssistantApiStore;
+  const { sendMessageAction, message: aiMessage } = aiAssistantApiStore;
   const { message, setMessage } = aiAssistantInteractionsStore;
 
   const handleSendMessage = (e: FormEvent<HTMLFormElement>) => {
@@ -28,7 +28,11 @@ export const SendMessage = observer(() => {
         onChange={e => setMessage(e.target.value)}
       />
 
-      <Button type='submit' disabled={!message.trim()} className={s.send}>
+      <Button
+        type='submit'
+        className={s.send}
+        disabled={!message.trim() || aiMessage?.state === 'pending'}
+      >
         <Send />
       </Button>
     </form>
