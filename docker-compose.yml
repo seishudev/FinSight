@@ -4,8 +4,8 @@ services:
   nginx:
     image: nginx:stable-alpine
     ports:
-      - "80:80"
-      - "443:443"
+      - '80:80'
+      - '443:443'
     volumes:
       - './nginx.conf:/etc/nginx/nginx.conf'
       - '/etc/letsencrypt:/etc/letsencrypt'
@@ -20,7 +20,7 @@ services:
     container_name: finsight-backend
     restart: on-failure
     ports:
-      - "8080:8080"
+      - '8080:8080'
     env_file:
       - backend/.env
     environment:
@@ -48,7 +48,7 @@ services:
     container_name: finsight-frontend
     restart: on-failure
     ports:
-      - "5173:5173"
+      - '5173:5173'
     networks:
       - finsight-network
     depends_on:
