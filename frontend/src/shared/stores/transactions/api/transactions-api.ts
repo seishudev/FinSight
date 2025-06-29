@@ -41,7 +41,11 @@ class TransactionsApiStore {
       if (transactionType === 'income') increaseIncomes(transaction.amount);
       else increaseExpenses(transaction.amount);
 
-      popTransaction();
+      if (
+        this.transactions?.state === 'fulfilled' &&
+        this.transactions.value.length >= 3
+      ) popTransaction();
+
       unshiftTransaction(transaction);
 
       toast.success('Транзакция добавлена!');
