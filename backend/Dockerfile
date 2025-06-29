@@ -2,15 +2,18 @@ FROM gradle:8.8.0-jdk21-alpine AS builder
 
 WORKDIR /home/gradle/project
 
-COPY build.gradle.kts settings.gradle.kts gradlew ./
-RUN chmod +x ./gradlew
+# 1. Копируем только файлы сборки
+COPY build.gradle.kts settings.gradle.kts ./
 
-COPY gradle ./gradle
+# 2. Скачиваем зависимости (эта команда может отличаться для твоего проекта)
+#    Она создаст слой кэша. Если файлы сборки не менялись, этот шаг будет взят из кэша.
+RUN gradle dependencies --no-daemon || true
 
+# 3. Копируем остальной код
 COPY src ./src
 
-# Сборка проекта без запуска тестов
-RUN ./gradlew build --no-daemon -x test
+# 4. Собираем проект, используя уже скачанные зависимости
+RUN gradle build --no-daemon -x test
 
 # --- FINAL STAGE ---
 FROM eclipse-temurin:21-jre-alpine
