@@ -14,9 +14,9 @@ public class TesseractService {
 
     private final Tesseract tesseract;
 
-    public TesseractService()  {
+    public TesseractService() {
         this.tesseract = new Tesseract();
-        
+
         tesseract.setDatapath("C:\\Program Files\\Tesseract-OCR\\tessdata");
         tesseract.setLanguage("rus+eng");
     }
@@ -25,7 +25,7 @@ public class TesseractService {
         BufferedImage image = ImageIO.read(imageFile.getInputStream());
 
         if (image == null) {
-            throw new IOException("Failed to read image file. It might be corrupted or in an unsupported format.");
+            throw new IOException("Failed to download image.");
         }
 
         return tesseract.doOCR(image);
